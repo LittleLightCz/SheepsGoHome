@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="256"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="button1p.svg"
+   inkscape:export-filename="C:\Users\LittleLight\AndroidStudioProjects\SheepsGoHome\graphics\button1p.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3816"
+       inkscape:collect="always">
+      <stop
+         id="stop3818"
+         offset="0"
+         style="stop-color:#e9e6a3;stop-opacity:1" />
+      <stop
+         id="stop3820"
+         offset="1"
+         style="stop-color:#fcf8d6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3755"
+       id="linearGradient3762"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,0.92899861,-0.92899861,0,978.13341,1022.9526)"
+       x1="10.101525"
+       y1="1031.2753"
+       x2="20.581858"
+       y2="1043.2709" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3755">
+      <stop
+         style="stop-color:#d8d8d8;stop-opacity:1"
+         offset="0"
+         id="stop3757" />
+      <stop
+         style="stop-color:#f1f1f1;stop-opacity:1"
+         offset="1"
+         id="stop3759" />
+    </linearGradient>
+    <linearGradient
+       y2="1043.0951"
+       x2="20.411419"
+       y1="1031.2753"
+       x1="10.101525"
+       gradientTransform="matrix(0,0.92899861,-0.92899861,0,978.13341,1022.9526)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3027"
+       xlink:href="#linearGradient3816"
+       inkscape:collect="always" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="183.56998"
+     inkscape:cy="139.09859"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-796.36218)">
+    <g
+       id="g3757"
+       transform="matrix(17.491638,0,0,9.0223223,-2.2741535,-8425.0382)">
+      <path
+         sodipodi:nodetypes="csssssccsssc"
+         inkscape:connector-curvature="0"
+         id="path2985"
+         d="m 0.81900663,1027.1466 c 0.19220167,-5.9916 6.76529337,-2.2554 11.06983537,-2.5661 4.891252,-0.3532 8.978614,0.9055 12.419407,-0.023 5.660301,-1.5279 4.264884,5.4595 3.953464,9.1111 -0.182939,2.1451 -0.05143,3.5884 0.134733,5.4482 0.280942,2.8067 0.325511,5.7585 0.02335,7.9767 -0.292792,2.1493 -2.913197,2.7958 -5.401921,0.8625 -3.888486,1.8659 -6.791402,0.6688 -9.710966,0.1087 -6.2864088,2.0869 -10.5362668,0.7683 -11.7319655,-1.7571 -0.4695633,-0.9918 -0.68237965,-4.1992 -0.3511547,-10.4425 0.3358157,-6.3298 -0.48965856,-6.072 -0.40477617,-8.7182 z"
+         style="fill:url(#linearGradient3027);fill-opacity:1;stroke:#000000;stroke-width:1.85799717999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,67 @@
+{
+
+    "com.badlogic.gdx.graphics.Color": {
+        "black" : {"r":0, "g":0, "b":0, "a":1},
+        "white" : {"r":1, "g":1, "b":1, "a":1},
+        "yellow" : {"r":0.96, "g":0.96, "b":0.45, "a":1},
+    },
+
+    com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+            selectbox-yellow: { name: selectbox, color: yellow },
+            supportp: { name: support, color: yellow },
+        },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+            "default": { "up": "button1" , "down": "button1p", "font": font, "fontColor": black,
+                        "pressedOffsetY": -1, "pressedOffsetX": 1},
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle" : {
+        "default" : { "background":"selectbox", "font": font, "fontColor" : black,
+                      "cursor": "text_cursor" },
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+            "support": { "imageUp": "support" , "imageDown": "supportp",
+                        "pressedOffsetY": -1, "pressedOffsetX": 1},
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+            "default": { "font": font, "fontColor": black}
+            "menuTitle": { "font": font_menuTitle, "fontColor": black}
+            "levelTitle": { "font": font_menuTitle, "fontColor": white}
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+        "default": { "titleFont" : font, "background":"button1"  },
+        "dialog": { "titleFont" : font, "background":"dialog_bg"  },
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle": {
+        "default": {"background": "touchpadbg" },
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
+        "selectBoxListStyle": {"font": font, "fontColorSelected": black, "fontColorUnselected":black,
+                                "selection":"selectbox-yellow", "background":"selectbox" },
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+        "selectBoxScrollStyle": { },
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
+        "default": { "font": font, "fontColor": black, "listStyle" : selectBoxListStyle,
+                    "scrollStyle": selectBoxScrollStyle, "background":"selectbox"},
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
+        "default": {"checkboxOff":"music_off", "checkboxOn":"music_on", "font":font},
+    },
+
+
+
+
+
+
+}
