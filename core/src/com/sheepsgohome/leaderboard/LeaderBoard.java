@@ -54,11 +54,11 @@ public class LeaderBoard {
 
                 if (result != null) {
 
-                    if (result.error.equals("")) {
+                    if (result.getError().equals("")) {
                         callback.leaderboardResult(result);
-                    } else if (result.error.equals(RESPONSE_DB_CONNECTION_ERROR)) {
+                    } else if (result.getError().equals(RESPONSE_DB_CONNECTION_ERROR)) {
                         callback.connectionToDatabaseFailed();
-                    } else if (result.error.equals(RESPONSE_UNREGISTERED_USER)) {
+                    } else if (result.getError().equals(RESPONSE_UNREGISTERED_USER)) {
                         callback.unregisteredUser();
                     } else {
                         callback.failure();

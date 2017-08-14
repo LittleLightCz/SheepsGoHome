@@ -260,7 +260,7 @@ public class LeaderboardScreen implements Screen, LeaderBoardCallback, MessageDi
                 contentTable.add(getTableHeaderLabel(Loc.get("player"))).height(headingHeight);
                 contentTable.add(getTableHeaderLabel(Loc.get("level.heading"))).height(headingHeight).row();
 
-                for (LeaderBoardRow row : result.leaderboard) {
+                for (LeaderBoardRow row : result.getLeaderboard()) {
                     contentTable.add(getTableRowLabel(String.valueOf(row.getRank())));
                     contentTable.add(getTableRowLabel(row.getNick()));
                     contentTable.add(getTableRowLabel(String.valueOf(row.getLevel()))).row();
@@ -273,11 +273,11 @@ public class LeaderboardScreen implements Screen, LeaderBoardCallback, MessageDi
 
 
                 //restore Level if it is higher
-                if (result.mypos.getLevel() > GameData.LEVEL) {
-                    GameData.LEVEL = result.mypos.getLevel();
+                if (result.getMypos().getLevel() > GameData.LEVEL) {
+                    GameData.LEVEL = result.getMypos().getLevel();
                 }
 
-                LeaderboardResultDialog dialog = new LeaderboardResultDialog(result.mypos.getRank(), skin, "dialog");
+                LeaderboardResultDialog dialog = new LeaderboardResultDialog(result.getMypos().getRank(), skin, "dialog");
                 dialog.setPrefHeight(70);
                 dialog.show(stage);
             }
