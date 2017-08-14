@@ -31,8 +31,6 @@ public class OkDialog extends Dialog {
         this.message = new Label(message, skin);
         buttonOk = new TextButton(Loc.get("ok"), skin);
 
-//        getContentTable().setDebug(true);
-
         this.message.setWrap(true);
         getContentTable().add(this.message).expand().width(120).center().padTop(5).row();
 
