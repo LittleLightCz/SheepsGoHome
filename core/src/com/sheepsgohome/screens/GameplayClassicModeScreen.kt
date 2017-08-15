@@ -19,12 +19,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.*
-import com.sheepsgohome.GameData.*
+import com.sheepsgohome.GameData
+import com.sheepsgohome.GameData.ALPHA_WOLF_SIZE
+import com.sheepsgohome.GameData.ALPHA_WOLF_SPEED
+import com.sheepsgohome.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.GameData.CAMERA_WIDTH
+import com.sheepsgohome.GameData.HOME_SIZE
+import com.sheepsgohome.GameData.HUNGRY_WOLF_SIZE
+import com.sheepsgohome.GameData.LEVEL
+import com.sheepsgohome.GameData.Loc
+import com.sheepsgohome.GameData.SHEEP_SIZE
+import com.sheepsgohome.GameData.SHEEP_SPEED
+import com.sheepsgohome.GameData.SOUND_ENABLED
+import com.sheepsgohome.GameData.VIRTUAL_JOYSTICK
+import com.sheepsgohome.GameData.VIRTUAL_JOYSTICK_LEFT
+import com.sheepsgohome.GameData.VIRTUAL_JOYSTICK_NONE
+import com.sheepsgohome.GameData.VIRTUAL_JOYSTICK_RIGHT
+import com.sheepsgohome.GameData.WILD_WOLF_SIZE
+import com.sheepsgohome.GameData.WILD_WOLF_SPEED
 import com.sheepsgohome.GameMusic.ambient
+import com.sheepsgohome.GameObjectType
 import com.sheepsgohome.GameObjectType.*
+import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.GameTools.calculateAngle
 import com.sheepsgohome.GameTools.setRandomMovement
+import com.sheepsgohome.SteerableBody
+import com.sheepsgohome.SteerableHungryWolfBody
 import java.util.*
 
 class GameplayClassicModeScreen : Screen, ContactListener {
@@ -68,7 +88,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         fpsLogger = FPSLogger()
 
         //Ambient
-        if (ambient != null && SOUND_ENABLED && !ambient.isPlaying) {
+        if (SOUND_ENABLED && !ambient.isPlaying) {
             ambient.play()
         }
 
@@ -79,7 +99,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         //Touchpad
         touchpadEnabled = VIRTUAL_JOYSTICK != VIRTUAL_JOYSTICK_NONE
 
-        touchpad = Touchpad(0f, GameSkins.skin)
+        touchpad = Touchpad(0f, skin)
         val touchPadSize = 30
         if (VIRTUAL_JOYSTICK == VIRTUAL_JOYSTICK_RIGHT) {
             touchpad.setBounds(CAMERA_WIDTH - touchPadSize, 0f, touchPadSize.toFloat(), touchPadSize.toFloat())
@@ -89,7 +109,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         touchpad.addAction(Actions.alpha(0.5f))
 
-        levelLabel = Label(Loc.format("level", LEVEL), GameSkins.skin, "levelTitle")
+        levelLabel = Label(Loc.format("level", LEVEL), skin, "levelTitle")
+
         val fontScale = (CAMERA_WIDTH * multiplier - 40) / levelLabel.prefWidth
         levelLabel.setFontScale(fontScale)
 
@@ -334,7 +355,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     override fun hide() {
         //stop ambient
-        if (ambient != null && ambient.isPlaying) {
+        if (ambient.isPlaying) {
             ambient.pause()
         }
 
@@ -434,7 +455,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
 
         for (i in 0..data.HungryWolves - 1) {
-            wolf_bodies_list.add(SteerableHungryWolfBody(CreateHungryWolfBody(), sheep_body, home_body))
+            wolf_bodies_list.add(SteerableHungryWolfBody(CreateHungryWolfBody(), sheep_body))
         }
 
         for (i in 0..data.AlphaWolves - 1) {
@@ -584,7 +605,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
                 eHome -> when (typeB) {
                     eWildWolf -> setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
                     eSheep -> gameState = State.eNextLevel
-                    else -> {}
+                    else -> {
+                    }
                 }
                 eWall -> if (typeB === eWildWolf) {
                     setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
@@ -613,7 +635,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
                     eHungryWolf -> gameState = State.eGameOver_Hungry
                     eAlphaWolf -> gameState = State.eGameOver_Alpha
                     eHome -> gameState = State.eNextLevel
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
         }

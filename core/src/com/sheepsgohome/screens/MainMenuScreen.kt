@@ -14,7 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.*
+import com.sheepsgohome.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.GameData.CAMERA_WIDTH
+import com.sheepsgohome.GameData.Loc
+import com.sheepsgohome.GameData.MUSIC_ENABLED
 import com.sheepsgohome.GameMusic.ambient
 import com.sheepsgohome.GameMusic.music
 import com.sheepsgohome.GameScreens
@@ -63,7 +66,7 @@ class MainMenuScreen : Screen {
         musicCheckBox.addListener(object : ChangeListener() {
             override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                 val cbox = actor as CheckBox?
-                if (music != null && cbox != null) {
+                if (cbox != null) {
                     if (cbox.isChecked) {
                         MUSIC_ENABLED = true
                         if (!music.isPlaying) {
@@ -85,7 +88,7 @@ class MainMenuScreen : Screen {
         buttonPlay.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
 
-                if (music != null && music.isPlaying) {
+                if (music.isPlaying) {
                     music.pause()
                 }
 
@@ -154,11 +157,11 @@ class MainMenuScreen : Screen {
         bgImage.height = CAMERA_HEIGHT * multiplier
         texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
 
-        if (ambient != null && ambient.isPlaying) {
+        if (ambient.isPlaying) {
             ambient.pause()
         }
 
-        if (music != null && MUSIC_ENABLED && !music.isPlaying) {
+        if (MUSIC_ENABLED && !music.isPlaying) {
             music.play()
         }
 

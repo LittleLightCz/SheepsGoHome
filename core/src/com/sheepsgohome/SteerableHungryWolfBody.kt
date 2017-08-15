@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array
 import com.sheepsgohome.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.GameData.CAMERA_WIDTH
 
-class SteerableHungryWolfBody(wolfBody: Body, private val sheep: SteerableBody, home: SteerableBody) : SteerableBody(wolfBody) {
+class SteerableHungryWolfBody(wolfBody: Body, private val sheep: SteerableBody) : SteerableBody(wolfBody) {
 
     private val steeringPursue: Pursue<Vector2>
     private val steeringFollowPath: FollowPath<Vector2, LinePath.LinePathParam>

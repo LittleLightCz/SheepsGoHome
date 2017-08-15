@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.*
+import com.sheepsgohome.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.GameData.CAMERA_WIDTH
+import com.sheepsgohome.GameData.Loc
 import com.sheepsgohome.GameScreens
 import com.sheepsgohome.GameSkins.skin
 

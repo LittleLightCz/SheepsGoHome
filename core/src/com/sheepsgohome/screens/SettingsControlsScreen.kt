@@ -12,7 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.*
+import com.sheepsgohome.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.GameData.CAMERA_WIDTH
+import com.sheepsgohome.GameData.Loc
+import com.sheepsgohome.GameData.VIRTUAL_JOYSTICK
 import com.sheepsgohome.GameSkins.skin
 
 class SettingsControlsScreen : Screen {
@@ -112,7 +115,6 @@ class SettingsControlsScreen : Screen {
     }
 
     companion object {
-
         private val BUTTON_WIDTH = 100f
         private val BUTTON_SMALL_WIDTH = 50f
     }

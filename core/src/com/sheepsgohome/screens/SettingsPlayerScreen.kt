@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.*
+import com.sheepsgohome.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.GameData.CAMERA_WIDTH
+import com.sheepsgohome.GameData.Loc
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
@@ -126,7 +128,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     }
 
     private fun validatePlayerName(): String {
-        val nick = playerName.text.replace("[^\\w\\_\\-]".toRegex(), "")
+        val nick = playerName.text.replace("[^\\w_\\-]".toRegex(), "")
         playerName.text = nick
         return nick
     }
