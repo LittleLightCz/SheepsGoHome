@@ -1,6 +1,6 @@
-package com.sheepsgohome;
+package com.sheepsgohome
 
-public enum GameObjectType {
+enum class GameObjectType {
     eWildWolf,
     eHungryWolf,
     eAlphaWolf,
