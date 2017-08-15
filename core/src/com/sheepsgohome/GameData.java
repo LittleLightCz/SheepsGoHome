@@ -6,9 +6,6 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.sheepsgohome.interfaces.FunctionsInterface;
 import com.sheepsgohome.leaderboard.LeaderBoard;
 
-/**
- * Created by LittleLight on 10.1.2015.
- */
 
 public class GameData {
     //----------------CONSTANTS----------------------
