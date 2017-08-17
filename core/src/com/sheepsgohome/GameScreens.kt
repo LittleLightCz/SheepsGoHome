@@ -5,7 +5,7 @@ import com.sheepsgohome.screens.MainMenuScreen
 import com.sheepsgohome.screens.SplashScreen
 
 object GameScreens {
-    var splashScreen: SplashScreen? = null
-    var mainMenuScreen: MainMenuScreen? = null
-    var gameplayClassicModeScreen: GameplayClassicModeScreen? = null
+    val splashScreen by lazy { SplashScreen() }
+    val mainMenuScreen by lazy { MainMenuScreen() }
+    val gameplayClassicModeScreen by lazy { GameplayClassicModeScreen() }
 }

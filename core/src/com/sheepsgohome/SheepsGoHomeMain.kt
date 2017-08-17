@@ -2,17 +2,9 @@ package com.sheepsgohome
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture.TextureFilter
-import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.dialogs.ContinueLastGameDialog
 import com.sheepsgohome.interfaces.FunctionsInterface
-import com.sheepsgohome.screens.GameplayClassicModeScreen
-import com.sheepsgohome.screens.MainMenuScreen
-import com.sheepsgohome.screens.SplashScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.SOUND_VOLUME
 
@@ -25,10 +17,6 @@ class SheepsGoHomeMain(functions: FunctionsInterface) : Game() {
     override fun create() {
 
         GameData.loadPreferences()
-
-        GameScreens.splashScreen = SplashScreen()
-        GameScreens.mainMenuScreen = MainMenuScreen()
-        GameScreens.gameplayClassicModeScreen = GameplayClassicModeScreen()
 
         GameDialogs.dialogContinueLastGame = ContinueLastGameDialog("", skin, "default")
 
