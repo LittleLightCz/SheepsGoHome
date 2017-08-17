@@ -19,10 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameMusic.ambient
 import com.sheepsgohome.GameObjectType
 import com.sheepsgohome.GameObjectType.*
-import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.GameTools.calculateAngle
 import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
@@ -45,6 +43,8 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_RIGHT
 import com.sheepsgohome.shared.GameData.WILD_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.WILD_WOLF_SPEED
 import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.shared.GameMusic.ambient
+import com.sheepsgohome.shared.GameSkins.skin
 import java.util.*
 
 class GameplayClassicModeScreen : Screen, ContactListener {

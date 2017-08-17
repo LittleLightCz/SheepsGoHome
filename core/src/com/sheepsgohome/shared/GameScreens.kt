@@ -1,4 +1,4 @@
-package com.sheepsgohome
+package com.sheepsgohome.shared
 
 import com.sheepsgohome.screens.GameplayClassicModeScreen
 import com.sheepsgohome.screens.MainMenuScreen

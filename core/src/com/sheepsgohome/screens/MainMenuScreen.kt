@@ -13,15 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameMusic.ambient
-import com.sheepsgohome.GameMusic.music
-import com.sheepsgohome.GameScreens
-import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
 import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.shared.GameMusic.ambient
+import com.sheepsgohome.shared.GameMusic.sheepsTheme
+import com.sheepsgohome.shared.GameScreens
+import com.sheepsgohome.shared.GameSkins.skin
 
 class MainMenuScreen : Screen {
     private lateinit var stage: Stage
@@ -69,13 +69,13 @@ class MainMenuScreen : Screen {
                 if (cbox != null) {
                     if (cbox.isChecked) {
                         MUSIC_ENABLED = true
-                        if (!music.isPlaying) {
-                            music.play()
+                        if (!sheepsTheme.isPlaying) {
+                            sheepsTheme.play()
                         }
                     } else {
                         MUSIC_ENABLED = false
-                        if (music.isPlaying) {
-                            music.pause()
+                        if (sheepsTheme.isPlaying) {
+                            sheepsTheme.pause()
                         }
                     }
                     GameData.savePreferences()
@@ -88,8 +88,8 @@ class MainMenuScreen : Screen {
         buttonPlay.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
 
-                if (music.isPlaying) {
-                    music.pause()
+                if (sheepsTheme.isPlaying) {
+                    sheepsTheme.pause()
                 }
 
                 (Gdx.app.applicationListener as Game).screen = GameScreens.gameplayClassicModeScreen
@@ -161,8 +161,8 @@ class MainMenuScreen : Screen {
             ambient.pause()
         }
 
-        if (MUSIC_ENABLED && !music.isPlaying) {
-            music.play()
+        if (MUSIC_ENABLED && !sheepsTheme.isPlaying) {
+            sheepsTheme.play()
         }
 
     }
