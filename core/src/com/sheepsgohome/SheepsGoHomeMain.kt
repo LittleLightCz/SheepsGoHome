@@ -23,10 +23,8 @@ class SheepsGoHomeMain(functions: FunctionsInterface) : Game() {
     }
 
     override fun create() {
-        //Load preferences + game data
-        GameData.loadPreferences()
 
-        loadSkin()
+        GameData.loadPreferences()
 
         GameScreens.splashScreen = SplashScreen()
         GameScreens.mainMenuScreen = MainMenuScreen()
@@ -50,44 +48,6 @@ class SheepsGoHomeMain(functions: FunctionsInterface) : Game() {
         GameSounds.soundNewBadge = Gdx.audio.newSound(Gdx.files.internal("sound/new_badge.mp3"))
 
         setScreen(GameScreens.splashScreen)
-    }
-
-    private fun loadSkin() {
-        val generator = FreeTypeFontGenerator(Gdx.files.internal("fonts/osifont.ttf"))
-        val generatorDecor = FreeTypeFontGenerator(Gdx.files.internal("fonts/akaDylanPlain.ttf"))
-        val parameter = FreeTypeFontParameter()
-
-        skin = Skin()
-
-        //default
-        parameter.characters += "’řšžťčůňěďŽ"
-        parameter.size = 30
-        skin.add("font", generator.generateFont(parameter))
-
-        //menu
-        parameter.size = 40
-        skin.add("font_menuTitle", generatorDecor.generateFont(parameter))
-
-        skin.getFont("font_menuTitle").region.texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-        skin.getFont("font").region.texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-
-        skin.addRegions(TextureAtlas(Gdx.files.internal("skins/main.pack")))
-        skin.load(Gdx.files.internal("skins/skinMain.json"))
-
-        generator.dispose()
-        generatorDecor.dispose()
-
-        //touchpad
-        skin.getRegion("touchpadbg").texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-        skin.getRegion("selectbox").texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-
-        //music on/off checkbox
-        skin.getRegion("music_on").texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-        skin.getRegion("music_off").texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-
-        //cursor
-        //        skin.getRegion("text_cursor").getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
     }
 
 }
