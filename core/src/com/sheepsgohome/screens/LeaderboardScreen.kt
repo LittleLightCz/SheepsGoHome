@@ -24,7 +24,7 @@ import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
-class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelAction {
+class LeaderboardScreen : Screen, LeaderBoardCallback {
 
     companion object {
         private val BUTTON_SMALL_WIDTH = 50f
@@ -124,11 +124,11 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     }
 
     override fun connecting() {
-        messageDialog = MessageDialog(loc.get("connecting"), skin, "dialog").apply {
-            prefHeight = 60f
+        messageDialog = MessageDialog(loc.get("connecting")).apply {
+            fixedHeight = 60f
+            addCancelButton { leaderBoard.isTerminated = true }
         }
 
-        messageDialog?.addCancelButton(this)
         messageDialog?.show(stage)
     }
 
@@ -252,10 +252,6 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
         val l = Label(text, skin)
         l.setFontScale(0.32f)
         return l
-    }
-
-    override fun CancelPressed() {
-        leaderBoard.isTerminated = true
     }
 
 }
