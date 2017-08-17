@@ -67,7 +67,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
         buttonSave.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 GameData.PLAYER_NAME = validatePlayerName()
-                GameData.SavePreferences()
+                GameData.savePreferences()
                 (Gdx.app.applicationListener as Game).screen = SettingsScreen()
             }
         })
@@ -211,7 +211,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
         dialog.show(stage)
 
         GameData.PLAYER_NAME = playerName.text
-        GameData.SavePreferences()
+        GameData.savePreferences()
 
     }
 

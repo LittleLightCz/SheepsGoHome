@@ -22,9 +22,9 @@ import com.sheepsgohome.dialogs.NewBadgeDialog
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.SOUND_VOLUME
+import com.sheepsgohome.shared.GameData.loc
 import java.util.*
 
 class GameplayDialog(private val type: GameDialogType) : Screen {
@@ -169,9 +169,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
             //display badges
             table.add(createBadgesTable(GameData.LEVEL)).expandX().colspan(2).row()
 
-            GameData.LEVEL++
-            GameData.gamePreferences.putInteger("LEVEL", GameData.LEVEL)
-            GameData.gamePreferences.flush()
+            GameData.levelUp()
 
             val mult = 0.30f
 

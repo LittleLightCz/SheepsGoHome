@@ -20,8 +20,8 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
+import com.sheepsgohome.shared.GameData.loc
 
 class MainMenuScreen : Screen {
     private lateinit var stage: Stage
@@ -78,7 +78,7 @@ class MainMenuScreen : Screen {
                             music.pause()
                         }
                     }
-                    GameData.SavePreferences()
+                    GameData.savePreferences()
                 }
             }
         })

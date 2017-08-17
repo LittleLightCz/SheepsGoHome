@@ -232,7 +232,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
             result.mypos?.level?.let {
                 if (it > GameData.LEVEL) {
                     GameData.LEVEL = it
-                    GameData.SavePreferences()
+                    GameData.savePreferences()
                 }
             }
 

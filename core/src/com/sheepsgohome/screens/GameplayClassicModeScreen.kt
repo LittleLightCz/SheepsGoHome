@@ -35,7 +35,6 @@ import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.HOME_SIZE
 import com.sheepsgohome.shared.GameData.HUNGRY_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.LEVEL
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.SHEEP_SIZE
 import com.sheepsgohome.shared.GameData.SHEEP_SPEED
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
@@ -45,6 +44,7 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_NONE
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_RIGHT
 import com.sheepsgohome.shared.GameData.WILD_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.WILD_WOLF_SPEED
+import com.sheepsgohome.shared.GameData.loc
 import java.util.*
 
 class GameplayClassicModeScreen : Screen, ContactListener {

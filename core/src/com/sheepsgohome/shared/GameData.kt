@@ -9,7 +9,7 @@ import java.util.*
 
 
 object GameData {
-    val gamePreferences: Preferences by lazy { Gdx.app.getPreferences("gamePreferences") }
+    private val gamePreferences: Preferences by lazy { Gdx.app.getPreferences("gamePreferences") }
 
     val loc: I18NBundle by lazy {
         val baseFileHandle = Gdx.files.internal("loc/Language")
@@ -50,12 +50,12 @@ object GameData {
     var MUSIC_ENABLED = true
 
     //----------------GAME-DATA----------------------
-    var LEVEL: Int = 1
+    var LEVEL = 1
     var PLAYER_NAME = ""
 
     lateinit var functions: FunctionsInterface
 
-    fun LoadPreferences() {
+    fun loadPreferences() {
         with(gamePreferences) {
             LEVEL = getInteger("LEVEL", 1)
             MUSIC_ENABLED = getBoolean("MUSICENABLED", true)
@@ -72,7 +72,7 @@ object GameData {
         }
     }
 
-    fun SavePreferences() {
+    fun savePreferences() {
         with(gamePreferences) {
             putInteger("LEVEL", LEVEL)
             putInteger("VIRTUALJOYSTICK", VIRTUAL_JOYSTICK)
@@ -82,5 +82,11 @@ object GameData {
             putString("PLAYERNAME", PLAYER_NAME)
             flush()
         }
+    }
+
+    fun levelUp() {
+        LEVEL++
+        gamePreferences.putInteger("LEVEL", GameData.LEVEL)
+        gamePreferences.flush()
     }
 }

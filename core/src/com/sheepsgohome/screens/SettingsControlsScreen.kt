@@ -15,8 +15,8 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
+import com.sheepsgohome.shared.GameData.loc
 
 class SettingsControlsScreen : Screen {
     private lateinit var stage: Stage
@@ -53,7 +53,7 @@ class SettingsControlsScreen : Screen {
         buttonSave.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 VIRTUAL_JOYSTICK = virtualJoystickSelectBox.selectedIndex
-                GameData.SavePreferences()
+                GameData.savePreferences()
                 (Gdx.app.applicationListener as Game).screen = SettingsScreen()
             }
         })

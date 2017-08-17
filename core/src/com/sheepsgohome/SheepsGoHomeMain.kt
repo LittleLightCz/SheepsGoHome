@@ -24,7 +24,7 @@ class SheepsGoHomeMain(functions: FunctionsInterface) : Game() {
 
     override fun create() {
         //Load preferences + game data
-        GameData.LoadPreferences()
+        GameData.loadPreferences()
 
         loadSkin()
 

@@ -15,8 +15,8 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
+import com.sheepsgohome.shared.GameData.loc
 
 class SettingsSoundScreen : Screen {
     private lateinit var stage: Stage
@@ -53,7 +53,7 @@ class SettingsSoundScreen : Screen {
         buttonSave.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 SOUND_ENABLED = if (soundEnabledSelectBox.selectedIndex == 0) true else false
-                GameData.SavePreferences()
+                GameData.savePreferences()
                 (Gdx.app.applicationListener as Game).screen = SettingsScreen()
             }
         })
