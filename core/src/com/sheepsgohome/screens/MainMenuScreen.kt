@@ -44,6 +44,9 @@ class MainMenuScreen : Screen {
     override fun show() {
         buttonSupport = ImageButton(skin, "support")
         buttonPlay = TextButton(loc.get("play"), skin)
+
+        buttonPlay.style.font.setScale(0.5f)
+
         buttonLeaderboard = TextButton(loc.get("leaderboard"), skin)
         buttonSettings = TextButton(loc.get("settings"), skin)
         buttonExit = TextButton(loc.get("exit"), skin)

@@ -11,18 +11,19 @@ import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.sheepsgohome.SheepsGoHomeMain
 import com.sheepsgohome.interfaces.FunctionsInterface
+import com.sheepsgohome.shared.GameData
 import java.util.*
 
 class AndroidLauncher : AndroidApplication(), FunctionsInterface {
 
+    init {
+        GameData.functions = this
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val config = AndroidApplicationConfiguration()
-        initialize(SheepsGoHomeMain(this), config)
-    }
-
-    override fun launchDonateAction() {
-
+        initialize(SheepsGoHomeMain(), config)
     }
 
     override fun launchRateAppAction() {

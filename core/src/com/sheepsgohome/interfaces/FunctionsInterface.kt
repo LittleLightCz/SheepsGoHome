@@ -1,11 +1,8 @@
 package com.sheepsgohome.interfaces
 
 interface FunctionsInterface {
-    fun launchDonateAction()
+    val deviceId: String
+    val countryCode: String
 
     fun launchRateAppAction()
-
-    val deviceId: String
-
-    val countryCode: String
 }

@@ -9,10 +9,6 @@ import java.net.UnknownHostException;
  * Created by LittleLight on 28.2.2015.
  */
 public class DesktopFunctions implements FunctionsInterface {
-    @Override
-    public void launchDonateAction() {
-
-    }
 
     @Override
     public void launchRateAppAction() {
