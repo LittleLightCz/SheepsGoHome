@@ -27,9 +27,7 @@ class SheepsGoHomeMain(d: FunctionsInterface) : Game() {
     override fun create() {
 
         //Load preferences + game data
-        GameData.gamePreferences = Gdx.app.getPreferences("gamePreferences")
         GameData.LoadPreferences()
-        GameData.leaderboard = LeaderBoard()
 
         loadSkin()
 
