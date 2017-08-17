@@ -1,15 +1,13 @@
-package com.sheepsgohome
+package com.sheepsgohome.shared
 
 import com.badlogic.gdx.Application.ApplicationType.Desktop
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.interfaces.FunctionsInterface
-import com.sheepsgohome.leaderboard.LeaderBoard
 
 
 object GameData {
-    val leaderboard = LeaderBoard()
     val gamePreferences: Preferences by lazy { Gdx.app.getPreferences("gamePreferences") }
 
     //----------------CONSTANTS----------------------

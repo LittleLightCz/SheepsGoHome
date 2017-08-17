@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
-import com.sheepsgohome.GameData.Loc
+import com.sheepsgohome.shared.GameData.Loc
 
 class MessageDialog(val message: String, skin: Skin, windowStyleName: String) : Dialog("", skin, windowStyleName) {
 

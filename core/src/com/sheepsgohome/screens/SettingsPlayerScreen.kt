@@ -11,17 +11,21 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
-import com.sheepsgohome.GameData.Loc
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
+import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.Loc
 
 class SettingsPlayerScreen : Screen, LeaderBoardCallback {
+
+    private val leaderBoard = LeaderBoard.instance
+
     private lateinit var stage: Stage
     private lateinit var table: Table
 
@@ -86,7 +90,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
                     dialog.prefHeight = 60f
                     dialog.show(stage)
                 } else {
-                    GameData.leaderboard.register(
+                    leaderBoard.register(
                             GameData.functions.deviceId,
                             nick,
                             GameData.LEVEL,

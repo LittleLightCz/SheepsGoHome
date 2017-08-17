@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
-import com.sheepsgohome.GameData.SOUND_VOLUME
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.dialogs.ContinueLastGameDialog
 import com.sheepsgohome.interfaces.FunctionsInterface
-import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.screens.GameplayClassicModeScreen
 import com.sheepsgohome.screens.MainMenuScreen
 import com.sheepsgohome.screens.SplashScreen
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.SOUND_VOLUME
 import java.util.*
 
 class SheepsGoHomeMain(d: FunctionsInterface) : Game() {

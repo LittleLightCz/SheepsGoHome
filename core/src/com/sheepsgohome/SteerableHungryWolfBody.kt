@@ -6,9 +6,10 @@ import com.badlogic.gdx.ai.steer.utils.paths.LinePath
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Array
+import com.sheepsgohome.shared.GameData
 
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 
 class SteerableHungryWolfBody(wolfBody: Body, private val sheep: SteerableBody) : SteerableBody(wolfBody) {
 

@@ -11,20 +11,27 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
-import com.sheepsgohome.GameData.Loc
-import com.sheepsgohome.GameData.leaderboard
 import com.sheepsgohome.GameScreens
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.dialogs.LeaderboardResultDialog
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
+import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.Loc
 
 class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelAction {
+
+    companion object {
+        private val BUTTON_SMALL_WIDTH = 50f
+    }
+
+    private val leaderBoard = LeaderBoard.instance
+
     private val multiplier = 2f
     private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
 
@@ -72,7 +79,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
         if (GameData.PLAYER_NAME == "") {
             unregisteredUser()
         } else {
-            GameData.leaderboard.register(
+            leaderBoard.register(
                     GameData.functions.deviceId,
                     GameData.PLAYER_NAME,
                     GameData.LEVEL,
@@ -155,8 +162,8 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
         hideMessageDialog()
 
         //fetch leaderboard
-        if (!leaderboard.isTerminated)
-            leaderboard.fetchLeaderboard(GameData.functions.deviceId, this)
+        if (!leaderBoard.isTerminated)
+            leaderBoard.fetchLeaderboard(GameData.functions.deviceId, this)
     }
 
     override fun failure() {
@@ -248,11 +255,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     }
 
     override fun CancelPressed() {
-        leaderboard.isTerminated = true
+        leaderBoard.isTerminated = true
     }
 
-    companion object {
-        private val BUTTON_WIDTH = 100f
-        private val BUTTON_SMALL_WIDTH = 50f
-    }
 }

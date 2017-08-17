@@ -2,23 +2,22 @@ package com.sheepsgohome.screens
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Gdx.gl
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.Texture.TextureFilter.Linear
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.sheepsgohome.GameData
 import com.sheepsgohome.GameScreens
-
-import com.badlogic.gdx.Gdx.gl
-import com.badlogic.gdx.graphics.Texture.TextureFilter.Linear
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
-import com.sheepsgohome.GameData.Loc
 import com.sheepsgohome.GameSkins.skin
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.Loc
 
 class SplashScreen : Screen {
 

@@ -5,24 +5,18 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameData
-
-import com.badlogic.gdx.graphics.Texture.TextureFilter
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
-import com.sheepsgohome.GameData.Loc
-import com.sheepsgohome.GameData.VIRTUAL_JOYSTICK
-import com.sheepsgohome.GameData.SOUND_ENABLED
 import com.sheepsgohome.GameSkins.skin
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 
 class SettingsSoundScreen : Screen {
     private lateinit var stage: Stage

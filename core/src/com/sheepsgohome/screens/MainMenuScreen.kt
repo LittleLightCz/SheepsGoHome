@@ -13,15 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
-import com.sheepsgohome.GameData.Loc
-import com.sheepsgohome.GameData.MUSIC_ENABLED
 import com.sheepsgohome.GameMusic.ambient
 import com.sheepsgohome.GameMusic.music
 import com.sheepsgohome.GameScreens
 import com.sheepsgohome.GameSkins.skin
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
 
 class MainMenuScreen : Screen {
     private lateinit var stage: Stage

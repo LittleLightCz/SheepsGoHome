@@ -4,12 +4,23 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Net
 import com.badlogic.gdx.net.HttpParametersUtils
 import com.badlogic.gdx.utils.Json
-import com.sheepsgohome.GameData
+import com.sheepsgohome.shared.GameData
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class LeaderBoard {
+
+    companion object {
+        val RESPONSE_DB_CONNECTION_ERROR = "DB_CONNECTION_ERROR"
+        val RESPONSE_INVALID_DATA = "INVALID_DATA"
+        val RESPONSE_NICK_ALREADY_IN_USE = "NICK_ALREADY_IN_USE"
+        val RESPONSE_SUCCESS = "SUCCESS"
+        val RESPONSE_FAILURE = "FAILURE"
+        val RESPONSE_UNREGISTERED_USER = "UNREGISTERED_USER"
+
+        val instance by lazy { LeaderBoard() }
+    }
 
     var isTerminated: Boolean = false
         @Synchronized get
@@ -145,7 +156,7 @@ class LeaderBoard {
     }
 
     @Throws(NoSuchAlgorithmException::class)
-    fun md5(input: String?): String {
+    private fun md5(input: String?): String {
         var result: String = input ?: ""
 
         if (input != null) {
@@ -161,13 +172,5 @@ class LeaderBoard {
         return result
     }
 
-    companion object {
-        val RESPONSE_DB_CONNECTION_ERROR = "DB_CONNECTION_ERROR"
-        val RESPONSE_INVALID_DATA = "INVALID_DATA"
-        val RESPONSE_NICK_ALREADY_IN_USE = "NICK_ALREADY_IN_USE"
-        val RESPONSE_SUCCESS = "SUCCESS"
-        val RESPONSE_FAILURE = "FAILURE"
-        val RESPONSE_UNREGISTERED_USER = "UNREGISTERED_USER"
-    }
 }
 

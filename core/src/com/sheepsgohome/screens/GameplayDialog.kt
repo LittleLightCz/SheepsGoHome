@@ -15,16 +15,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameData
-import com.sheepsgohome.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.GameData.CAMERA_WIDTH
-import com.sheepsgohome.GameData.Loc
-import com.sheepsgohome.GameData.SOUND_ENABLED
-import com.sheepsgohome.GameData.SOUND_VOLUME
 import com.sheepsgohome.GameScreens
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.GameSounds
 import com.sheepsgohome.dialogs.NewBadgeDialog
+import com.sheepsgohome.shared.GameData
+import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.SOUND_ENABLED
+import com.sheepsgohome.shared.GameData.SOUND_VOLUME
 import java.util.*
 
 class GameplayDialog(private val type: GameDialogType) : Screen {
