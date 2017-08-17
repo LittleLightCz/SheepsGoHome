@@ -9,14 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.sheepsgohome.screens.SettingsPlayerScreen
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class LeaderboardResultDialog(rank: Int, skin: Skin, windowStyleName: String) : Dialog("", skin, windowStyleName) {
 
     private val BUTTON_WIDTH = 50f
     private val WINDOW_SIZE_MULTIPLICATOR = 1.70f
-    private val buttonOk: TextButton = TextButton(Loc.get("ok"), skin)
-    private val title: Label = Label(Loc.get("your.position.is"), skin)
+    private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
+    private val title: Label = Label(loc.get("your.position.is"), skin)
     private val rank: Label = Label(rank.toString() + ".", skin, "menuTitle")
 
     private var prefHeight = 70f

@@ -22,7 +22,7 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelAction {
 
@@ -36,8 +36,8 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
 
     private val table = Table()
-    private val buttonBack = TextButton(Loc.get("back"), skin)
-    private val title = Label(Loc.get("leaderboard"), skin, "menuTitle")
+    private val buttonBack = TextButton(loc.get("back"), skin)
+    private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
     private var messageDialog: MessageDialog? = null
 
     private val texture = Texture("menu_background.png")
@@ -124,7 +124,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     }
 
     override fun connecting() {
-        messageDialog = MessageDialog(Loc.get("connecting"), skin, "dialog").apply {
+        messageDialog = MessageDialog(loc.get("connecting"), skin, "dialog").apply {
             prefHeight = 60f
         }
 
@@ -135,7 +135,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun connectionToDatabaseFailed() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("connection.to.database.failed"), skin, "dialog")
+        val dialog = OkDialog(loc.get("connection.to.database.failed"), skin, "dialog")
         dialog.prefHeight = 60f
         dialog.show(stage)
     }
@@ -143,7 +143,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun invalidData() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("invalid.data"), skin, "dialog")
+        val dialog = OkDialog(loc.get("invalid.data"), skin, "dialog")
         dialog.prefHeight = 80f
         dialog.show(stage)
     }
@@ -151,7 +151,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun nickAlreadyInUse() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("player.name.already.in.use"), skin, "dialog")
+        val dialog = OkDialog(loc.get("player.name.already.in.use"), skin, "dialog")
         dialog.prefHeight = 90f
         dialog.setRedirectScreen(SettingsPlayerScreen())
         dialog.show(stage)
@@ -169,7 +169,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun failure() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("unknown.failure"), skin, "dialog")
+        val dialog = OkDialog(loc.get("unknown.failure"), skin, "dialog")
         dialog.prefHeight = 60f
         dialog.show(stage)
     }
@@ -177,7 +177,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun failedToInitializeMD5() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("md5.init.failed"), skin, "dialog")
+        val dialog = OkDialog(loc.get("md5.init.failed"), skin, "dialog")
         dialog.prefHeight = 95f
         dialog.show(stage)
     }
@@ -185,7 +185,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun connectionFailed() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("connection.failed"), skin, "dialog")
+        val dialog = OkDialog(loc.get("connection.failed"), skin, "dialog")
         dialog.prefHeight = 60f
         dialog.show(stage)
     }
@@ -193,7 +193,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun connectionCanceled() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("connection.canceled"), skin, "dialog")
+        val dialog = OkDialog(loc.get("connection.canceled"), skin, "dialog")
         dialog.prefHeight = 85f
         dialog.show(stage)
     }
@@ -201,7 +201,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
     override fun unregisteredUser() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("unregistered.player"), skin, "dialog")
+        val dialog = OkDialog(loc.get("unregistered.player"), skin, "dialog")
         dialog.prefHeight = 80f
         dialog.setRedirectScreen(SettingsPlayerScreen())
         dialog.show(stage)
@@ -214,8 +214,8 @@ class LeaderboardScreen : Screen, LeaderBoardCallback, MessageDialog.CancelActio
             val headingHeight = 20f
 
             contentTable.add(getTableHeaderLabel("#")).height(headingHeight)
-            contentTable.add(getTableHeaderLabel(Loc.get("player"))).height(headingHeight)
-            contentTable.add(getTableHeaderLabel(Loc.get("level.heading"))).height(headingHeight).row()
+            contentTable.add(getTableHeaderLabel(loc.get("player"))).height(headingHeight)
+            contentTable.add(getTableHeaderLabel(loc.get("level.heading"))).height(headingHeight).row()
 
             for (row in result.leaderboard) {
                 contentTable.add(getTableRowLabel(row.rank.toString()))

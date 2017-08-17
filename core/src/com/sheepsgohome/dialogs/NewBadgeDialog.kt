@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class NewBadgeDialog(
         badgeName: String,
@@ -16,8 +16,8 @@ class NewBadgeDialog(
     private val BUTTON_WIDTH = 50f
     private val WINDOW_SIZE_MULTIPLICATOR = 1.70f
     private val BADGE_SIZE = 100f
-    private val buttonOk: TextButton = TextButton(Loc.get("ok"), skin)
-    private val title: Label = Label(Loc.get("new.badge.earned"), skin)
+    private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
+    private val title: Label = Label(loc.get("new.badge.earned"), skin)
     private val name: Label = Label(badgeName, skin)
 
     init {

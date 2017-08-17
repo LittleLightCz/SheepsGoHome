@@ -5,10 +5,17 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.interfaces.FunctionsInterface
+import java.util.*
 
 
 object GameData {
     val gamePreferences: Preferences by lazy { Gdx.app.getPreferences("gamePreferences") }
+
+    val loc: I18NBundle by lazy {
+        val baseFileHandle = Gdx.files.internal("loc/Language")
+        val locale = Locale.getDefault()
+        I18NBundle.createBundle(baseFileHandle, locale)
+    }
 
     //----------------CONSTANTS----------------------
     val VERSION_STRING = "1.0.2"
@@ -47,7 +54,6 @@ object GameData {
     var PLAYER_NAME = ""
 
     lateinit var functions: FunctionsInterface
-    lateinit var Loc: I18NBundle
 
     fun LoadPreferences() {
         with(gamePreferences) {

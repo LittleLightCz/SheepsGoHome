@@ -19,7 +19,7 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class SettingsScreen : Screen {
     private lateinit var stage: Stage
@@ -35,11 +35,11 @@ class SettingsScreen : Screen {
     private lateinit var bgImage: Image
 
     override fun show() {
-        buttonPlayer = TextButton(Loc.get("player"), skin)
-        buttonControls = TextButton(Loc.get("controls"), skin)
-        buttonSound = TextButton(Loc.get("sound"), skin)
-        buttonBack = TextButton(Loc.get("back"), skin)
-        title = Label(Loc.get("settings"), skin, "menuTitle")
+        buttonPlayer = TextButton(loc.get("player"), skin)
+        buttonControls = TextButton(loc.get("controls"), skin)
+        buttonSound = TextButton(loc.get("sound"), skin)
+        buttonBack = TextButton(loc.get("back"), skin)
+        title = Label(loc.get("settings"), skin, "menuTitle")
 
         texture = Texture("menu_background.png")
         bgImage = Image(texture)

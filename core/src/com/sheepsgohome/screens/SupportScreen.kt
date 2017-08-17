@@ -19,7 +19,7 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class SupportScreen : Screen {
     private lateinit var stage: Stage
@@ -38,13 +38,13 @@ class SupportScreen : Screen {
     private lateinit var bgImage: Image
 
     override fun show() {
-        buttonRate = TextButton(Loc.get("rate"), skin)
-        buttonShareFB = TextButton(Loc.get("share.FB"), skin)
-        buttonShareGPlus = TextButton(Loc.get("share.GPlus"), skin)
-        buttonTweet = TextButton(Loc.get("tweet"), skin)
+        buttonRate = TextButton(loc.get("rate"), skin)
+        buttonShareFB = TextButton(loc.get("share.FB"), skin)
+        buttonShareGPlus = TextButton(loc.get("share.GPlus"), skin)
+        buttonTweet = TextButton(loc.get("tweet"), skin)
 
-        buttonBack = TextButton(Loc.get("back"), skin)
-        title = Label(Loc.get("how.to.support"), skin, "menuTitle")
+        buttonBack = TextButton(loc.get("back"), skin)
+        title = Label(loc.get("how.to.support"), skin, "menuTitle")
 
         texture = Texture("menu_background.png")
         bgImage = Image(texture)

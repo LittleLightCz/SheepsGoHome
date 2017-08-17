@@ -5,13 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 
 class ContinueLastGameDialog(title: String, skin: Skin, windowStyleName: String) : Dialog(title, skin, windowStyleName) {
-    private val buttonNo = TextButton(Loc.get("no"), skin)
-    private val buttonYes = TextButton(Loc.get("yes"), skin)
-    private val label = Label(Loc.get("continue.last.game"), skin)
+    private val buttonNo = TextButton(loc.get("no"), skin)
+    private val buttonYes = TextButton(loc.get("yes"), skin)
+    private val label = Label(loc.get("continue.last.game"), skin)
 
     init {
         label.setFontScale(0.45f)

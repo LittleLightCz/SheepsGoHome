@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.dialogs.ContinueLastGameDialog
 import com.sheepsgohome.interfaces.FunctionsInterface
@@ -16,22 +15,18 @@ import com.sheepsgohome.screens.MainMenuScreen
 import com.sheepsgohome.screens.SplashScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.SOUND_VOLUME
-import java.util.*
 
-class SheepsGoHomeMain(d: FunctionsInterface) : Game() {
+class SheepsGoHomeMain(functions: FunctionsInterface) : Game() {
 
     init {
-        GameData.functions = d
+        GameData.functions = functions
     }
 
     override fun create() {
-
         //Load preferences + game data
         GameData.LoadPreferences()
 
         loadSkin()
-
-        loadLanguage()
 
         GameScreens.splashScreen = SplashScreen()
         GameScreens.mainMenuScreen = MainMenuScreen()
@@ -55,12 +50,6 @@ class SheepsGoHomeMain(d: FunctionsInterface) : Game() {
         GameSounds.soundNewBadge = Gdx.audio.newSound(Gdx.files.internal("sound/new_badge.mp3"))
 
         setScreen(GameScreens.splashScreen)
-    }
-
-    private fun loadLanguage() {
-        val baseFileHandle = Gdx.files.internal("loc/Language")
-        val locale = Locale.getDefault()
-        GameData.Loc = I18NBundle.createBundle(baseFileHandle, locale)
     }
 
     private fun loadSkin() {

@@ -17,7 +17,7 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class SplashScreen : Screen {
 
@@ -26,7 +26,7 @@ class SplashScreen : Screen {
 
     private val stage = Stage()
     private val texture = Texture("menu_background.png")
-    private val title = Label(Loc.get("sheeps.go.home"), skin, "menuTitle")
+    private val title = Label(loc.get("sheeps.go.home"), skin, "menuTitle")
 
     private val camera: OrthographicCamera
     private val sheep: Texture

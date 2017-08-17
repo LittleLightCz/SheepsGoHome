@@ -20,7 +20,7 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
 
 class MainMenuScreen : Screen {
@@ -43,11 +43,11 @@ class MainMenuScreen : Screen {
 
     override fun show() {
         buttonSupport = ImageButton(skin, "support")
-        buttonPlay = TextButton(Loc.get("play"), skin)
-        buttonLeaderboard = TextButton(Loc.get("leaderboard"), skin)
-        buttonSettings = TextButton(Loc.get("settings"), skin)
-        buttonExit = TextButton(Loc.get("exit"), skin)
-        title = Label(Loc.get("sheeps.go.home"), skin, "menuTitle")
+        buttonPlay = TextButton(loc.get("play"), skin)
+        buttonLeaderboard = TextButton(loc.get("leaderboard"), skin)
+        buttonSettings = TextButton(loc.get("settings"), skin)
+        buttonExit = TextButton(loc.get("exit"), skin)
+        title = Label(loc.get("sheeps.go.home"), skin, "menuTitle")
         version = Label(GameData.VERSION_STRING, skin)
         musicCheckBox = CheckBox("", skin)
         musicCheckBox.isChecked = MUSIC_ENABLED

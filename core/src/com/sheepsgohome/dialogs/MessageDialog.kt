@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class MessageDialog(val message: String, skin: Skin, windowStyleName: String) : Dialog("", skin, windowStyleName) {
 
@@ -28,7 +28,7 @@ class MessageDialog(val message: String, skin: Skin, windowStyleName: String) : 
                 .padTop(5f)
                 .row()
 
-        buttonCancel = TextButton(Loc.get("cancel"), skin)
+        buttonCancel = TextButton(loc.get("cancel"), skin)
         buttonCancel.style.font.setScale(0.5f)
         buttonCancel.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {

@@ -20,7 +20,7 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class SettingsPlayerScreen : Screen, LeaderBoardCallback {
 
@@ -44,11 +44,11 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     private lateinit var bgImage: Image
 
     override fun show() {
-        buttonRegister = TextButton(Loc.get("register"), skin)
-        buttonSave = TextButton(Loc.get("save"), skin)
-        buttonBack = TextButton(Loc.get("back"), skin)
-        title = Label(Loc.get("player"), skin, "menuTitle")
-        playerNameTitle = Label(Loc.get("player.name"), skin, "default")
+        buttonRegister = TextButton(loc.get("register"), skin)
+        buttonSave = TextButton(loc.get("save"), skin)
+        buttonBack = TextButton(loc.get("back"), skin)
+        title = Label(loc.get("player"), skin, "menuTitle")
+        playerNameTitle = Label(loc.get("player.name"), skin, "default")
 
         playerName = TextField("", skin)
         playerName.maxLength = 16
@@ -86,7 +86,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
                 val nick = validatePlayerName()
 
                 if (nick == "") {
-                    val dialog = OkDialog(Loc.get("empty.player.name"), skin, "dialog")
+                    val dialog = OkDialog(loc.get("empty.player.name"), skin, "dialog")
                     dialog.prefHeight = 60f
                     dialog.show(stage)
                 } else {
@@ -173,7 +173,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     }
 
     override fun connecting() {
-        messageDialog = MessageDialog(Loc.get("connecting"), skin, "dialog")
+        messageDialog = MessageDialog(loc.get("connecting"), skin, "dialog")
         messageDialog?.prefHeight = 40f
         messageDialog?.show(stage)
     }
@@ -181,7 +181,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun connectionToDatabaseFailed() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("connection.to.database.failed"), skin, "dialog")
+        val dialog = OkDialog(loc.get("connection.to.database.failed"), skin, "dialog")
         dialog.prefHeight = 60f
         dialog.show(stage)
     }
@@ -189,7 +189,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun invalidData() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("invalid.data"), skin, "dialog")
+        val dialog = OkDialog(loc.get("invalid.data"), skin, "dialog")
         dialog.prefHeight = 80f
         dialog.show(stage)
     }
@@ -197,7 +197,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun nickAlreadyInUse() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("player.name.already.in.use"), skin, "dialog")
+        val dialog = OkDialog(loc.get("player.name.already.in.use"), skin, "dialog")
         dialog.prefHeight = 90f
         dialog.show(stage)
     }
@@ -206,7 +206,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun success() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("player.name.registration.success"), skin, "dialog")
+        val dialog = OkDialog(loc.get("player.name.registration.success"), skin, "dialog")
         dialog.prefHeight = 70f
         dialog.show(stage)
 
@@ -218,7 +218,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun failure() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("unknown.failure"), skin, "dialog")
+        val dialog = OkDialog(loc.get("unknown.failure"), skin, "dialog")
         dialog.prefHeight = 60f
         dialog.show(stage)
     }
@@ -226,7 +226,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun failedToInitializeMD5() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("md5.init.failed"), skin, "dialog")
+        val dialog = OkDialog(loc.get("md5.init.failed"), skin, "dialog")
         dialog.prefHeight = 95f
         dialog.show(stage)
     }
@@ -234,7 +234,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun connectionFailed() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("connection.failed"), skin, "dialog")
+        val dialog = OkDialog(loc.get("connection.failed"), skin, "dialog")
         dialog.prefHeight = 60f
         dialog.show(stage)
     }
@@ -242,7 +242,7 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun connectionCanceled() {
         hideMessageDialog()
 
-        val dialog = OkDialog(Loc.get("connection.canceled"), skin, "dialog")
+        val dialog = OkDialog(loc.get("connection.canceled"), skin, "dialog")
         dialog.prefHeight = 85f
         dialog.show(stage)
     }

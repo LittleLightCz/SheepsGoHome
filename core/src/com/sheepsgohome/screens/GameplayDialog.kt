@@ -22,7 +22,7 @@ import com.sheepsgohome.dialogs.NewBadgeDialog
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.SOUND_VOLUME
 import java.util.*
@@ -77,7 +77,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
         }
 
         if (type !== GameDialogType.typeSheepSucceeded) {
-            buttonRetry = TextButton(Loc.get("retry"), skin)
+            buttonRetry = TextButton(loc.get("retry"), skin)
             imgWolf = Image(wolf_texture)
 
             buttonRetry?.addListener(object : ClickListener() {
@@ -87,7 +87,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
             })
 
         } else {
-            buttonNext = TextButton(Loc.get("next.level"), skin)
+            buttonNext = TextButton(loc.get("next.level"), skin)
             imgSheep = Image(sheep_texture)
 
             buttonNext?.addListener(object : ClickListener() {
@@ -98,7 +98,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
 
         }
 
-        buttonQuit = TextButton(Loc.get("quit"), skin)
+        buttonQuit = TextButton(loc.get("quit"), skin)
 
         buttonQuit.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -116,8 +116,8 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
         bgImage.height = CAMERA_HEIGHT * multiplier
 
         title = when (type) {
-            GameDialogType.typeSheepSucceeded -> Label(Loc.get("home.sweet.home"), skin, "menuTitle")
-            else -> Label(Loc.get("sheep.has.been.caught"), skin, "menuTitle")
+            GameDialogType.typeSheepSucceeded -> Label(loc.get("home.sweet.home"), skin, "menuTitle")
+            else -> Label(loc.get("sheep.has.been.caught"), skin, "menuTitle")
         }
 
         val fontScale = (CAMERA_WIDTH * multiplier - 20) / title.prefWidth
@@ -206,18 +206,18 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
 
     private fun getBadgeName(badgeNo: Int): String {
         when (badgeNo) {
-            1 -> return Loc.get("pasture")
-            2 -> return Loc.get("threat.awareness")
-            3 -> return Loc.get("alpha.defeater")
-            4 -> return Loc.get("escapist")
-            5 -> return Loc.get("agility")
-            6 -> return Loc.get("tactician")
-            7 -> return Loc.get("fearless")
-            8 -> return Loc.get("sheeps.defiance")
-            9 -> return Loc.get("limitless.courage")
-            10 -> return Loc.get("ruthless.conspiracy")
-            11 -> return Loc.get("wolf.apocalypse")
-            12 -> return Loc.get("sheep.master")
+            1 -> return loc.get("pasture")
+            2 -> return loc.get("threat.awareness")
+            3 -> return loc.get("alpha.defeater")
+            4 -> return loc.get("escapist")
+            5 -> return loc.get("agility")
+            6 -> return loc.get("tactician")
+            7 -> return loc.get("fearless")
+            8 -> return loc.get("sheeps.defiance")
+            9 -> return loc.get("limitless.courage")
+            10 -> return loc.get("ruthless.conspiracy")
+            11 -> return loc.get("wolf.apocalypse")
+            12 -> return loc.get("sheep.master")
             else -> return ""
         }
     }

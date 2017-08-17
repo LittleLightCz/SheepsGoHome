@@ -35,7 +35,7 @@ import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.HOME_SIZE
 import com.sheepsgohome.shared.GameData.HUNGRY_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.LEVEL
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.SHEEP_SIZE
 import com.sheepsgohome.shared.GameData.SHEEP_SPEED
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
@@ -109,7 +109,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         touchpad.addAction(Actions.alpha(0.5f))
 
-        levelLabel = Label(Loc.format("level", LEVEL), skin, "levelTitle")
+        levelLabel = Label(loc.format("level", LEVEL), skin, "levelTitle")
 
         val fontScale = (CAMERA_WIDTH * multiplier - 40) / levelLabel.prefWidth
         levelLabel.setFontScale(fontScale)

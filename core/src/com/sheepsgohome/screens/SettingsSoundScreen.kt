@@ -15,7 +15,7 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 
 class SettingsSoundScreen : Screen {
@@ -32,16 +32,16 @@ class SettingsSoundScreen : Screen {
     private lateinit var bgImage: Image
 
     override fun show() {
-        buttonSave = TextButton(Loc.get("save"), skin)
-        buttonBack = TextButton(Loc.get("back"), skin)
-        title = Label(Loc.get("sound"), skin, "menuTitle")
-        soundEnabledTitle = Label(Loc.get("sound.enabled"), skin)
+        buttonSave = TextButton(loc.get("save"), skin)
+        buttonBack = TextButton(loc.get("back"), skin)
+        title = Label(loc.get("sound"), skin, "menuTitle")
+        soundEnabledTitle = Label(loc.get("sound.enabled"), skin)
 
         texture = Texture("menu_background.png")
         bgImage = Image(texture)
 
         val soundEnabledSelectBox = SelectBox<String>(skin)
-        soundEnabledSelectBox.setItems(Loc.get("yes"), Loc.get("no"))
+        soundEnabledSelectBox.setItems(loc.get("yes"), loc.get("no"))
         soundEnabledSelectBox.selectedIndex = if (SOUND_ENABLED) 0 else 1
 
         val multiplier = 2f

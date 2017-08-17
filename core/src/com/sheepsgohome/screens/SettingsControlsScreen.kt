@@ -15,7 +15,7 @@ import com.sheepsgohome.GameSkins.skin
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
 
 class SettingsControlsScreen : Screen {
@@ -32,16 +32,16 @@ class SettingsControlsScreen : Screen {
     private lateinit var bgImage: Image
 
     override fun show() {
-        buttonSave = TextButton(Loc.get("save"), skin)
-        buttonBack = TextButton(Loc.get("back"), skin)
-        title = Label(Loc.get("controls"), skin, "menuTitle")
-        virtualJoystickTitle = Label(Loc.get("virtual.joystick"), skin, "default")
+        buttonSave = TextButton(loc.get("save"), skin)
+        buttonBack = TextButton(loc.get("back"), skin)
+        title = Label(loc.get("controls"), skin, "menuTitle")
+        virtualJoystickTitle = Label(loc.get("virtual.joystick"), skin, "default")
 
         texture = Texture("menu_background.png")
         bgImage = Image(texture)
 
         val virtualJoystickSelectBox = SelectBox<String>(skin)
-        virtualJoystickSelectBox.setItems(Loc.get("none"), Loc.get("left"), Loc.get("right"))
+        virtualJoystickSelectBox.setItems(loc.get("none"), loc.get("left"), loc.get("right"))
         virtualJoystickSelectBox.selectedIndex = VIRTUAL_JOYSTICK
 
         val multiplier = 2f

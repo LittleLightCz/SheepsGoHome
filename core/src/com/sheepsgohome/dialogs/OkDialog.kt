@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.sheepsgohome.screens.SettingsPlayerScreen
-import com.sheepsgohome.shared.GameData.Loc
+import com.sheepsgohome.shared.GameData.loc
 
 class OkDialog(message: String, skin: Skin, windowStyleName: String) : Dialog("", skin, windowStyleName) {
 
     private val BUTTON_WIDTH = 50f
     private val WINDOW_SIZE_MULTIPLICATOR = 1.70f
-    private val buttonOk: TextButton = TextButton(Loc.get("ok"), skin)
+    private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
     private val message = Label(message, skin)
 
     private var prefHeight = 70f
