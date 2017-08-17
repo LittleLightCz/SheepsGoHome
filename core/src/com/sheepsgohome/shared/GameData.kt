@@ -58,9 +58,11 @@ object GameData {
     fun loadPreferences() {
         with(gamePreferences) {
             LEVEL = getInteger("LEVEL", 1)
+
             MUSIC_ENABLED = getBoolean("MUSICENABLED", true)
             SOUND_ENABLED = getBoolean("SOUNDENABLED", true)
             SOUND_VOLUME = getFloat("SOUNDVOLUME", 0.5f)
+
             PLAYER_NAME = getString("PLAYERNAME", "")
 
             val preferredJoystick = when (Gdx.app.type) {

@@ -192,7 +192,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
         stage.addActor(table)
 
         if (showNewBadgeDialog && badgeNo > 0) {
-            NewBadgeDialog(getBadgeName(badgeNo), badges[badgeNo - 1], skin, "dialog").show(stage)
+            NewBadgeDialog(getBadgeName(badgeNo), badges[badgeNo - 1]).show(stage)
         }
 
         Gdx.input.inputProcessor = stage
