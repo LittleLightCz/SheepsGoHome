@@ -37,11 +37,11 @@ object GameData {
     var VIRTUAL_JOYSTICK_RIGHT = 2
 
     //----------------GAME-DATA----------------------
-    var LEVEL: Int = 0
-    lateinit var PLAYER_NAME: String
+    var LEVEL: Int = 1
+    var PLAYER_NAME = ""
 
     //----------------PREFERENCES----------------------
-    var VIRTUAL_JOYSTICK: Int = 0
+    var VIRTUAL_JOYSTICK = 0
     var SOUND_ENABLED = true
     var SOUND_VOLUME = 0.7f
     var MUSIC_ENABLED = true
@@ -52,35 +52,31 @@ object GameData {
     lateinit var leaderboard: LeaderBoard
 
     fun LoadPreferences() {
-        LEVEL = gamePreferences.getInteger("LEVEL", 1)
+        with(gamePreferences) {
+            LEVEL = getInteger("LEVEL", 1)
+            MUSIC_ENABLED = getBoolean("MUSICENABLED", true)
+            SOUND_ENABLED = getBoolean("SOUNDENABLED", true)
+            SOUND_VOLUME = getFloat("SOUNDVOLUME", 0.5f)
+            PLAYER_NAME = getString("PLAYERNAME", "")
 
-        MUSIC_ENABLED = gamePreferences.getBoolean("MUSICENABLED", true)
-        SOUND_ENABLED = gamePreferences.getBoolean("SOUNDENABLED", true)
+            val preferredJoystick = when (Gdx.app.type) {
+                Desktop -> VIRTUAL_JOYSTICK_NONE
+                else -> VIRTUAL_JOYSTICK_RIGHT
+            }
 
-        SOUND_VOLUME = gamePreferences.getFloat("SOUNDVOLUME", 0.5f)
-
-        PLAYER_NAME = gamePreferences.getString("PLAYERNAME", "")
-
-        val preferredJoystick = when (Gdx.app.type) {
-            Desktop -> VIRTUAL_JOYSTICK_NONE
-            else -> VIRTUAL_JOYSTICK_RIGHT
+            VIRTUAL_JOYSTICK = getInteger("VIRTUALJOYSTICK", preferredJoystick)
         }
-
-        VIRTUAL_JOYSTICK = gamePreferences.getInteger("VIRTUALJOYSTICK", preferredJoystick)
     }
 
     fun SavePreferences() {
-        gamePreferences.putInteger("LEVEL", LEVEL)
-        gamePreferences.putInteger("VIRTUALJOYSTICK", VIRTUAL_JOYSTICK)
-
-        gamePreferences.putBoolean("SOUNDENABLED", SOUND_ENABLED)
-
-        gamePreferences.putBoolean("MUSICENABLED", MUSIC_ENABLED)
-
-        gamePreferences.putFloat("SOUNDVOLUME", SOUND_VOLUME)
-
-        gamePreferences.putString("PLAYERNAME", PLAYER_NAME)
-
-        gamePreferences.flush()
+        with(gamePreferences) {
+            putInteger("LEVEL", LEVEL)
+            putInteger("VIRTUALJOYSTICK", VIRTUAL_JOYSTICK)
+            putBoolean("SOUNDENABLED", SOUND_ENABLED)
+            putBoolean("MUSICENABLED", MUSIC_ENABLED)
+            putFloat("SOUNDVOLUME", SOUND_VOLUME)
+            putString("PLAYERNAME", PLAYER_NAME)
+            flush()
+        }
     }
 }

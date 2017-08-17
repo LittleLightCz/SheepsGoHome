@@ -64,7 +64,6 @@ class SupportScreen : Screen {
 
         buttonRate.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                //Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.tumblr.svetylk0.sheepsgohome.android");
                 GameData.functions.launchRateAppAction()
             }
         })
