@@ -25,7 +25,8 @@ import com.sheepsgohome.shared.GameData.SOUND_VOLUME
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
-import com.sheepsgohome.shared.GameSounds
+import com.sheepsgohome.shared.GameSounds.soundNewBadge
+import com.sheepsgohome.shared.GameSounds.soundSheepSuccess
 import com.sheepsgohome.shared.GameSounds.soundWolfFailure
 
 class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
@@ -57,6 +58,9 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         else -> Texture("wolf_fail.png")
     }.apply { setFilter(Linear, Linear) }
 
+    private val sheepImage by lazy { Image(sheepTexture) }
+    private val wolfImage by lazy { Image(wolfTexture) }
+
     private val backgroundTexture = Texture("menu_background.png").apply {
         setFilter(Linear, Linear)
     }
@@ -66,9 +70,6 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         height = CAMERA_HEIGHT * multiplier
     }
 
-    private var imgSheep: Image? = null
-    private var imgWolf: Image? = null
-
     private val badges = (1..BADGES_COUNT).map { Badge(it) }
 
     init {
@@ -77,15 +78,11 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
                 buttonNext = TextButton(loc.get("next.level"), skin).apply {
                     addListener(clicked { GameScreens.switchScreen(GameScreens.gameplayClassicModeScreen) })
                 }
-
-                imgSheep = Image(sheepTexture)
             }
             else -> {
                 buttonRetry = TextButton(loc.get("retry"), skin).apply {
                     addListener(clicked { GameScreens.switchScreen(GameScreens.gameplayClassicModeScreen) })
                 }
-
-                imgWolf = Image(wolfTexture)
             }
         }
 
@@ -107,55 +104,52 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
                 .row()
 
         var showNewBadgeDialog = false
-        var badgeNo = 0
+        var badgeNumber = 0
 
         val sound: Sound
 
         when(gameResult) {
             SHEEP_SUCCEEDED -> {
                 //has earned new badge?
-                badgeNo = getEarnedBadgeNumber(GameData.LEVEL)
-                if (badgeNo > 0) {
+                badgeNumber = getEarnedBadgeNumber(GameData.LEVEL)
+                if (badgeNumber > 0) {
                     showNewBadgeDialog = true
                 }
 
-                if (showNewBadgeDialog) {
-                    sound = GameSounds.soundNewBadge
-                } else {
-                    sound = GameSounds.soundSheepSuccess
-                }
+                sound = if (showNewBadgeDialog) soundNewBadge else soundSheepSuccess
 
                 //display badges
-                table.add(createBadgesTable(GameData.LEVEL)).expandX().colspan(2).row()
+                table.add(createBadgesTable(GameData.LEVEL))
+                    .expandX()
+                    .colspan(2)
+                    .row()
 
                 GameData.levelUp()
 
                 val mult = 0.30f
 
-                imgSheep?.let {
-                    table.add(it)
-                            .size(it.width * mult, it.height * mult)
-                            .colspan(2)
-                            .expand()
-                            .row()
-                }
+                table.add(sheepImage)
+                    .size(sheepImage.width * mult, sheepImage.height * mult)
+                    .colspan(2)
+                    .expand()
+                    .row()
 
-                table.add(buttonNext).size(BUTTON_WIDTH, BUTTON_WIDTH / 2)
+                table.add(buttonNext)
+                    .size(BUTTON_WIDTH, BUTTON_WIDTH / 2)
             }
             else -> {
                 sound = soundWolfFailure
 
-                imgWolf?.let {
-                    val mult = CAMERA_WIDTH * 2 / it.prefWidth * 0.95f
+                val mult = CAMERA_WIDTH * 2 / wolfImage.prefWidth * 0.95f
 
-                    table.add(it)
-                            .size(it.width * mult, it.height * mult)
-                            .colspan(2)
-                            .expand()
-                            .row()
-                }
+                table.add(wolfImage)
+                    .size(wolfImage.width * mult, wolfImage.height * mult)
+                    .colspan(2)
+                    .expand()
+                    .row()
 
-                table.add(buttonRetry).size(BUTTON_WIDTH, BUTTON_WIDTH / 2)
+                table.add(buttonRetry)
+                    .size(BUTTON_WIDTH, BUTTON_WIDTH / 2)
             }
         }
 
@@ -168,8 +162,8 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         stage.addActor(backgroundImage)
         stage.addActor(table)
 
-        if (showNewBadgeDialog && badgeNo > 0) {
-            badges.find { it.badgeNumber == badgeNo }?.let {
+        if (showNewBadgeDialog) {
+            badges.find { it.badgeNumber == badgeNumber }?.let {
                 NewBadgeDialog(it).show(stage)
             }
         }
@@ -188,23 +182,23 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
 
         if (displayedBadges.isNotEmpty()) {
             Iterables.partition(displayedBadges, 5)
-                    .forEach { row ->
-                        row.forEach { badge ->
-                            tab.add(badge.image)
-                                .size(28f, 28f)
-                                .padRight(1f)
-                                .padBottom(1f)
-                        }
-                        tab.row()
+                .forEach { row ->
+                    row.forEach { badge ->
+                        tab.add(badge.image)
+                            .size(28f, 28f)
+                            .padRight(1f)
+                            .padBottom(1f)
                     }
+                    tab.row()
+                }
         }
 
         return tab
     }
 
     private fun getDisplayedBadgesCount(level: Int): Int {
-        val ret = level / 10
-        return if (ret > BADGES_COUNT) BADGES_COUNT else ret
+        val badgesCount = level / 10
+        return Math.min(badgesCount, BADGES_COUNT)
     }
 
     private fun getDisplayedBadges(level: Int) = badges.take(getDisplayedBadgesCount(level))
@@ -240,7 +234,6 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         sheepTexture.dispose()
         wolfTexture.dispose()
 
-        //dispose vector textures
         badges.forEach { it.dispose() }
     }
 }
