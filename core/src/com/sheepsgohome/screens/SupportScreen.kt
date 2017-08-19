@@ -64,7 +64,7 @@ class SupportScreen : Screen {
 
         buttonRate.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                GameData.functions.launchRateAppAction()
+                GameData.androidFunctions.launchRateAppAction()
             }
         })
 

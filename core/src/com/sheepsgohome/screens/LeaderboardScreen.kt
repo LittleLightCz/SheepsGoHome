@@ -80,10 +80,10 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
             unregisteredUser()
         } else {
             leaderBoard.register(
-                    GameData.functions.deviceId,
+                    GameData.androidFunctions.deviceId,
                     GameData.PLAYER_NAME,
                     GameData.LEVEL,
-                    GameData.functions.countryCode,
+                    GameData.androidFunctions.countryCode,
                     this)
         }
     }
@@ -159,7 +159,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
 
         //fetch leaderboard
         if (!leaderBoard.isTerminated) {
-            leaderBoard.fetchLeaderboard(GameData.functions.deviceId, this)
+            leaderBoard.fetchLeaderboard(GameData.androidFunctions.deviceId, this)
         }
     }
 

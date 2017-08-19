@@ -4,7 +4,7 @@ import com.badlogic.gdx.Application.ApplicationType.Desktop
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
-import com.sheepsgohome.interfaces.FunctionsInterface
+import com.sheepsgohome.interfaces.AndroidFunctions
 import java.util.*
 
 
@@ -53,7 +53,7 @@ object GameData {
     var LEVEL = 1
     var PLAYER_NAME = ""
 
-    lateinit var functions: FunctionsInterface
+    lateinit var androidFunctions: AndroidFunctions
 
     fun loadPreferences() {
         with(gamePreferences) {

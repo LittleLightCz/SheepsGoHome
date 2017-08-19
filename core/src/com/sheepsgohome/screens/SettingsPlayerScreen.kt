@@ -91,10 +91,10 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
                     dialog.show(stage)
                 } else {
                     leaderBoard.register(
-                            GameData.functions.deviceId,
+                            GameData.androidFunctions.deviceId,
                             nick,
                             GameData.LEVEL,
-                            GameData.functions.countryCode,
+                            GameData.androidFunctions.countryCode,
                             __this)
                 }
             }

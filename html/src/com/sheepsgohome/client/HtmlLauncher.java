@@ -4,10 +4,10 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.sheepsgohome.SheepsGoHomeMain;
-import com.sheepsgohome.interfaces.FunctionsInterface;
+import com.sheepsgohome.interfaces.AndroidFunctions;
 import com.sheepsgohome.shared.GameData;
 
-public class HtmlLauncher extends GwtApplication implements FunctionsInterface {
+public class HtmlLauncher extends GwtApplication implements AndroidFunctions {
 
     @Override
     public GwtApplicationConfiguration getConfig() {
@@ -16,7 +16,7 @@ public class HtmlLauncher extends GwtApplication implements FunctionsInterface {
 
     @Override
     public ApplicationListener getApplicationListener() {
-        GameData.functions = this;
+        GameData.androidFunctions = this;
         return new SheepsGoHomeMain();
     }
 

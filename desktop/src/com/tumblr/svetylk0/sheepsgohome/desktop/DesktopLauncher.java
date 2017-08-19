@@ -7,7 +7,7 @@ import com.sheepsgohome.shared.GameData;
 
 public class DesktopLauncher {
     public static void main(String[] arg) {
-        GameData.functions = new DesktopFunctions();
+        GameData.androidFunctions = new DesktopAndroidFunctions();
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1080 / 3;

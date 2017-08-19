@@ -1,8 +1,7 @@
 package com.sheepsgohome.interfaces
 
-interface FunctionsInterface {
+interface AndroidFunctions {
     val deviceId: String
     val countryCode: String
-
     fun launchRateAppAction()
 }

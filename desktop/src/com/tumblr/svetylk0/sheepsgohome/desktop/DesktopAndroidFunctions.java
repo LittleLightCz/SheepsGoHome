@@ -1,6 +1,6 @@
 package com.tumblr.svetylk0.sheepsgohome.desktop;
 
-import com.sheepsgohome.interfaces.FunctionsInterface;
+import com.sheepsgohome.interfaces.AndroidFunctions;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 /**
  * Created by LittleLight on 28.2.2015.
  */
-public class DesktopFunctions implements FunctionsInterface {
+public class DesktopAndroidFunctions implements AndroidFunctions {
 
     @Override
     public void launchRateAppAction() {
