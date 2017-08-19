@@ -24,7 +24,6 @@ import com.sheepsgohome.GameTools.calculateAngle
 import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.SteerableHungryWolfBody
-import com.sheepsgohome.enums.GameState
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData
@@ -55,17 +54,34 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private val multiplier = 1f
 
-    private lateinit var touchpad: Touchpad
-    private var touchpadEnabled: Boolean = false
+    private val camera: OrthographicCamera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
+    private val batch = SpriteBatch()
+    private var gameState = RUNNING
 
-    private var wolves_count: Int = 0
+    private val touchpadEnabled = VIRTUAL_JOYSTICK != VIRTUAL_JOYSTICK_NONE
+
+    private val touchpad by lazy { Touchpad(0f, skin).apply {
+        val touchPadSize = 30f
+
+        when (VIRTUAL_JOYSTICK) {
+            VIRTUAL_JOYSTICK_RIGHT -> setBounds(CAMERA_WIDTH - touchPadSize, 0f, touchPadSize, touchPadSize)
+            VIRTUAL_JOYSTICK_LEFT -> setBounds(0f, 0f, touchPadSize, touchPadSize)
+        }
+
+        addAction(Actions.alpha(0.5f))
+    }}
+
+    private var wolves_count = 0
 
     private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
-    private lateinit var levelLabel: Label
 
-    private var gameState: GameState? = null
-
-    private lateinit var batch: SpriteBatch
+    private val levelLabel = Label(loc.format("level", LEVEL), skin, "levelTitle").apply {
+        setFontScale((CAMERA_WIDTH * multiplier - 40) / prefWidth)
+        addAction(Actions.sequence(
+            Actions.alpha(1f),
+            Actions.fadeOut(3f)
+        ))
+    }
 
     private lateinit var sheep_texture: Texture
     private lateinit var wolf_texture: Texture
@@ -89,44 +105,18 @@ class GameplayClassicModeScreen : Screen, ContactListener {
             ambient.play()
         }
 
-        //Touchpad
-        touchpadEnabled = VIRTUAL_JOYSTICK != VIRTUAL_JOYSTICK_NONE
-
-        touchpad = Touchpad(0f, skin)
-        val touchPadSize = 30
-        if (VIRTUAL_JOYSTICK == VIRTUAL_JOYSTICK_RIGHT) {
-            touchpad.setBounds(CAMERA_WIDTH - touchPadSize, 0f, touchPadSize.toFloat(), touchPadSize.toFloat())
-        } else if (VIRTUAL_JOYSTICK == VIRTUAL_JOYSTICK_LEFT) {
-            touchpad.setBounds(0f, 0f, touchPadSize.toFloat(), touchPadSize.toFloat())
+        val table = Table().apply {
+            add(levelLabel)
+            setFillParent(true)
         }
 
-        touchpad.addAction(Actions.alpha(0.5f))
-
-        levelLabel = Label(loc.format("level", LEVEL), skin, "levelTitle")
-
-        val fontScale = (CAMERA_WIDTH * multiplier - 40) / levelLabel.prefWidth
-        levelLabel.setFontScale(fontScale)
-
-        val table = Table()
-        table.add<Label>(levelLabel)
-        table.setFillParent(true)
-
-        levelLabel.addAction(Actions.sequence(
-                Actions.alpha(1f),
-                Actions.fadeOut(3f)
-        ))
-
         stage.addActor(table)
+
         if (touchpadEnabled) {
             stage.addActor(touchpad)
         }
+
         Gdx.input.inputProcessor = stage
-        //-------------
-
-        gameState = RUNNING
-
-        camera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
-        batch = SpriteBatch()
 
         SetUpLevel()
 
@@ -648,11 +638,11 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
     private inner class WolvesData {
-        internal var WildWolves: Int = 0
-        internal var HungryWolves: Int = 0
-        internal var AlphaWolves: Int = 0
+        internal var WildWolves = 0
+        internal var HungryWolves = 0
+        internal var AlphaWolves = 0
 
-        internal val wolvesCount: Int
+        internal val wolvesCount
             get() = WildWolves + HungryWolves + AlphaWolves
     }
 
@@ -661,7 +651,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         //Physics
         lateinit var world: World
         lateinit var debugRenderer: Box2DDebugRenderer
-        lateinit var camera: OrthographicCamera
+
 
         lateinit var sheep_body: SteerableBody
         lateinit var wolf_bodies: Array<SteerableBody>
