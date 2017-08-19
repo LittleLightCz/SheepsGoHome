@@ -27,7 +27,6 @@ object GameData {
     val SETTINGS_TITLE_FONT_SCALE = 0.35f
     val SETTINGS_ITEM_FONT_SCALE = 0.5f
 
-    val SHEEP_SIZE = 6f
     val HOME_SIZE = 12f
 
     val WILD_WOLF_SIZE = 6f

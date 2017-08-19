@@ -25,6 +25,7 @@ import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.SteerableHungryWolfBody
 import com.sheepsgohome.enums.GameState.*
+import com.sheepsgohome.gameobjects.Sheep
 import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SIZE
@@ -34,7 +35,6 @@ import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.HOME_SIZE
 import com.sheepsgohome.shared.GameData.HUNGRY_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.LEVEL
-import com.sheepsgohome.shared.GameData.SHEEP_SIZE
 import com.sheepsgohome.shared.GameData.SHEEP_SPEED
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
@@ -51,6 +51,10 @@ import java.util.*
 
 class GameplayClassicModeScreen : Screen, ContactListener {
     private val fpsLogger by lazy { FPSLogger() }
+
+    //Box2D Physics
+    private val debugRenderer = Box2DDebugRenderer()
+    private val world = World(Vector2(0f, 0f), true)
 
     private val multiplier = 1f
 
@@ -83,7 +87,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         ))
     }
 
-    private lateinit var sheep_texture: Texture
     private lateinit var wolf_texture: Texture
     private lateinit var hungry_wolf_texture: Texture
     private lateinit var alpha_wolf_texture: Texture
@@ -91,9 +94,16 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     private lateinit var background_texture: Texture
 
     private lateinit var wolves: List<Sprite>
-    private lateinit var sheep: Sprite
+
+    private val sheep = Sheep(world)
+
     private lateinit var home: Sprite
     private lateinit var background: Sprite
+
+    init {
+        Box2D.init()
+        world.setContactListener(this)
+    }
 
     override fun show() {
         //catch menu and back buttons
@@ -124,7 +134,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     private fun SetUpLevel() {
-        sheep_texture = Texture("sheep.png")
+
         home_texture = Texture("home.png")
         wolf_texture = Texture("wolf.png")
         hungry_wolf_texture = Texture("wolf-hungry.png")
@@ -137,17 +147,12 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         background.setPosition(-CAMERA_WIDTH, -CAMERA_HEIGHT)
         background.setSize(CAMERA_WIDTH * 2, CAMERA_HEIGHT * 2)
 
-        sheep = Sprite(sheep_texture)
-        sheep.setSize(SHEEP_SIZE, SHEEP_SIZE)
-        sheep.setOriginCenter()
+
 
         home = Sprite(home_texture)
         home.setSize(HOME_SIZE, HOME_SIZE)
         home.setPosition(-home.width / 2, CAMERA_HEIGHT / 2 - home.height)
 
-        InitializePhysics()
-
-        CreateSheepBody()
         CreateHomeBody()
         CreateWallBoundaries()
 
@@ -169,14 +174,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
                 }
     }
 
-    fun InitializePhysics() {
-        Box2D.init()
-
-        world = World(Vector2(0f, 0f), true)
-        world.setContactListener(this)
-
-        debugRenderer = Box2DDebugRenderer()
-    }
 
     override fun render(delta: Float) {
         gl.glClearColor(0.9f, 0.9f, 0.9f, 1f)
@@ -196,28 +193,21 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private fun renderGameScene() {
         //positioning
-        sheep.setPosition(
-                sheep_body.position.x - SHEEP_SIZE / 2,
-                sheep_body.position.y - SHEEP_SIZE / 2
-        )
-
-        sheep.rotation = Math.toDegrees(sheep_body.body.angle.toDouble()).toFloat()
+        sheep.computePosition()
+        sheep.computeRotation()
 
         //input
         if (touchpadEnabled) {
             if (touchpad.isTouched) {
                 handleTouch()
             } else {
-                sheep_body.body.setLinearVelocity(0f, 0f)
-                sheep_body.body.angularVelocity = 0f
+                sheep.resetVelocity()
             }
-
         } else {
             if (Gdx.input.isTouched) {
                 handleTouch(Gdx.input.x, Gdx.input.y)
             } else {
-                sheep_body.body.setLinearVelocity(0f, 0f)
-                sheep_body.body.angularVelocity = 0f
+                sheep.resetVelocity()
             }
         }
 
@@ -277,8 +267,11 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     private fun setAlphaWolfVelocity(wolf: Body) {
-        val vec = Vector2(sheep_body.position).sub(wolf.position).nor()
-        val alphaSpeed = ALPHA_WOLF_SPEED / Math.abs(wolf.position.dst(sheep_body.position) / CAMERA_HEIGHT)
+        val sheepPosition = sheep.steerableBody.position
+
+        val vec = Vector2(sheepPosition).sub(wolf.position).nor()
+        val alphaSpeed = ALPHA_WOLF_SPEED / Math.abs(wolf.position.dst(sheepPosition) / CAMERA_HEIGHT)
+
         wolf.setLinearVelocity(vec.x * alphaSpeed, vec.y * alphaSpeed)
     }
 
@@ -293,7 +286,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         walls_bodies[3].setTransform(0f, -CAMERA_HEIGHT / 2, (Math.PI / 2f).toFloat())
 
         //sheep
-        sheep_body.body.setTransform(0f, -CAMERA_HEIGHT / 2f + 2, (Math.PI / 2f).toFloat())
+        sheep.steerableBody.body.setTransform(0f, -CAMERA_HEIGHT / 2f + 2, (Math.PI / 2f).toFloat())
 
         //home
         home_body.body.setTransform(0f, CAMERA_HEIGHT / 2f - HOME_SIZE / 2, 0f)
@@ -352,7 +345,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     override fun dispose() {
-        sheep_texture.dispose()
+        sheep.dispose()
         wolf_texture.dispose()
         hungry_wolf_texture.dispose()
         alpha_wolf_texture.dispose()
@@ -440,7 +433,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
 
         for (i in 0..data.HungryWolves - 1) {
-            wolf_bodies_list.add(SteerableHungryWolfBody(CreateHungryWolfBody(), sheep_body))
+            wolf_bodies_list.add(SteerableHungryWolfBody(CreateHungryWolfBody(), sheep.steerableBody))
         }
 
         for (i in 0..data.AlphaWolves - 1) {
@@ -491,27 +484,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         groundBox.dispose()
     }
 
-    private fun CreateSheepBody() {
-        val bodyDef = BodyDef()
-        bodyDef.type = BodyDef.BodyType.DynamicBody
-        bodyDef.position.set(0f, 0f)
 
-        sheep_body = SteerableBody(world.createBody(bodyDef))
-
-        val circleShape = CircleShape()
-        circleShape.radius = SHEEP_SIZE / 2
-
-        val fixtureDef = FixtureDef()
-        fixtureDef.shape = circleShape
-        fixtureDef.density = 0.1f
-        fixtureDef.friction = 0.1f
-        fixtureDef.restitution = 0.6f
-
-        sheep_body.body.createFixture(fixtureDef)
-        sheep_body.body.userData = SHEEP
-
-        circleShape.dispose()
-    }
 
     private fun CreateHomeBody() {
         val bodyDef = BodyDef()
@@ -541,10 +514,10 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         vec.x *= SHEEP_SPEED
         vec.y *= SHEEP_SPEED
 
-        sheep_body.body.setLinearVelocity(vec.x, vec.y)
+        sheep.steerableBody.body.setLinearVelocity(vec.x, vec.y)
 
         //set Angle
-        sheep_body.body.setTransform(sheep_body.position, Math.toRadians(calculateAngle(vec.x, vec.y).toDouble()).toFloat())
+        sheep.steerableBody.body.setTransform(sheep.steerableBody.position, Math.toRadians(calculateAngle(vec.x, vec.y).toDouble()).toFloat())
     }
 
     //Finger touch
@@ -556,7 +529,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         targetx = targetx / Gdx.graphics.width.toFloat() * CAMERA_WIDTH - CAMERA_WIDTH / 2f
         targety = targety / Gdx.graphics.height.toFloat() * CAMERA_HEIGHT - CAMERA_HEIGHT / 2f
 
-        val pos = sheep_body.position
+        val pos = sheep.steerableBody.position
         targetx -= pos.x
         targety -= pos.y
 
@@ -565,10 +538,10 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         targetx = targetx / divider * SHEEP_SPEED
         targety = targety / divider * SHEEP_SPEED
 
-        sheep_body.body.setLinearVelocity(targetx, targety)
+        sheep.steerableBody.body.setLinearVelocity(targetx, targety)
 
         //set Angle
-        sheep_body.body.setTransform(pos, Math.toRadians(calculateAngle(targetx, targety).toDouble()).toFloat())
+        sheep.steerableBody.body.setTransform(pos, Math.toRadians(calculateAngle(targetx, targety).toDouble()).toFloat())
     }
 
     private fun StartWolves() {
@@ -647,13 +620,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     companion object {
-
-        //Physics
-        lateinit var world: World
-        lateinit var debugRenderer: Box2DDebugRenderer
-
-
-        lateinit var sheep_body: SteerableBody
         lateinit var wolf_bodies: Array<SteerableBody>
         lateinit var walls_bodies: Array<Body>
         lateinit var home_body: SteerableBody
