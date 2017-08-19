@@ -193,6 +193,7 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
                             tab.add(badge.image)
                                 .size(28f, 28f)
                                 .padRight(1f)
+                                .padBottom(1f)
                         }
                         tab.row()
                     }

@@ -33,4 +33,6 @@ class Badge(val badgeNumber: Int) {
         texture.dispose()
     }
 
+    fun clone() = Badge(badgeNumber)
+
 }
