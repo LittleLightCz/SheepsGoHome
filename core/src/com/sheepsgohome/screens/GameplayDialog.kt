@@ -27,7 +27,7 @@ import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.shared.GameSounds
 import java.util.*
 
-class GameplayDialog(private val type: GameDialogType) : Screen {
+class GameplayDialog(private val type: GameResult) : Screen {
 
     private val BADGES_COUNT = 12
     private val BUTTON_WIDTH = 80f
@@ -62,8 +62,8 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
 
 
         wolf_texture = when (type) {
-            GameDialogType.typeSheepFailed_Alpha -> Texture("wolf_alpha_fail.png")
-            GameDialogType.typeSheepFailed_Hungry -> Texture("wolf_hungry_fail.png")
+            GameResult.SHEEP_EATEN_BY_ALPHA_WOLF -> Texture("wolf_alpha_fail.png")
+            GameResult.SHEEP_EATEN_BY_HUNGRY_WOLF -> Texture("wolf_hungry_fail.png")
             else -> Texture("wolf_fail.png")
         }
         wolf_texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
@@ -76,7 +76,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
             badges.add(t)
         }
 
-        if (type !== GameDialogType.typeSheepSucceeded) {
+        if (type !== GameResult.SHEEP_SUCCEEDED) {
             buttonRetry = TextButton(loc.get("retry"), skin)
             imgWolf = Image(wolf_texture)
 
@@ -116,7 +116,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
         bgImage.height = CAMERA_HEIGHT * multiplier
 
         title = when (type) {
-            GameDialogType.typeSheepSucceeded -> Label(loc.get("home.sweet.home"), skin, "menuTitle")
+            GameResult.SHEEP_SUCCEEDED -> Label(loc.get("home.sweet.home"), skin, "menuTitle")
             else -> Label(loc.get("sheep.has.been.caught"), skin, "menuTitle")
         }
 
@@ -137,7 +137,7 @@ class GameplayDialog(private val type: GameDialogType) : Screen {
 
         sound = null
 
-        if (type !== GameDialogType.typeSheepSucceeded) {
+        if (type !== GameResult.SHEEP_SUCCEEDED) {
 
             sound = GameSounds.soundWolfFailure
 

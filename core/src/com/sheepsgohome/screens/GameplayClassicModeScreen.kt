@@ -25,6 +25,8 @@ import com.sheepsgohome.GameTools.calculateAngle
 import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.SteerableHungryWolfBody
+import com.sheepsgohome.screens.GameResult.*
+import com.sheepsgohome.screens.GameplayClassicModeScreen.State.*
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SPEED
@@ -130,7 +132,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         Gdx.input.inputProcessor = stage
         //-------------
 
-        gameState = State.eRunning
+        gameState = eRunning
 
         camera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
         batch = SpriteBatch()
@@ -200,95 +202,95 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         when (gameState) {
-            GameplayClassicModeScreen.State.eRunning -> {
-                //positioning
-                sheep.setPosition(
-                        sheep_body.position.x - SHEEP_SIZE / 2,
-                        sheep_body.position.y - SHEEP_SIZE / 2
-                )
-
-                sheep.rotation = Math.toDegrees(sheep_body.body.angle.toDouble()).toFloat()
-
-                //input
-                if (touchpadEnabled) {
-                    if (touchpad.isTouched) {
-                        handleTouch()
-                    } else {
-                        sheep_body.body.setLinearVelocity(0f, 0f)
-                        sheep_body.body.angularVelocity = 0f
-                    }
-
-                } else {
-                    if (Gdx.input.isTouched) {
-                        handleTouch(Gdx.input.x, Gdx.input.y)
-                    } else {
-                        sheep_body.body.setLinearVelocity(0f, 0f)
-                        sheep_body.body.angularVelocity = 0f
-                    }
-                }
-
-                //drawing
-                batch.projectionMatrix = camera.combined
-                batch.begin()
-
-                background.draw(batch)
-
-                sheep.draw(batch)
-
-                //draw home - top center
-                home.draw(batch)
-
-                //draw wolves
-                var wolfType: GameObjectType
-                for (i in 0..wolves_count - 1) {
-                    wolfType = wolf_bodies[i].userData as GameObjectType
-
-                    when (wolfType) {
-                        eAlphaWolf -> {
-                            wolves[i].setPosition(
-                                    wolf_bodies[i].position.x - ALPHA_WOLF_SIZE / 2,
-                                    wolf_bodies[i].position.y - ALPHA_WOLF_SIZE / 2
-                            )
-
-                            setAlphaWolfVelocity(wolf_bodies[i].body)
-                        }
-                        eHungryWolf -> {
-                            wolf_bodies[i].calculateSteeringBehaviour()
-                            wolves[i].setPosition(
-                                    wolf_bodies[i].position.x - HUNGRY_WOLF_SIZE / 2,
-                                    wolf_bodies[i].position.y - HUNGRY_WOLF_SIZE / 2
-                            )
-                        }
-                        else -> wolves[i].setPosition(
-                                wolf_bodies[i].position.x - WILD_WOLF_SIZE / 2,
-                                wolf_bodies[i].position.y - WILD_WOLF_SIZE / 2
-                        )
-                    }
-
-                    val targetVelocity = wolf_bodies[i].linearVelocity
-                    wolves[i].rotation = calculateAngle(targetVelocity)
-
-                    wolves[i].draw(batch)
-                }
-
-                batch.end()
-
-                //                debugRenderer.render(world, camera.combined);
-                world.step(graphics.deltaTime, 6, 2)
-
-                stage.act()
-                stage.draw()
-            }
-
-            GameplayClassicModeScreen.State.eGameOver_Wild -> gameOver(GameDialogType.typeSheepFailed_Wild)
-            GameplayClassicModeScreen.State.eGameOver_Hungry -> gameOver(GameDialogType.typeSheepFailed_Hungry)
-            GameplayClassicModeScreen.State.eGameOver_Alpha -> gameOver(GameDialogType.typeSheepFailed_Alpha)
-            GameplayClassicModeScreen.State.eNextLevel -> nextLevel()
+            eRunning -> renderGameScene()
+            eGameOver_Wild -> gameOver(SHEEP_EATEN_BY_WILD_WOLF)
+            eGameOver_Hungry -> gameOver(SHEEP_EATEN_BY_HUNGRY_WOLF)
+            eGameOver_Alpha -> gameOver(SHEEP_EATEN_BY_ALPHA_WOLF)
+            eNextLevel -> nextLevel()
         }
 
         //fps debug
         //        fpsLogger.log();
+    }
 
+    private fun renderGameScene() {
+        //positioning
+        sheep.setPosition(
+                sheep_body.position.x - SHEEP_SIZE / 2,
+                sheep_body.position.y - SHEEP_SIZE / 2
+        )
+
+        sheep.rotation = Math.toDegrees(sheep_body.body.angle.toDouble()).toFloat()
+
+        //input
+        if (touchpadEnabled) {
+            if (touchpad.isTouched) {
+                handleTouch()
+            } else {
+                sheep_body.body.setLinearVelocity(0f, 0f)
+                sheep_body.body.angularVelocity = 0f
+            }
+
+        } else {
+            if (Gdx.input.isTouched) {
+                handleTouch(Gdx.input.x, Gdx.input.y)
+            } else {
+                sheep_body.body.setLinearVelocity(0f, 0f)
+                sheep_body.body.angularVelocity = 0f
+            }
+        }
+
+        //drawing
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+
+        background.draw(batch)
+
+        sheep.draw(batch)
+
+        //draw home - top center
+        home.draw(batch)
+
+        //draw wolves
+        var wolfType: GameObjectType
+        for (i in 0..wolves_count - 1) {
+            wolfType = wolf_bodies[i].userData as GameObjectType
+
+            when (wolfType) {
+                eAlphaWolf -> {
+                    wolves[i].setPosition(
+                            wolf_bodies[i].position.x - ALPHA_WOLF_SIZE / 2,
+                            wolf_bodies[i].position.y - ALPHA_WOLF_SIZE / 2
+                    )
+
+                    setAlphaWolfVelocity(wolf_bodies[i].body)
+                }
+                eHungryWolf -> {
+                    wolf_bodies[i].calculateSteeringBehaviour()
+                    wolves[i].setPosition(
+                            wolf_bodies[i].position.x - HUNGRY_WOLF_SIZE / 2,
+                            wolf_bodies[i].position.y - HUNGRY_WOLF_SIZE / 2
+                    )
+                }
+                else -> wolves[i].setPosition(
+                        wolf_bodies[i].position.x - WILD_WOLF_SIZE / 2,
+                        wolf_bodies[i].position.y - WILD_WOLF_SIZE / 2
+                )
+            }
+
+            val targetVelocity = wolf_bodies[i].linearVelocity
+            wolves[i].rotation = calculateAngle(targetVelocity)
+
+            wolves[i].draw(batch)
+        }
+
+        batch.end()
+
+        //                debugRenderer.render(world, camera.combined);
+        world.step(graphics.deltaTime, 6, 2)
+
+        stage.act()
+        stage.draw()
     }
 
     private fun setAlphaWolfVelocity(wolf: Body) {
@@ -604,7 +606,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
             when (typeA) {
                 eHome -> when (typeB) {
                     eWildWolf -> setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                    eSheep -> gameState = State.eNextLevel
+                    eSheep -> gameState = eNextLevel
                     else -> {
                     }
                 }
@@ -617,24 +619,24 @@ class GameplayClassicModeScreen : Screen, ContactListener {
                     if (typeB === eWildWolf) {
                         setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
                     } else if (typeB === eSheep) {
-                        gameState = State.eGameOver_Wild
+                        gameState = eGameOver_Wild
                     }
                 }
                 eHungryWolf -> if (typeB === eWildWolf) {
                     setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
                 } else if (typeB === eSheep) {
-                    gameState = State.eGameOver_Hungry
+                    gameState = eGameOver_Hungry
                 }
                 eAlphaWolf -> if (typeB === eWildWolf) {
                     setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
                 } else if (typeB === eSheep) {
-                    gameState = State.eGameOver_Alpha
+                    gameState = eGameOver_Alpha
                 }
                 eSheep -> when (typeB) {
-                    eWildWolf -> gameState = State.eGameOver_Wild
-                    eHungryWolf -> gameState = State.eGameOver_Hungry
-                    eAlphaWolf -> gameState = State.eGameOver_Alpha
-                    eHome -> gameState = State.eNextLevel
+                    eWildWolf -> gameState = eGameOver_Wild
+                    eHungryWolf -> gameState = eGameOver_Hungry
+                    eAlphaWolf -> gameState = eGameOver_Alpha
+                    eHome -> gameState = eNextLevel
                     else -> {
                     }
                 }
@@ -642,12 +644,12 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
-    private fun gameOver(dialogType: GameDialogType) {
-        (Gdx.app.applicationListener as Game).screen = GameplayDialog(dialogType)
+    private fun gameOver(result: GameResult) {
+        (Gdx.app.applicationListener as Game).screen = GameplayDialog(result)
     }
 
     private fun nextLevel() {
-        (Gdx.app.applicationListener as Game).screen = GameplayDialog(GameDialogType.typeSheepSucceeded)
+        (Gdx.app.applicationListener as Game).screen = GameplayDialog(GameResult.SHEEP_SUCCEEDED)
     }
 
     override fun endContact(contact: Contact) {
