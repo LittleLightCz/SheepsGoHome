@@ -217,9 +217,12 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
                 }
             }
 
-            val dialog = LeaderboardResultDialog(result.mypos?.rank ?: 0, skin, "dialog")
-            dialog.prefHeight = 70f
-            dialog.show(stage)
+            result.mypos?.rank?.let {
+                LeaderboardResultDialog(it).apply {
+                    fixedHeight = 70f
+                }.show(stage)
+            }
+
         }
     }
 
