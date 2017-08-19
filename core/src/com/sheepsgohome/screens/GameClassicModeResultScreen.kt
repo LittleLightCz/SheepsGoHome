@@ -76,12 +76,12 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         when(gameResult) {
             SHEEP_SUCCEEDED -> {
                 buttonNext = TextButton(loc.get("next.level"), skin).apply {
-                    addListener(clicked { GameScreens.switchScreen(GameScreens.gameplayClassicModeScreen) })
+                    addListener(clicked { GameScreens.switchToGameplayClassicModeScreen() })
                 }
             }
             else -> {
                 buttonRetry = TextButton(loc.get("retry"), skin).apply {
-                    addListener(clicked { GameScreens.switchScreen(GameScreens.gameplayClassicModeScreen) })
+                    addListener(clicked { GameScreens.switchToGameplayClassicModeScreen() })
                 }
             }
         }

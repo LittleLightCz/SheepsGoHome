@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.sheepsgohome.gdx.clicked
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
@@ -88,15 +89,12 @@ class MainMenuScreen : Screen {
 
 
         //click listeners
-        buttonPlay.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-
-                if (sheepsTheme.isPlaying) {
-                    sheepsTheme.pause()
-                }
-
-                (Gdx.app.applicationListener as Game).screen = GameScreens.gameplayClassicModeScreen
+        buttonPlay.addListener(clicked {
+            if (sheepsTheme.isPlaying) {
+                sheepsTheme.pause()
             }
+
+            GameScreens.switchToGameplayClassicModeScreen()
         })
 
         buttonLeaderboard.addListener(object : ClickListener() {

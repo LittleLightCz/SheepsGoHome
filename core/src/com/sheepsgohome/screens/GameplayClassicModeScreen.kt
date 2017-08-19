@@ -1,6 +1,5 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
 import com.badlogic.gdx.Gdx.graphics
@@ -19,14 +18,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameObjectType
-import com.sheepsgohome.GameObjectType.*
+import com.sheepsgohome.GameObject
+import com.sheepsgohome.GameObject.*
 import com.sheepsgohome.GameTools.calculateAngle
 import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.SteerableHungryWolfBody
+import com.sheepsgohome.enums.GameState
+import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.screens.GameResult.*
-import com.sheepsgohome.screens.GameplayClassicModeScreen.State.*
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SPEED
@@ -46,28 +46,24 @@ import com.sheepsgohome.shared.GameData.WILD_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.WILD_WOLF_SPEED
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameScreens.switchScreen
 import com.sheepsgohome.shared.GameSkins.skin
 import java.util.*
 
 class GameplayClassicModeScreen : Screen, ContactListener {
+    private val fpsLogger by lazy { FPSLogger() }
 
-    internal enum class State {
-        eRunning, eGameOver_Wild, eGameOver_Hungry, eGameOver_Alpha, eNextLevel
-    }
-
-    private var fpsLogger: FPSLogger? = null
+    private val multiplier = 1f
 
     private lateinit var touchpad: Touchpad
     private var touchpadEnabled: Boolean = false
 
     private var wolves_count: Int = 0
 
-    private lateinit var stage: Stage
+    private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
     private lateinit var levelLabel: Label
 
-    private var gameState: State? = null
+    private var gameState: GameState? = null
 
     private lateinit var batch: SpriteBatch
 
@@ -88,17 +84,10 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         Gdx.input.isCatchBackKey = true
         Gdx.input.setCatchMenuKey(true)
 
-        //FPS debug
-        fpsLogger = FPSLogger()
-
         //Ambient
         if (SOUND_ENABLED && !ambient.isPlaying) {
             ambient.play()
         }
-
-        //Stage
-        val multiplier = 1f
-        stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
 
         //Touchpad
         touchpadEnabled = VIRTUAL_JOYSTICK != VIRTUAL_JOYSTICK_NONE
@@ -134,7 +123,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         Gdx.input.inputProcessor = stage
         //-------------
 
-        gameState = eRunning
+        gameState = RUNNING
 
         camera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
         batch = SpriteBatch()
@@ -174,13 +163,13 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         wolves_count = CreateWolfBodies()
 
-        wolves = wolf_bodies.map { it.userData as GameObjectType }
+        wolves = wolf_bodies.map { it.userData as GameObject }
                 .map { wolfType ->
                     when (wolfType) {
-                        eHungryWolf -> Sprite(hungry_wolf_texture).apply {
+                        HUNGRY_WOLF -> Sprite(hungry_wolf_texture).apply {
                             setSize(HUNGRY_WOLF_SIZE, HUNGRY_WOLF_SIZE)
                         }
-                        eAlphaWolf -> Sprite(alpha_wolf_texture).apply {
+                        ALPHA_WOLF -> Sprite(alpha_wolf_texture).apply {
                             setSize(ALPHA_WOLF_SIZE, ALPHA_WOLF_SIZE)
                         }
                         else -> Sprite(wolf_texture).apply {
@@ -204,11 +193,11 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         when (gameState) {
-            eRunning -> renderGameScene()
-            eGameOver_Wild -> gameOver(SHEEP_EATEN_BY_WILD_WOLF)
-            eGameOver_Hungry -> gameOver(SHEEP_EATEN_BY_HUNGRY_WOLF)
-            eGameOver_Alpha -> gameOver(SHEEP_EATEN_BY_ALPHA_WOLF)
-            eNextLevel -> nextLevel()
+            RUNNING -> renderGameScene()
+            GAME_OVER_BY_WILD_WOLF -> gameOver(SHEEP_EATEN_BY_WILD_WOLF)
+            GAME_OVER_BY_HUNGRY_WOLF -> gameOver(SHEEP_EATEN_BY_HUNGRY_WOLF)
+            GAME_OVER_BY_ALPHA_WOLF -> gameOver(SHEEP_EATEN_BY_ALPHA_WOLF)
+            NEXT_LEVEL -> nextLevel()
         }
 
         //fps debug
@@ -254,12 +243,12 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         home.draw(batch)
 
         //draw wolves
-        var wolfType: GameObjectType
+        var wolf: GameObject
         for (i in 0..wolves_count - 1) {
-            wolfType = wolf_bodies[i].userData as GameObjectType
+            wolf = wolf_bodies[i].userData as GameObject
 
-            when (wolfType) {
-                eAlphaWolf -> {
+            when (wolf) {
+                ALPHA_WOLF -> {
                     wolves[i].setPosition(
                             wolf_bodies[i].position.x - ALPHA_WOLF_SIZE / 2,
                             wolf_bodies[i].position.y - ALPHA_WOLF_SIZE / 2
@@ -267,7 +256,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
                     setAlphaWolfVelocity(wolf_bodies[i].body)
                 }
-                eHungryWolf -> {
+                HUNGRY_WOLF -> {
                     wolf_bodies[i].calculateSteeringBehaviour()
                     wolves[i].setPosition(
                             wolf_bodies[i].position.x - HUNGRY_WOLF_SIZE / 2,
@@ -288,7 +277,9 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         batch.end()
 
-        //                debugRenderer.render(world, camera.combined);
+//        fpsLogger.log()
+//        debugRenderer.render(world, camera.combined);
+
         world.step(graphics.deltaTime, 6, 2)
 
         stage.act()
@@ -397,7 +388,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         fixtureDef.friction = 0.1f
         fixtureDef.restitution = 0.6f
 
-        return CreateWolfBody(eWildWolf, bodyDef, fixtureDef)
+        return CreateWolfBody(WILD_WOLF, bodyDef, fixtureDef)
     }
 
     private fun CreateHungryWolfBody(): Body {
@@ -414,7 +405,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         fixtureDef.friction = 0.1f
         fixtureDef.restitution = 0.6f
 
-        return CreateWolfBody(eHungryWolf, bodyDef, fixtureDef)
+        return CreateWolfBody(HUNGRY_WOLF, bodyDef, fixtureDef)
     }
 
     private fun CreateAlphaWolfBody(): Body {
@@ -431,13 +422,13 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         fixtureDef.friction = 0.1f
         fixtureDef.restitution = 0.6f
 
-        return CreateWolfBody(eAlphaWolf, bodyDef, fixtureDef)
+        return CreateWolfBody(ALPHA_WOLF, bodyDef, fixtureDef)
     }
 
-    private fun CreateWolfBody(wolfType: GameObjectType, bodyDef: BodyDef, fixtureDef: FixtureDef): Body {
+    private fun CreateWolfBody(wolf: GameObject, bodyDef: BodyDef, fixtureDef: FixtureDef): Body {
 
         val body = world.createBody(bodyDef)
-        body.userData = wolfType
+        body.userData = wolf
         body.createFixture(fixtureDef)
 
         fixtureDef.shape.dispose()
@@ -502,7 +493,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         walls_bodies = (1..4).map {
             world.createBody(bodyDef).apply {
-                userData = eWall
+                userData = WALL
                 createFixture(groundBox, 0.0f)
             }
         }.toTypedArray()
@@ -527,7 +518,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         fixtureDef.restitution = 0.6f
 
         sheep_body.body.createFixture(fixtureDef)
-        sheep_body.body.userData = eSheep
+        sheep_body.body.userData = SHEEP
 
         circleShape.dispose()
     }
@@ -549,7 +540,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         fixtureDef.restitution = 0.6f
 
         home_body.body.createFixture(fixtureDef)
-        home_body.body.userData = eHome
+        home_body.body.userData = HOME
 
         shape.dispose()
     }
@@ -600,45 +591,45 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         val bodyA = contact.fixtureA.body
         val bodyB = contact.fixtureB.body
 
-        val typeA = bodyA.userData as GameObjectType?
-        val typeB = bodyB.userData as GameObjectType?
+        val typeA = bodyA.userData as GameObject?
+        val typeB = bodyB.userData as GameObject?
 
         if (typeA != null && typeB != null) {
 
             when (typeA) {
-                eHome -> when (typeB) {
-                    eWildWolf -> setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                    eSheep -> gameState = eNextLevel
+                HOME -> when (typeB) {
+                    WILD_WOLF -> setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
+                    SHEEP -> gameState = NEXT_LEVEL
                     else -> {
                     }
                 }
-                eWall -> if (typeB === eWildWolf) {
+                WALL -> if (typeB === WILD_WOLF) {
                     setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
                 }
-                eWildWolf -> {
+                WILD_WOLF -> {
                     setRandomMovement(bodyA, GameData.WILD_WOLF_SPEED)
 
-                    if (typeB === eWildWolf) {
+                    if (typeB === WILD_WOLF) {
                         setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                    } else if (typeB === eSheep) {
-                        gameState = eGameOver_Wild
+                    } else if (typeB === SHEEP) {
+                        gameState = GAME_OVER_BY_WILD_WOLF
                     }
                 }
-                eHungryWolf -> if (typeB === eWildWolf) {
+                HUNGRY_WOLF -> if (typeB === WILD_WOLF) {
                     setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                } else if (typeB === eSheep) {
-                    gameState = eGameOver_Hungry
+                } else if (typeB === SHEEP) {
+                    gameState = GAME_OVER_BY_HUNGRY_WOLF
                 }
-                eAlphaWolf -> if (typeB === eWildWolf) {
+                ALPHA_WOLF -> if (typeB === WILD_WOLF) {
                     setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                } else if (typeB === eSheep) {
-                    gameState = eGameOver_Alpha
+                } else if (typeB === SHEEP) {
+                    gameState = GAME_OVER_BY_ALPHA_WOLF
                 }
-                eSheep -> when (typeB) {
-                    eWildWolf -> gameState = eGameOver_Wild
-                    eHungryWolf -> gameState = eGameOver_Hungry
-                    eAlphaWolf -> gameState = eGameOver_Alpha
-                    eHome -> gameState = eNextLevel
+                SHEEP -> when (typeB) {
+                    WILD_WOLF -> gameState = GAME_OVER_BY_WILD_WOLF
+                    HUNGRY_WOLF -> gameState = GAME_OVER_BY_HUNGRY_WOLF
+                    ALPHA_WOLF -> gameState = GAME_OVER_BY_ALPHA_WOLF
+                    HOME -> gameState = NEXT_LEVEL
                     else -> {
                     }
                 }
