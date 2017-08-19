@@ -550,54 +550,28 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
+    private fun handleContact(bodyA: Body, bodyB: Body) {
+        val objA = bodyA.userData
+        val objB = bodyB.userData
+
+        when (objA) {
+            WILD_WOLF -> setRandomMovement(bodyA, GameData.WILD_WOLF_SPEED)
+            is Sheep -> when (objB) {
+                WILD_WOLF -> gameState = GAME_OVER_BY_WILD_WOLF
+                HUNGRY_WOLF -> gameState = GAME_OVER_BY_HUNGRY_WOLF
+                ALPHA_WOLF -> gameState = GAME_OVER_BY_ALPHA_WOLF
+                HOME -> gameState = NEXT_LEVEL
+            }
+        }
+    }
+
     override fun beginContact(contact: Contact) {
         val bodyA = contact.fixtureA.body
         val bodyB = contact.fixtureB.body
 
-        val typeA = bodyA.userData as GameObject?
-        val typeB = bodyB.userData as GameObject?
-
-        if (typeA != null && typeB != null) {
-
-            when (typeA) {
-                HOME -> when (typeB) {
-                    WILD_WOLF -> setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                    SHEEP -> gameState = NEXT_LEVEL
-                    else -> {
-                    }
-                }
-                WALL -> if (typeB === WILD_WOLF) {
-                    setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                }
-                WILD_WOLF -> {
-                    setRandomMovement(bodyA, GameData.WILD_WOLF_SPEED)
-
-                    if (typeB === WILD_WOLF) {
-                        setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                    } else if (typeB === SHEEP) {
-                        gameState = GAME_OVER_BY_WILD_WOLF
-                    }
-                }
-                HUNGRY_WOLF -> if (typeB === WILD_WOLF) {
-                    setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                } else if (typeB === SHEEP) {
-                    gameState = GAME_OVER_BY_HUNGRY_WOLF
-                }
-                ALPHA_WOLF -> if (typeB === WILD_WOLF) {
-                    setRandomMovement(bodyB, GameData.WILD_WOLF_SPEED)
-                } else if (typeB === SHEEP) {
-                    gameState = GAME_OVER_BY_ALPHA_WOLF
-                }
-                SHEEP -> when (typeB) {
-                    WILD_WOLF -> gameState = GAME_OVER_BY_WILD_WOLF
-                    HUNGRY_WOLF -> gameState = GAME_OVER_BY_HUNGRY_WOLF
-                    ALPHA_WOLF -> gameState = GAME_OVER_BY_ALPHA_WOLF
-                    HOME -> gameState = NEXT_LEVEL
-                    else -> {
-                    }
-                }
-            }
-        }
+        // Both combinations - reducing quadratic complexity to linear
+        handleContact(bodyA, bodyB)
+        handleContact(bodyB, bodyA)
     }
 
     private fun gameOver(result: GameResult) = switchScreen(GameClassicModeResultScreen(result))

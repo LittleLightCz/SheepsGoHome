@@ -9,8 +9,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Disposable
-import com.sheepsgohome.GameObject
-import com.sheepsgohome.GameObject.SHEEP
 import com.sheepsgohome.SteerableBody
 
 class Sheep(world: World): Disposable {
@@ -44,7 +42,7 @@ class Sheep(world: World): Disposable {
         }
 
         steerableBody.body.createFixture(fixtureDef)
-        steerableBody.body.userData = SHEEP
+        steerableBody.body.userData = this
 
         circleShape.dispose()
     }
