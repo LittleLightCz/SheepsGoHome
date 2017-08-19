@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.Texture.TextureFilter
+import com.badlogic.gdx.graphics.Texture.TextureFilter.Linear
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.dialogs.NewBadgeDialog
+import com.sheepsgohome.screens.GameResult.SHEEP_EATEN_BY_ALPHA_WOLF
+import com.sheepsgohome.screens.GameResult.SHEEP_EATEN_BY_HUNGRY_WOLF
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
@@ -25,23 +27,32 @@ import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.shared.GameSounds
-import java.util.*
 
-class GameplayDialog(private val type: GameResult) : Screen {
+class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
 
     private val BADGES_COUNT = 12
     private val BUTTON_WIDTH = 80f
 
-    private val stage: Stage
-    private val table: Table
+    val multiplier = 2f
+
+    private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
+    private val table = Table()
 
     private var buttonRetry: TextButton? = null
     private var buttonNext: TextButton? = null
     private val buttonQuit: TextButton
     private val title: Label
 
-    private val sheep_texture: Texture
-    private val wolf_texture: Texture
+    private val sheepTexture = Texture("sheep_success.png").apply {
+        setFilter(Linear, Linear)
+    }
+
+    private val wolfTexture = when (gameResult) {
+        SHEEP_EATEN_BY_ALPHA_WOLF -> Texture("wolf_alpha_fail.png")
+        SHEEP_EATEN_BY_HUNGRY_WOLF -> Texture("wolf_hungry_fail.png")
+        else -> Texture("wolf_fail.png")
+    }.apply { setFilter(Linear, Linear) }
+
     private val texture: Texture
 
     private var imgSheep: Image? = null
@@ -50,35 +61,17 @@ class GameplayDialog(private val type: GameResult) : Screen {
 
     private var sound: Sound? = null
 
-    private val badges: Vector<Texture>
+    private val badges = (1..BADGES_COUNT).map { badgeNumber ->
+        Texture("badges/badge$badgeNumber.png").apply {
+            setFilter(Linear, Linear)
+        }
+    }
 
     init {
-        val multiplier = 2f
-        stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
-        table = Table()
 
-        sheep_texture = Texture("sheep_success.png")
-        sheep_texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-
-
-        wolf_texture = when (type) {
-            GameResult.SHEEP_EATEN_BY_ALPHA_WOLF -> Texture("wolf_alpha_fail.png")
-            GameResult.SHEEP_EATEN_BY_HUNGRY_WOLF -> Texture("wolf_hungry_fail.png")
-            else -> Texture("wolf_fail.png")
-        }
-        wolf_texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-
-        badges = Vector()
-        //fill vector
-        for (i in 0..BADGES_COUNT - 1) {
-            val t = Texture("badges/badge" + (i + 1) + ".png")
-            t.setFilter(TextureFilter.Linear, TextureFilter.Linear)
-            badges.add(t)
-        }
-
-        if (type !== GameResult.SHEEP_SUCCEEDED) {
+        if (gameResult !== GameResult.SHEEP_SUCCEEDED) {
             buttonRetry = TextButton(loc.get("retry"), skin)
-            imgWolf = Image(wolf_texture)
+            imgWolf = Image(wolfTexture)
 
             buttonRetry?.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -88,7 +81,7 @@ class GameplayDialog(private val type: GameResult) : Screen {
 
         } else {
             buttonNext = TextButton(loc.get("next.level"), skin)
-            imgSheep = Image(sheep_texture)
+            imgSheep = Image(sheepTexture)
 
             buttonNext?.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -109,13 +102,13 @@ class GameplayDialog(private val type: GameResult) : Screen {
         //---------------------------------
 
         texture = Texture("menu_background.png")
-        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
+        texture.setFilter(Linear, Linear)
 
         bgImage = Image(texture)
         bgImage.width = CAMERA_WIDTH * multiplier
         bgImage.height = CAMERA_HEIGHT * multiplier
 
-        title = when (type) {
+        title = when (gameResult) {
             GameResult.SHEEP_SUCCEEDED -> Label(loc.get("home.sweet.home"), skin, "menuTitle")
             else -> Label(loc.get("sheep.has.been.caught"), skin, "menuTitle")
         }
@@ -137,7 +130,7 @@ class GameplayDialog(private val type: GameResult) : Screen {
 
         sound = null
 
-        if (type !== GameResult.SHEEP_SUCCEEDED) {
+        if (gameResult !== GameResult.SHEEP_SUCCEEDED) {
 
             sound = GameSounds.soundWolfFailure
 
@@ -273,15 +266,11 @@ class GameplayDialog(private val type: GameResult) : Screen {
     override fun dispose() {
         stage.dispose()
         texture.dispose()
-        sheep_texture.dispose()
-        wolf_texture.dispose()
+        sheepTexture.dispose()
+        wolfTexture.dispose()
 
         //dispose vector textures
-        val it = badges.iterator()
-        while (it.hasNext()) {
-            it.next().dispose()
-        }
-        badges.clear()
+        badges.forEach { it.dispose() }
     }
 }
 

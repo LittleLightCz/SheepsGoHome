@@ -46,6 +46,8 @@ import com.sheepsgohome.shared.GameData.WILD_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.WILD_WOLF_SPEED
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
+import com.sheepsgohome.shared.GameScreens
+import com.sheepsgohome.shared.GameScreens.switchScreen
 import com.sheepsgohome.shared.GameSkins.skin
 import java.util.*
 
@@ -644,26 +646,15 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
-    private fun gameOver(result: GameResult) {
-        (Gdx.app.applicationListener as Game).screen = GameplayDialog(result)
-    }
+    private fun gameOver(result: GameResult) = switchScreen(GameClassicModeResultScreen(result))
 
-    private fun nextLevel() {
-        (Gdx.app.applicationListener as Game).screen = GameplayDialog(GameResult.SHEEP_SUCCEEDED)
-    }
+    private fun nextLevel() = switchScreen(GameClassicModeResultScreen(SHEEP_SUCCEEDED))
 
-    override fun endContact(contact: Contact) {
+    override fun endContact(contact: Contact) {}
 
-    }
+    override fun preSolve(contact: Contact, oldManifold: Manifold) {}
 
-    override fun preSolve(contact: Contact, oldManifold: Manifold) {
-
-    }
-
-    override fun postSolve(contact: Contact, impulse: ContactImpulse) {
-
-    }
-
+    override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
     private inner class WolvesData {
         internal var WildWolves: Int = 0
