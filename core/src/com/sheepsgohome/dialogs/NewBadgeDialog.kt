@@ -1,15 +1,14 @@
 package com.sheepsgohome.dialogs
 
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 
-class NewBadgeDialog(badgeName: String, badgeTexture: Texture) : AbstractFixedSizeDialog() {
+class NewBadgeDialog(badge: Badge) : AbstractFixedSizeDialog() {
 
     private val BUTTON_WIDTH = 50f
     private val BADGE_SIZE = 100f
@@ -22,14 +21,14 @@ class NewBadgeDialog(badgeName: String, badgeTexture: Texture) : AbstractFixedSi
         setFontScale(0.45f)
     }
 
-    private val nameLabel: Label = Label(badgeName, skin)
+    private val nameLabel: Label = Label(badge.badgeName, skin)
 
     init {
         fixedHeight = 140f
 
         contentTable.add(titleLabel).row()
 
-        contentTable.add(Image(badgeTexture))
+        contentTable.add(badge.image)
                 .size(BADGE_SIZE, BADGE_SIZE)
                 .row()
 

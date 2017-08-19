@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.google.common.collect.Iterables
+import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.dialogs.NewBadgeDialog
 import com.sheepsgohome.gdx.clicked
 import com.sheepsgohome.screens.GameResult.*
@@ -67,11 +69,7 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
     private var imgSheep: Image? = null
     private var imgWolf: Image? = null
 
-    private val badges = (1..BADGES_COUNT).map { badgeNumber ->
-        Texture("badges/badge$badgeNumber.png").apply {
-            setFilter(Linear, Linear)
-        }
-    }
+    private val badges = (1..BADGES_COUNT).map { Badge(it) }
 
     init {
         when(gameResult) {
@@ -111,12 +109,12 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         var showNewBadgeDialog = false
         var badgeNo = 0
 
-        var sound: Sound?
+        val sound: Sound
 
         when(gameResult) {
             SHEEP_SUCCEEDED -> {
                 //has earned new badge?
-                badgeNo = getEarnedBadge(GameData.LEVEL)
+                badgeNo = getEarnedBadgeNumber(GameData.LEVEL)
                 if (badgeNo > 0) {
                     showNewBadgeDialog = true
                 }
@@ -171,59 +169,49 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         stage.addActor(table)
 
         if (showNewBadgeDialog && badgeNo > 0) {
-            NewBadgeDialog(getBadgeName(badgeNo), badges[badgeNo - 1]).show(stage)
+            badges.find { it.badgeNumber == badgeNo }?.let {
+                NewBadgeDialog(it).show(stage)
+            }
         }
 
         Gdx.input.inputProcessor = stage
 
         if (SOUND_ENABLED) {
-            sound?.play(SOUND_VOLUME)
-        }
-    }
-
-    private fun getBadgeName(badgeNo: Int): String {
-        when (badgeNo) {
-            1 -> return loc.get("pasture")
-            2 -> return loc.get("threat.awareness")
-            3 -> return loc.get("alpha.defeater")
-            4 -> return loc.get("escapist")
-            5 -> return loc.get("agility")
-            6 -> return loc.get("tactician")
-            7 -> return loc.get("fearless")
-            8 -> return loc.get("sheeps.defiance")
-            9 -> return loc.get("limitless.courage")
-            10 -> return loc.get("ruthless.conspiracy")
-            11 -> return loc.get("wolf.apocalypse")
-            12 -> return loc.get("sheep.master")
-            else -> return ""
+            sound.play(SOUND_VOLUME)
         }
     }
 
     private fun createBadgesTable(level: Int): Table {
         val tab = Table()
 
-        val badgesCount = getBadgesCount(level)
-        for (i in 0..badgesCount - 1) {
-            tab.add(Image(badges[i])).size(28f, 28f).padRight(1f)
-            if (i == 5) {
-                tab.row()
-            }
+        val displayedBadges = getDisplayedBadges(level)
+
+        if (displayedBadges.isNotEmpty()) {
+            Iterables.partition(displayedBadges, 5)
+                    .forEach { row ->
+                        row.forEach { badge ->
+                            tab.add(badge.image)
+                                .size(28f, 28f)
+                                .padRight(1f)
+                        }
+                        tab.row()
+                    }
         }
 
         return tab
     }
 
-    private fun getBadgesCount(level: Int): Int {
+    private fun getDisplayedBadgesCount(level: Int): Int {
         val ret = level / 10
         return if (ret > BADGES_COUNT) BADGES_COUNT else ret
     }
 
-    private fun getEarnedBadge(level: Int): Int {
-        if (level > 10 * BADGES_COUNT) {
-            return 0
-        }
+    private fun getDisplayedBadges(level: Int) = badges.take(getDisplayedBadgesCount(level))
 
-        return if (level % 10 == 0) getBadgesCount(level) else 0
+    private fun getEarnedBadgeNumber(level: Int) = when {
+        level > 10 * BADGES_COUNT -> 0
+        level % 10 == 0 -> level / 10
+        else -> 0
     }
 
     override fun render(delta: Float) {
@@ -237,13 +225,9 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         stage.viewport.update(width, height, true)
     }
 
-    override fun pause() {
+    override fun pause() {}
 
-    }
-
-    override fun resume() {
-
-    }
+    override fun resume() {}
 
     override fun hide() {
         dispose()
