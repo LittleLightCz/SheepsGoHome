@@ -1,5 +1,6 @@
 package com.sheepsgohome.dialogs
 
+import com.badlogic.gdx.Screen
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
@@ -22,7 +23,7 @@ class OkDialog(message: String) : AbstractFixedSizeDialog() {
         setWrap(true)
     }
 
-    var redirectScreen: SettingsPlayerScreen? = null
+    var redirectScreen: Screen? = null
 
     init {
         buttonOk.addListener(object : ClickListener() {

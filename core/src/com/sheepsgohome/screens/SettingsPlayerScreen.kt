@@ -175,8 +175,9 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     override fun connecting() {
         messageDialog = MessageDialog(loc.get("connecting")).apply {
             fixedHeight = 40f
-            show(stage)
         }
+
+        messageDialog?.show(stage)
     }
 
     override fun connectionToDatabaseFailed() {

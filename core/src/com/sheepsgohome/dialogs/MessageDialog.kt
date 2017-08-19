@@ -28,7 +28,7 @@ class MessageDialog(message: String) : AbstractFixedSizeDialog() {
                 .row()
     }
 
-    fun addCancelButton(action: () -> Unit) {
+    fun addCancelButtonWithAction(action: () -> Unit) {
 
         buttonCancel.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {

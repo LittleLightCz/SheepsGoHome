@@ -123,10 +123,17 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
         messageDialog?.hide()
     }
 
+    private fun showFailureOkDialog(message: String, dialogHeight: Float) {
+        OkDialog(message).apply {
+            fixedHeight = dialogHeight
+            redirectScreen = GameScreens.mainMenuScreen
+        }.show(stage)
+    }
+
     override fun connecting() {
         messageDialog = MessageDialog(loc.get("connecting")).apply {
             fixedHeight = 60f
-            addCancelButton { leaderBoard.isTerminated = true }
+            addCancelButtonWithAction { leaderBoard.isTerminated = true }
         }
 
         messageDialog?.show(stage)
@@ -134,77 +141,51 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
 
     override fun connectionToDatabaseFailed() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("connection.to.database.failed"))
-        dialog.fixedHeight = 60f
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("connection.to.database.failed"), 60f)
     }
 
     override fun invalidData() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("invalid.data"))
-        dialog.fixedHeight = 80f
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("invalid.data"), 80f)
     }
 
     override fun nickAlreadyInUse() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("player.name.already.in.use"))
-        dialog.fixedHeight = 90f
-        dialog.redirectScreen = SettingsPlayerScreen()
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("player.name.already.in.use"), 90f)
     }
-
 
     override fun success() {
         hideMessageDialog()
 
         //fetch leaderboard
-        if (!leaderBoard.isTerminated)
+        if (!leaderBoard.isTerminated) {
             leaderBoard.fetchLeaderboard(GameData.functions.deviceId, this)
+        }
     }
 
     override fun failure() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("unknown.failure"))
-        dialog.fixedHeight = 60f
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("unknown.failure"), 60f)
     }
 
     override fun failedToInitializeMD5() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("md5.init.failed"))
-        dialog.fixedHeight = 95f
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("md5.init.failed"), 95f)
     }
 
     override fun connectionFailed() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("connection.failed"))
-        dialog.fixedHeight = 60f
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("connection.failed"), 60f)
     }
 
     override fun connectionCanceled() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("connection.canceled"))
-        dialog.fixedHeight = 85f
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("connection.canceled"), 85f)
     }
 
     override fun unregisteredUser() {
         hideMessageDialog()
-
-        val dialog = OkDialog(loc.get("unregistered.player"))
-        dialog.fixedHeight = 80f
-        dialog.redirectScreen = SettingsPlayerScreen()
-        dialog.show(stage)
+        showFailureOkDialog(loc.get("unregistered.player"), 80f)
     }
 
     override fun leaderboardResult(result: LeaderBoardResult) {
