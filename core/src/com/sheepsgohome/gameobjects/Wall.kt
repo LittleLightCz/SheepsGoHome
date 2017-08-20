@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.World
 
 abstract class Wall(world: World) {
 
-
     protected val body: Body
 
     init {
@@ -21,10 +20,9 @@ abstract class Wall(world: World) {
             setAsBox(0.1f, Math.max(Gdx.graphics.width, Gdx.graphics.height).toFloat())
         }
 
-        body = world.createBody(bodyDef).apply {
-            createFixture(boxShape, 0.0f)
-            userData = this
-        }
+        body = world.createBody(bodyDef)
+        body.createFixture(boxShape, 0.0f)
+        body.userData = this
 
         boxShape.dispose()
     }

@@ -47,10 +47,8 @@ class Home(world: World) {
             restitution = 0.6f
         }
 
-        with(steerableBody) {
-            body.createFixture(fixtureDef)
-            body.userData = this
-        }
+        steerableBody.body.createFixture(fixtureDef)
+        steerableBody.body.userData = this
 
         boxShape.dispose()
     }

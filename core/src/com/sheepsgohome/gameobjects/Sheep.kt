@@ -44,10 +44,8 @@ class Sheep(world: World) : Disposable {
             restitution = 0.6f
         }
 
-        with(steerableBody.body) {
-            createFixture(fixtureDef)
-            userData = this
-        }
+        steerableBody.body.createFixture(fixtureDef)
+        steerableBody.body.userData = this
 
         circleShape.dispose()
     }
