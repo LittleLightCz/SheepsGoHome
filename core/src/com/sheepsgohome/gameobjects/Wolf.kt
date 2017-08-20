@@ -1,24 +1,24 @@
 package com.sheepsgohome.gameobjects
 
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.*
 import com.sheepsgohome.GameTools
 
-abstract class Wolf(
+open class Wolf(
         world: World,
-        wolfSize: Float,
-        fixture: FixtureDef
+        fixture: FixtureDef,
+        private val wolfSize: Float,
+        private val texture: Texture
 ) {
 
-
-    abstract val sprite: Sprite
-
-    abstract fun updateSprite()
-
-    fun draw(batch: SpriteBatch) = sprite.draw(batch)
-
     protected val body: Body
+
+    private val sprite = Sprite(texture).apply {
+        setSize(wolfSize, wolfSize)
+        setOriginCenter()
+    }
 
     init {
         val bodyDef = BodyDef().apply {
@@ -31,20 +31,12 @@ abstract class Wolf(
         }
 
         body = world.createBody(bodyDef)
-        body.userData = this
         body.createFixture(fixture)
 
         fixture.shape.dispose()
     }
 
-
-    protected fun createWolfBody(): Body {
-
-
-        return body
-    }
-
-    protected fun updateSprite(body: Body, wolfSize: Float) {
+    fun updateSprite() {
         with(body.position) {
             sprite.setPosition(
                     x - wolfSize / 2,
@@ -55,12 +47,12 @@ abstract class Wolf(
         sprite.rotation = GameTools.calculateAngle(body.linearVelocity)
     }
 
-    abstract fun transformBody(x: Float, y: Float, angle: Float)
+    fun transformBody(x: Float, y: Float, angle: Float) = body.setTransform(x, y, angle)
 
-    protected fun transformBody(body: Body, x: Float, y: Float, angle: Float) {
-        body.setTransform(x, y, angle)
+    fun draw(batch: SpriteBatch) = sprite.draw(batch)
+
+    fun dispose() {
+        texture.dispose()
     }
-
-    abstract fun dispose()
 
 }
