@@ -2,33 +2,44 @@ package com.sheepsgohome.gameobjects
 
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody
-import com.badlogic.gdx.physics.box2d.FixtureDef
-import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.physics.box2d.*
 import com.sheepsgohome.GameTools
 
-abstract class Wolf(private val world: World) {
+abstract class Wolf(
+        world: World,
+        wolfSize: Float,
+        fixture: FixtureDef
+) {
 
-    abstract val fixtureDef: FixtureDef
+
     abstract val sprite: Sprite
 
     abstract fun updateSprite()
 
     fun draw(batch: SpriteBatch) = sprite.draw(batch)
 
-    private val bodyDef = BodyDef().apply {
-        type = DynamicBody
-        position.set(0f, 0f)
+    protected val body: Body
+
+    init {
+        val bodyDef = BodyDef().apply {
+            type = BodyDef.BodyType.DynamicBody
+            position.set(0f, 0f)
+        }
+
+        fixture.shape = CircleShape().apply {
+            radius = wolfSize / 2 * 0.85f
+        }
+
+        body = world.createBody(bodyDef)
+        body.userData = this
+        body.createFixture(fixture)
+
+        fixture.shape.dispose()
     }
 
-    protected fun createWolfBody(): Body {
-        val body = world.createBody(bodyDef)
-        body.userData = this
-        body.createFixture(fixtureDef)
 
-        fixtureDef.shape.dispose()
+    protected fun createWolfBody(): Body {
+
 
         return body
     }

@@ -2,25 +2,23 @@ package com.sheepsgohome.gameobjects
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
-import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
 import com.sheepsgohome.SteerableHungryWolfBody
 
-class HungryWolf(world: World, sheep: Sheep) : Wolf(world) {
+private val HUNGRY_WOLF_SIZE = 8f
 
-    val HUNGRY_WOLF_SIZE = 8f
-
-    override val fixtureDef = FixtureDef().apply {
-        shape = CircleShape().apply {
-            radius = HUNGRY_WOLF_SIZE / 2 * 0.85f
+class HungryWolf(world: World, sheep: Sheep) : Wolf(
+        world,
+        HUNGRY_WOLF_SIZE,
+        FixtureDef().apply {
+            density = 0.2f
+            friction = 0.1f
+            restitution = 0.6f
         }
-        density = 0.2f
-        friction = 0.1f
-        restitution = 0.6f
-    }
+) {
 
-    private val steerableBody = SteerableHungryWolfBody(createWolfBody(), sheep)
+    private val steerableBody = SteerableHungryWolfBody(body, sheep)
 
     val texture = Texture("wolf-hungry.png")
 
