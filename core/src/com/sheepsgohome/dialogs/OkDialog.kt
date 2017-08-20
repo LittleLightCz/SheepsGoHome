@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.sheepsgohome.screens.SettingsPlayerScreen
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
