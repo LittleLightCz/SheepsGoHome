@@ -25,6 +25,7 @@ import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.SteerableHungryWolfBody
 import com.sheepsgohome.enums.GameState.*
+import com.sheepsgohome.gameobjects.Home
 import com.sheepsgohome.gameobjects.Sheep
 import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData
@@ -32,7 +33,6 @@ import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SPEED
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.HOME_SIZE
 import com.sheepsgohome.shared.GameData.HUNGRY_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.LEVEL
 import com.sheepsgohome.shared.GameData.SHEEP_SPEED
@@ -90,14 +90,15 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     private lateinit var wolf_texture: Texture
     private lateinit var hungry_wolf_texture: Texture
     private lateinit var alpha_wolf_texture: Texture
-    private lateinit var home_texture: Texture
+
+    private val home = Home(world)
+    private val sheep = Sheep(world)
+
     private lateinit var background_texture: Texture
 
     private lateinit var wolves: List<Sprite>
 
-    private val sheep = Sheep(world)
 
-    private lateinit var home: Sprite
     private lateinit var background: Sprite
 
     init {
@@ -128,14 +129,14 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         Gdx.input.inputProcessor = stage
 
-        SetUpLevel()
+        prepareGameObjects()
 
         StartWolves()
     }
 
-    private fun SetUpLevel() {
+    private fun prepareGameObjects() {
 
-        home_texture = Texture("home.png")
+
         wolf_texture = Texture("wolf.png")
         hungry_wolf_texture = Texture("wolf-hungry.png")
         alpha_wolf_texture = Texture("wolf-alpha.png")
@@ -147,13 +148,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         background.setPosition(-CAMERA_WIDTH, -CAMERA_HEIGHT)
         background.setSize(CAMERA_WIDTH * 2, CAMERA_HEIGHT * 2)
 
-
-
-        home = Sprite(home_texture)
-        home.setSize(HOME_SIZE, HOME_SIZE)
-        home.setPosition(-home.width / 2, CAMERA_HEIGHT / 2 - home.height)
-
-        CreateHomeBody()
         CreateWallBoundaries()
 
         wolves_count = CreateWolfBodies()
@@ -219,7 +213,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         sheep.draw(batch)
 
-        //draw home - top center
+        //draw home (top center)
         home.draw(batch)
 
         //draw wolves
@@ -289,14 +283,14 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         sheep.steerableBody.body.setTransform(0f, -CAMERA_HEIGHT / 2f + 2, (Math.PI / 2f).toFloat())
 
         //home
-        home_body.body.setTransform(0f, CAMERA_HEIGHT / 2f - HOME_SIZE / 2, 0f)
+        home.positionTopCenter()
 
         //wolves
         val gap = 0.5f
         val start_offset = 6f
 
         var x = start_offset + -CAMERA_WIDTH / 2
-        var y = CAMERA_HEIGHT / 2 - HOME_SIZE - start_offset
+        var y = CAMERA_HEIGHT / 2 - Home.HOME_SIZE - start_offset
 
         val max_wolves_in_a_row = 13
 
@@ -349,7 +343,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         wolf_texture.dispose()
         hungry_wolf_texture.dispose()
         alpha_wolf_texture.dispose()
-        home_texture.dispose()
+        home.dispose()
         background_texture.dispose()
 
         batch.dispose()
@@ -484,30 +478,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         groundBox.dispose()
     }
 
-
-
-    private fun CreateHomeBody() {
-        val bodyDef = BodyDef()
-        bodyDef.type = BodyDef.BodyType.StaticBody
-        bodyDef.position.set(0f, 0f)
-
-        home_body = SteerableBody(world.createBody(bodyDef))
-
-        val shape = PolygonShape()
-        shape.setAsBox(HOME_SIZE / 2, HOME_SIZE / 2)
-
-        val fixtureDef = FixtureDef()
-        fixtureDef.shape = shape
-        fixtureDef.density = 0.1f
-        fixtureDef.friction = 0.1f
-        fixtureDef.restitution = 0.6f
-
-        home_body.body.createFixture(fixtureDef)
-        home_body.body.userData = HOME
-
-        shape.dispose()
-    }
-
     //Touchpad touch
     private fun handleTouch() {
         val vec = Vector2(touchpad.knobPercentX, touchpad.knobPercentY).nor()
@@ -560,7 +530,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
                 WILD_WOLF -> gameState = GAME_OVER_BY_WILD_WOLF
                 HUNGRY_WOLF -> gameState = GAME_OVER_BY_HUNGRY_WOLF
                 ALPHA_WOLF -> gameState = GAME_OVER_BY_ALPHA_WOLF
-                HOME -> gameState = NEXT_LEVEL
+                is Home -> gameState = NEXT_LEVEL
             }
         }
     }
@@ -596,7 +566,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     companion object {
         lateinit var wolf_bodies: Array<SteerableBody>
         lateinit var walls_bodies: Array<Body>
-        lateinit var home_body: SteerableBody
+
     }
 
 }
