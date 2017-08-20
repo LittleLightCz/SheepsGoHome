@@ -28,5 +28,5 @@ abstract class Wall(world: World) {
     }
 
 
-    abstract fun updatePosition()
+    abstract fun setDefaultPosition()
 }

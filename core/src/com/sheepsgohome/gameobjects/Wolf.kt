@@ -13,7 +13,7 @@ open class Wolf(
         private val texture: Texture
 ) {
 
-    protected val body: Body
+    val body: Body
 
     private val sprite = Sprite(texture).apply {
         setSize(wolfSize, wolfSize)
@@ -46,8 +46,6 @@ open class Wolf(
 
         sprite.rotation = GameTools.calculateAngle(body.linearVelocity)
     }
-
-    fun transformBody(x: Float, y: Float, angle: Float) = body.setTransform(x, y, angle)
 
     fun draw(batch: SpriteBatch) = sprite.draw(batch)
 

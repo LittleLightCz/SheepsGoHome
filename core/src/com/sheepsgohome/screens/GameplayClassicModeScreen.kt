@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.dataholders.WolvesData
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
+import com.sheepsgohome.positioning.BodyPositioner
 import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
@@ -192,8 +193,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         for (wolf in wolves) {
             when (wolf) {
                 is AlphaWolf -> {
-                    wolf.updateSprite()
                     wolf.updateVelocity()
+                    wolf.updateSprite()
                 }
                 is HungryWolf -> {
                     wolf.calculateSteeringBehaviour()
@@ -221,7 +222,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         stage.viewport.update(width, height, true)
 
         //world boundaries
-        walls.forEach { it.updatePosition() }
+        walls.forEach { it.setDefaultPosition() }
 
         //sheep
         sheep.positionBottomCenter()
@@ -229,37 +230,45 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         //home
         home.positionTopCenter()
 
-        //wolves
-        val gap = 0.5f
-        val start_offset = 6f
+        //wolves positioning
 
-        var x = start_offset + -CAMERA_WIDTH / 2
-        var y = CAMERA_HEIGHT / 2 - Home.HOME_SIZE - start_offset
 
-        val max_wolves_in_a_row = 13
+        val wolfBodies = wolves.map { it.body }
+        BodyPositioner().alignInCenteredGrid(
+                wolfBodies,
+                maxBodiesInRow = 13,
+                columnSize = WildWolf.WILD_WOLF_SIZE + 0.5f,
+                verticalOffset = (CAMERA_HEIGHT / 2) - Home.HOME_SIZE - 5
+        )
 
-        val angle = (Math.PI * 3f / 2f).toFloat()
 
-        val WILD_WOLF_SIZE = WildWolf.WILD_WOLF_SIZE
-
-        for ((i, wolf) in wolves.withIndex()) {
-            wolf.transformBody(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
-
-            if (i != 0 && i % max_wolves_in_a_row == max_wolves_in_a_row - 1) {
-                y -= WILD_WOLF_SIZE + gap
-            }
-        }
-
-        //center last row
-        val wolves_count = wolves.size
-        val w_width = wolves_count % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE)
-
-        x += (CAMERA_WIDTH - w_width) / 2
-        x -= start_offset / 2
-
-        for ((i, wolf) in wolves.withIndex()) {
-            wolf.transformBody(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
-        }
+//
+//        var x = start_offset + -CAMERA_WIDTH / 2
+//        var y = CAMERA_HEIGHT / 2 - Home.HOME_SIZE - start_offset
+//
+//
+//        val angle = (Math.PI * 3f / 2f).toFloat()
+//
+//        val WILD_WOLF_SIZE = WildWolf.WILD_WOLF_SIZE
+//
+//        for ((i, wolf) in wolves.withIndex()) {
+//            wolf.body.setTransform(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
+//
+//            if (i != 0 && i % max_wolves_in_a_row == max_wolves_in_a_row - 1) {
+//                y -= WILD_WOLF_SIZE + gap
+//            }
+//        }
+//
+//        //center last row
+//        val wolves_count = wolves.size
+//        val w_width = wolves_count % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE)
+//
+//        x += (CAMERA_WIDTH - w_width) / 2
+//        x -= start_offset / 2
+//
+//        for ((i, wolf) in wolves.withIndex()) {
+//            wolf.body.setTransform(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
+//        }
     }
 
     override fun pause() {}
@@ -309,8 +318,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         return data
     }
-
-
 
     //Touchpad touch
     private fun handleTouch() {
