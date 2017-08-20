@@ -18,22 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.GameObject
-import com.sheepsgohome.GameObject.*
-import com.sheepsgohome.GameTools.calculateAngle
-import com.sheepsgohome.GameTools.setRandomMovement
-import com.sheepsgohome.SteerableBody
-import com.sheepsgohome.SteerableHungryWolfBody
 import com.sheepsgohome.dataholders.WolvesData
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.screens.GameResult.*
-import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SIZE
-import com.sheepsgohome.shared.GameData.ALPHA_WOLF_SPEED
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.HUNGRY_WOLF_SIZE
 import com.sheepsgohome.shared.GameData.LEVEL
 import com.sheepsgohome.shared.GameData.SHEEP_SPEED
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
@@ -41,8 +31,6 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_LEFT
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_NONE
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_RIGHT
-import com.sheepsgohome.shared.GameData.WILD_WOLF_SIZE
-import com.sheepsgohome.shared.GameData.WILD_WOLF_SPEED
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameScreens.switchScreen
@@ -85,10 +73,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         ))
     }
 
-    private lateinit var wolf_texture: Texture
-    private lateinit var hungry_wolf_texture: Texture
-    private lateinit var alpha_wolf_texture: Texture
-
     private val home = Home(world)
     private val sheep = Sheep(world)
     private val walls = listOf(
@@ -102,7 +86,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private lateinit var background_texture: Texture
 
-
     private lateinit var background: Sprite
 
     init {
@@ -115,29 +98,10 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         wolves = mutableListOf(
             List(data.WildWolves) { WildWolf(world) },
             List(data.HungryWolves) { HungryWolf(world, sheep) },
-            List(data.AlphaWolves) { AlphaWolf(world) }
+            List(data.AlphaWolves) { AlphaWolf(world, sheep) }
         ).flatten()
 
         Collections.shuffle(wolves)
-
-
-
-        wolves = wolf_bodies.map { it.userData as GameObject }
-                .map { wolfType ->
-                    when (wolfType) {
-                        HUNGRY_WOLF -> Sprite(hungry_wolf_texture).apply {
-                            setSize(HUNGRY_WOLF_SIZE, HUNGRY_WOLF_SIZE)
-                        }
-                        ALPHA_WOLF -> Sprite(alpha_wolf_texture).apply {
-                            setSize(ALPHA_WOLF_SIZE, ALPHA_WOLF_SIZE)
-                        }
-                        else -> Sprite(wolf_texture).apply {
-                            setSize(WILD_WOLF_SIZE, WILD_WOLF_SIZE)
-                        }
-                    }.apply { setOriginCenter() }
-                }
-
-
     }
 
     override fun show() {
@@ -169,22 +133,12 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     private fun prepareGameObjects() {
-
-
-        wolf_texture = Texture("wolf.png")
-        hungry_wolf_texture = Texture("wolf-hungry.png")
-        alpha_wolf_texture = Texture("wolf-alpha.png")
-
         background_texture = Texture("grass-background.jpg")
         background_texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
         background = Sprite(background_texture)
         background.setPosition(-CAMERA_WIDTH, -CAMERA_HEIGHT)
         background.setSize(CAMERA_WIDTH * 2, CAMERA_HEIGHT * 2)
-
-
-
-
     }
 
 
@@ -235,36 +189,20 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         home.draw(batch)
 
         //draw wolves
-        var wolf: GameObject
-        for (i in 0..wolves_count - 1) {
-            wolf = wolf_bodies[i].userData as GameObject
-
+        for (wolf in wolves) {
             when (wolf) {
-                ALPHA_WOLF -> {
-                    wolves[i].setPosition(
-                            wolf_bodies[i].position.x - ALPHA_WOLF_SIZE / 2,
-                            wolf_bodies[i].position.y - ALPHA_WOLF_SIZE / 2
-                    )
-
-                    setAlphaWolfVelocity(wolf_bodies[i].body)
+                is AlphaWolf -> {
+                    wolf.updateSprite()
+                    wolf.updateVelocity()
                 }
-                HUNGRY_WOLF -> {
-                    wolf_bodies[i].calculateSteeringBehaviour()
-                    wolves[i].setPosition(
-                            wolf_bodies[i].position.x - HUNGRY_WOLF_SIZE / 2,
-                            wolf_bodies[i].position.y - HUNGRY_WOLF_SIZE / 2
-                    )
+                is HungryWolf -> {
+                    wolf.calculateSteeringBehaviour()
+                    wolf.updateSprite()
                 }
-                else -> wolves[i].setPosition(
-                        wolf_bodies[i].position.x - WILD_WOLF_SIZE / 2,
-                        wolf_bodies[i].position.y - WILD_WOLF_SIZE / 2
-                )
+                else -> wolf.updateSprite()
             }
 
-            val targetVelocity = wolf_bodies[i].linearVelocity
-            wolves[i].rotation = calculateAngle(targetVelocity)
-
-            wolves[i].draw(batch)
+            wolf.draw(batch)
         }
 
         batch.end()
@@ -276,15 +214,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         stage.act()
         stage.draw()
-    }
-
-    private fun setAlphaWolfVelocity(wolf: Body) {
-        val sheepPosition = sheep.steerableBody.position
-
-        val vec = Vector2(sheepPosition).sub(wolf.position).nor()
-        val alphaSpeed = ALPHA_WOLF_SPEED / Math.abs(wolf.position.dst(sheepPosition) / CAMERA_HEIGHT)
-
-        wolf.setLinearVelocity(vec.x * alphaSpeed, vec.y * alphaSpeed)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -311,8 +240,10 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         val angle = (Math.PI * 3f / 2f).toFloat()
 
-        for (i in wolf_bodies.indices) {
-            wolf_bodies[i].body.setTransform(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
+        val WILD_WOLF_SIZE = WildWolf.WILD_WOLF_SIZE
+
+        for ((i, wolf) in wolves.withIndex()) {
+            wolf.transformBody(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
 
             if (i != 0 && i % max_wolves_in_a_row == max_wolves_in_a_row - 1) {
                 y -= WILD_WOLF_SIZE + gap
@@ -320,25 +251,20 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
 
         //center last row
-        var i = wolves_count - wolves_count % max_wolves_in_a_row
+        val wolves_count = wolves.size
         val w_width = wolves_count % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE)
 
         x += (CAMERA_WIDTH - w_width) / 2
         x -= start_offset / 2
 
-        while (i < wolf_bodies.size) {
-            wolf_bodies[i].body.setTransform(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
-            i++
+        for ((i, wolf) in wolves.withIndex()) {
+            wolf.transformBody(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
         }
     }
 
-    override fun pause() {
+    override fun pause() {}
 
-    }
-
-    override fun resume() {
-
-    }
+    override fun resume() {}
 
     override fun hide() {
         //stop ambient
@@ -354,12 +280,10 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     override fun dispose() {
-        sheep.dispose()
-        wolf_texture.dispose()
-        hungry_wolf_texture.dispose()
-        alpha_wolf_texture.dispose()
-        home.dispose()
         background_texture.dispose()
+        home.dispose()
+        sheep.dispose()
+        wolves.forEach { it.dispose() }
 
         batch.dispose()
         world.dispose()
@@ -419,9 +343,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     private fun StartWolves() {
-        for (b in wolf_bodies) {
-            setRandomMovement(b.body, WILD_WOLF_SPEED)
-        }
+        wolves.filterIsInstance<WildWolf>().forEach { it.setRandomMovement() }
     }
 
     private fun handleContact(bodyA: Body, bodyB: Body) {
@@ -429,11 +351,11 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         val objB = bodyB.userData
 
         when (objA) {
-            WILD_WOLF -> setRandomMovement(bodyA, GameData.WILD_WOLF_SPEED)
+            is WildWolf -> objA.setRandomMovement()
             is Sheep -> when (objB) {
-                WILD_WOLF -> gameState = GAME_OVER_BY_WILD_WOLF
-                HUNGRY_WOLF -> gameState = GAME_OVER_BY_HUNGRY_WOLF
-                ALPHA_WOLF -> gameState = GAME_OVER_BY_ALPHA_WOLF
+                is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF
+                is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
+                is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
                 is Home -> gameState = NEXT_LEVEL
             }
         }

@@ -27,15 +27,14 @@ object GameData {
     val SETTINGS_TITLE_FONT_SCALE = 0.35f
     val SETTINGS_ITEM_FONT_SCALE = 0.5f
 
-    val WILD_WOLF_SIZE = 6f
-    val HUNGRY_WOLF_SIZE = 8f
-    val ALPHA_WOLF_SIZE = 10f
+
+
+
 
     //----------------PREFERENCES----------------------
     var SHEEP_SPEED = 20f
-    var WILD_WOLF_SPEED = 8f
+
     var HUNGRY_WOLF_SPEED = 10f
-    var ALPHA_WOLF_SPEED = 1.2f
 
     var VIRTUAL_JOYSTICK = 0
     var VIRTUAL_JOYSTICK_NONE = 0
