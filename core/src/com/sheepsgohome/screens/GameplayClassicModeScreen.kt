@@ -75,8 +75,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         addAction(Actions.alpha(0.5f))
     }}
 
-    private var wolves_count = 0
-
     private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
 
     private val levelLabel = Label(loc.format("level", LEVEL), skin, "levelTitle").apply {
@@ -100,9 +98,9 @@ class GameplayClassicModeScreen : Screen, ContactListener {
             RightWall(world)
     )
 
-    private lateinit var background_texture: Texture
+    private val wolves: List<Wolf>
 
-    private lateinit var wolves: List<Sprite>
+    private lateinit var background_texture: Texture
 
 
     private lateinit var background: Sprite
@@ -110,6 +108,36 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     init {
         Box2D.init()
         world.setContactListener(this)
+
+        val data = getWolvesData(LEVEL)
+
+
+        wolves = mutableListOf(
+            List(data.WildWolves) { WildWolf(world) },
+            List(data.HungryWolves) { HungryWolf(world, sheep) },
+            List(data.AlphaWolves) { AlphaWolf(world) }
+        ).flatten()
+
+        Collections.shuffle(wolves)
+
+
+
+        wolves = wolf_bodies.map { it.userData as GameObject }
+                .map { wolfType ->
+                    when (wolfType) {
+                        HUNGRY_WOLF -> Sprite(hungry_wolf_texture).apply {
+                            setSize(HUNGRY_WOLF_SIZE, HUNGRY_WOLF_SIZE)
+                        }
+                        ALPHA_WOLF -> Sprite(alpha_wolf_texture).apply {
+                            setSize(ALPHA_WOLF_SIZE, ALPHA_WOLF_SIZE)
+                        }
+                        else -> Sprite(wolf_texture).apply {
+                            setSize(WILD_WOLF_SIZE, WILD_WOLF_SIZE)
+                        }
+                    }.apply { setOriginCenter() }
+                }
+
+
     }
 
     override fun show() {
@@ -154,22 +182,9 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         background.setPosition(-CAMERA_WIDTH, -CAMERA_HEIGHT)
         background.setSize(CAMERA_WIDTH * 2, CAMERA_HEIGHT * 2)
 
-        wolves_count = CreateWolfBodies()
 
-        wolves = wolf_bodies.map { it.userData as GameObject }
-                .map { wolfType ->
-                    when (wolfType) {
-                        HUNGRY_WOLF -> Sprite(hungry_wolf_texture).apply {
-                            setSize(HUNGRY_WOLF_SIZE, HUNGRY_WOLF_SIZE)
-                        }
-                        ALPHA_WOLF -> Sprite(alpha_wolf_texture).apply {
-                            setSize(ALPHA_WOLF_SIZE, ALPHA_WOLF_SIZE)
-                        }
-                        else -> Sprite(wolf_texture).apply {
-                            setSize(WILD_WOLF_SIZE, WILD_WOLF_SIZE)
-                        }
-                    }.apply { setOriginCenter() }
-                }
+
+
     }
 
 
@@ -351,95 +366,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         stage.dispose()
     }
 
-    private fun CreateWildWolfBody(): Body {
-        val bodyDef = BodyDef()
-        bodyDef.type = BodyDef.BodyType.DynamicBody
-        bodyDef.position.set(0f, 0f)
-
-        val circleShape = CircleShape()
-        circleShape.radius = WILD_WOLF_SIZE / 2 * 0.85f
-
-        val fixtureDef = FixtureDef()
-        fixtureDef.shape = circleShape
-        fixtureDef.density = 0.1f
-        fixtureDef.friction = 0.1f
-        fixtureDef.restitution = 0.6f
-
-        return CreateWolfBody(WILD_WOLF, bodyDef, fixtureDef)
-    }
-
-    private fun CreateHungryWolfBody(): Body {
-        val bodyDef = BodyDef()
-        bodyDef.type = BodyDef.BodyType.DynamicBody
-        bodyDef.position.set(0f, 0f)
-
-        val circleShape = CircleShape()
-        circleShape.radius = HUNGRY_WOLF_SIZE / 2 * 0.85f
-
-        val fixtureDef = FixtureDef()
-        fixtureDef.shape = circleShape
-        fixtureDef.density = 0.2f
-        fixtureDef.friction = 0.1f
-        fixtureDef.restitution = 0.6f
-
-        return CreateWolfBody(HUNGRY_WOLF, bodyDef, fixtureDef)
-    }
-
-    private fun CreateAlphaWolfBody(): Body {
-        val bodyDef = BodyDef()
-        bodyDef.type = BodyDef.BodyType.DynamicBody
-        bodyDef.position.set(0f, 0f)
-
-        val circleShape = CircleShape()
-        circleShape.radius = ALPHA_WOLF_SIZE / 2 * 0.85f
-
-        val fixtureDef = FixtureDef()
-        fixtureDef.shape = circleShape
-        fixtureDef.density = 0.3f
-        fixtureDef.friction = 0.1f
-        fixtureDef.restitution = 0.6f
-
-        return CreateWolfBody(ALPHA_WOLF, bodyDef, fixtureDef)
-    }
-
-    private fun CreateWolfBody(wolf: GameObject, bodyDef: BodyDef, fixtureDef: FixtureDef): Body {
-
-        val body = world.createBody(bodyDef)
-        body.userData = wolf
-        body.createFixture(fixtureDef)
-
-        fixtureDef.shape.dispose()
-
-        return body
-    }
-
-
-    private fun CreateWolfBodies(): Int {
-
-        val data = getWolvesData(LEVEL)
-
-        val count = data.wolvesCount
-
-        val wolf_bodies_list = ArrayList<SteerableBody>()
-
-        for (i in 0..data.WildWolves - 1) {
-            wolf_bodies_list.add(SteerableBody(CreateWildWolfBody()))
-        }
-
-        for (i in 0..data.HungryWolves - 1) {
-            wolf_bodies_list.add(SteerableHungryWolfBody(CreateHungryWolfBody(), sheep))
-        }
-
-        for (i in 0..data.AlphaWolves - 1) {
-            wolf_bodies_list.add(SteerableBody(CreateAlphaWolfBody()))
-        }
-
-        Collections.shuffle(wolf_bodies_list)
-        wolf_bodies = wolf_bodies_list.toTypedArray()
-
-        return count
-    }
-
     private fun getWolvesData(level: Int): WolvesData {
         val data = WolvesData()
 
@@ -536,8 +462,5 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
-    companion object {
-        lateinit var wolf_bodies: Array<SteerableBody>
-    }
 }
 
