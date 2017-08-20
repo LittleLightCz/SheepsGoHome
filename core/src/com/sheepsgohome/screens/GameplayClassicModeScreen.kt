@@ -24,6 +24,7 @@ import com.sheepsgohome.GameTools.calculateAngle
 import com.sheepsgohome.GameTools.setRandomMovement
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.SteerableHungryWolfBody
+import com.sheepsgohome.dataholders.WolvesData
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.screens.GameResult.*
@@ -512,6 +513,14 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
+    private fun gameOver(result: GameResult) = switchScreen(GameClassicModeResultScreen(result))
+
+    private fun nextLevel() = gameOver(SHEEP_SUCCEEDED)
+
+    /**
+     * Contact handling
+     */
+
     override fun beginContact(contact: Contact) {
         val bodyA = contact.fixtureA.body
         val bodyB = contact.fixtureB.body
@@ -521,29 +530,14 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         handleContact(bodyB, bodyA)
     }
 
-    private fun gameOver(result: GameResult) = switchScreen(GameClassicModeResultScreen(result))
-
-    private fun nextLevel() = switchScreen(GameClassicModeResultScreen(SHEEP_SUCCEEDED))
-
     override fun endContact(contact: Contact) {}
 
     override fun preSolve(contact: Contact, oldManifold: Manifold) {}
 
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
-    private inner class WolvesData {
-        internal var WildWolves = 0
-        internal var HungryWolves = 0
-        internal var AlphaWolves = 0
-
-        internal val wolvesCount
-            get() = WildWolves + HungryWolves + AlphaWolves
-    }
-
     companion object {
         lateinit var wolf_bodies: Array<SteerableBody>
     }
-
 }
-
 
