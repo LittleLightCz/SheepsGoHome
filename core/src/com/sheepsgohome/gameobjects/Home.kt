@@ -3,8 +3,11 @@ package com.sheepsgohome.gameobjects
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
+import com.badlogic.gdx.physics.box2d.FixtureDef
+import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.physics.box2d.World
 import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 
@@ -15,7 +18,7 @@ class Home(world: World) {
     }
 
     private val texture = Texture("home.png")
-    private val body: Body
+    private val steerableBody: SteerableBody
 
     val sprite = Sprite(texture).apply {
         setSize(HOME_SIZE, HOME_SIZE)
@@ -31,7 +34,7 @@ class Home(world: World) {
             position.set(0f, 0f)
         }
 
-        body = SteerableBody(world.createBody(bodyDef)).body
+        steerableBody = SteerableBody(world.createBody(bodyDef))
 
         val boxShape = PolygonShape().apply {
             setAsBox(HOME_SIZE / 2, HOME_SIZE / 2)
@@ -44,15 +47,28 @@ class Home(world: World) {
             restitution = 0.6f
         }
 
-        body.createFixture(fixtureDef)
-        body.userData = this
+        with(steerableBody) {
+            body.createFixture(fixtureDef)
+            body.userData = this
+        }
 
         boxShape.dispose()
     }
 
-    fun positionTopCenter() {
-        body.setTransform(0f, CAMERA_HEIGHT / 2f - HOME_SIZE / 2, 0f)
+    private fun updateSpritePosition() {
+        with(steerableBody.body.position) {
+            sprite.setPosition(x - HOME_SIZE / 2, y - HOME_SIZE / 2)
+        }
     }
+
+    fun positionTopCenter() {
+        with(steerableBody) {
+            body.setTransform(0f, CAMERA_HEIGHT / 2 - HOME_SIZE / 2, 0f)
+        }
+
+        updateSpritePosition()
+    }
+
 
     fun draw(batch: SpriteBatch) {
         sprite.draw(batch)
