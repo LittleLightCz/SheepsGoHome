@@ -6,12 +6,13 @@ import com.badlogic.gdx.ai.steer.utils.paths.LinePath
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Array
+import com.sheepsgohome.gameobjects.Sheep
 import com.sheepsgohome.shared.GameData
 
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 
-class SteerableHungryWolfBody(wolfBody: Body, private val sheep: SteerableBody) : SteerableBody(wolfBody) {
+class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : SteerableBody(wolfBody) {
 
     private val steeringPursue: Pursue<Vector2>
     private val steeringFollowPath: FollowPath<Vector2, LinePath.LinePathParam>
@@ -33,7 +34,7 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: SteerableBody) 
         steeringFollowPath.isEnabled = true
         steeringFollowPath.pathOffset = 10f
 
-        steeringPursue = Pursue(this, sheep)
+        steeringPursue = Pursue(this, sheep.steerableBody)
         steeringPursue.isEnabled = true
 
         maxLinearAcceleration = GameData.HUNGRY_WOLF_SPEED
@@ -81,8 +82,9 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: SteerableBody) 
     }
 
     override fun calculateSteeringBehaviour() {
+        val sheepPosition = sheep.steerableBody.position
 
-        val distance = body.position.dst(sheep.position)
+        val distance = body.position.dst(sheepPosition)
         if (distance < huntDistance) {
             steeringPursue.maxPredictionTime = distance / 40f
             steeringPursue.calculateSteering(steeringAcceleration)

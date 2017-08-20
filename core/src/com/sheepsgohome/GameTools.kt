@@ -28,5 +28,8 @@ object GameTools {
         return angle
     }
 
+    fun vectorAngleRadians(vec: Vector2) = vectorAngleRadians(vec.x, vec.y)
+
+    fun vectorAngleRadians(x: Float, y: Float) = Math.toRadians(calculateAngle(x, y).toDouble()).toFloat()
 
 }
