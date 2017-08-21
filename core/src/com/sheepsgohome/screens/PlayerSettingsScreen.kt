@@ -73,6 +73,7 @@ class PlayerSettingsScreen : MenuScreen(), LeaderBoardCallback {
                 .row()
 
         val contentTable = Table()
+
         playerNameTitle.setFontScale(GameData.SETTINGS_ITEM_FONT_SCALE)
         contentTable.add(playerNameTitle)
                 .expandX()
