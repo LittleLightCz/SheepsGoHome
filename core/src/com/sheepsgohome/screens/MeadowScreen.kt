@@ -10,9 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 
-open class MeadowScreen : Screen {
-
-    protected val stage = Stage()
+open class MeadowScreen(protected val stage: Stage = Stage()) : Screen {
 
     private val backGroundTexture = Texture("menu_background.png").apply {
         setFilter(Linear, Linear)
