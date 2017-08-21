@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.steer.utils.paths.LinePath
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Array
+import com.sheepsgohome.gameobjects.HungryWolf
 import com.sheepsgohome.gameobjects.Sheep
 import com.sheepsgohome.shared.GameData
 
@@ -14,14 +15,11 @@ import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 
 class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : SteerableBody(wolfBody) {
 
-    private val steeringPursue: Pursue<Vector2>
-    private val steeringFollowPath: FollowPath<Vector2, LinePath.LinePathParam>
-
-    private enum class State {
-        Wander, Hunt
+    private val steeringPursue = Pursue(this, sheep.steerableBody).apply {
+        isEnabled = true
     }
 
-    private val state = State.Wander
+    private val steeringFollowPath: FollowPath<Vector2, LinePath.LinePathParam>
 
     private val huntDistance = 70f
 
@@ -30,15 +28,13 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : Steera
         generateWaypoints(waypoints, 5)
 
         val linePath = LinePath(waypoints)
-        steeringFollowPath = FollowPath(this, linePath)
-        steeringFollowPath.isEnabled = true
-        steeringFollowPath.pathOffset = 10f
+        steeringFollowPath = FollowPath(this, linePath).apply {
+            isEnabled = true
+            pathOffset = 10f
+        }
 
-        steeringPursue = Pursue(this, sheep.steerableBody)
-        steeringPursue.isEnabled = true
-
-        maxLinearAcceleration = GameData.HUNGRY_WOLF_SPEED
-        maxLinearSpeed = GameData.HUNGRY_WOLF_SPEED
+        maxLinearAcceleration = HungryWolf.HUNGRY_WOLF_SPEED
+        maxLinearSpeed = HungryWolf.HUNGRY_WOLF_SPEED
     }
 
     private fun generateWaypoints(waypoints: Array<Vector2>, count: Int) {
@@ -63,15 +59,8 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : Steera
     }
 
     private fun findMinimumDistance(waypoints: Array<Vector2>, vec: Vector2): Float {
-        var ret = java.lang.Float.MAX_VALUE
-        for (arrVec in waypoints) {
-            val dist = arrVec.dst(vec)
-            if (dist < ret) {
-                ret = dist
-            }
-        }
-
-        return ret
+        return waypoints.asSequence()
+                .map { it.dst(vec) }
     }
 
     private fun generateRandomVector(): Vector2 {
@@ -86,10 +75,11 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : Steera
 
         val distance = body.position.dst(sheepPosition)
         if (distance < huntDistance) {
+            //Hunt the sheep
             steeringPursue.maxPredictionTime = distance / 40f
             steeringPursue.calculateSteering(steeringAcceleration)
-
         } else {
+            //Wander
             steeringFollowPath.calculateSteering(steeringAcceleration)
         }
 

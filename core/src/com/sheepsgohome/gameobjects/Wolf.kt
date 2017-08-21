@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.*
-import com.sheepsgohome.GameTools
+import com.sheepsgohome.shared.GameTools
 
 open class Wolf(
         world: World,

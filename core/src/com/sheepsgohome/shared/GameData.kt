@@ -34,7 +34,7 @@ object GameData {
     //----------------PREFERENCES----------------------
 
 
-    var HUNGRY_WOLF_SPEED = 10f
+
 
     var VIRTUAL_JOYSTICK = 0
     var VIRTUAL_JOYSTICK_NONE = 0

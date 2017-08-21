@@ -1,10 +1,7 @@
 package com.sheepsgohome.dataholders
 
 class WolvesData {
-    var WildWolves = 0
-    var HungryWolves = 0
-    var AlphaWolves = 0
-
-    val wolvesCount
-        get() = WildWolves + HungryWolves + AlphaWolves
+    var wildWolvesCount = 0
+    var hungryWolvesCount = 0
+    var alphaWolvesCount = 0
 }

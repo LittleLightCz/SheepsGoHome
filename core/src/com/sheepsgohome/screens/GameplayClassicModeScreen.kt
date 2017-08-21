@@ -96,9 +96,9 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
 
         wolves = mutableListOf(
-            List(data.WildWolves) { WildWolf(world) },
-            List(data.HungryWolves) { HungryWolf(world, sheep) },
-            List(data.AlphaWolves) { AlphaWolf(world, sheep) }
+            List(data.wildWolvesCount) { WildWolf(world) },
+            List(data.hungryWolvesCount) { HungryWolf(world, sheep) },
+            List(data.alphaWolvesCount) { AlphaWolf(world, sheep) }
         ).flatten()
 
         Collections.shuffle(wolves)
@@ -271,18 +271,18 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     private fun getWolvesData(level: Int): WolvesData {
         val data = WolvesData()
 
-        data.WildWolves = ((level - 1) % 5 + 1) * 5
+        data.wildWolvesCount = ((level - 1) % 5 + 1) * 5
 
         if (level < 6) {
-            data.HungryWolves = 0
+            data.hungryWolvesCount = 0
         } else {
-            data.HungryWolves = (level - 1 - 5) / 5 % 4 + 1
+            data.hungryWolvesCount = (level - 1 - 5) / 5 % 4 + 1
         }
 
         if (level < 26) {
-            data.AlphaWolves = 0
+            data.alphaWolvesCount = 0
         } else {
-            data.AlphaWolves = (level - 1 - 5) / 20
+            data.alphaWolvesCount = (level - 1 - 5) / 20
         }
 
         return data

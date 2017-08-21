@@ -17,7 +17,8 @@ class HungryWolf(world: World, sheep: Sheep) : Wolf(
 ) {
 
     companion object {
-        private val HUNGRY_WOLF_SIZE = 8f
+        val HUNGRY_WOLF_SIZE = 8f
+        val HUNGRY_WOLF_SPEED = 10f
     }
 
     private val steerableBody = SteerableHungryWolfBody(body, sheep)
