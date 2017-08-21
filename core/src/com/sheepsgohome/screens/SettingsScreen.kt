@@ -53,7 +53,7 @@ class SettingsScreen : Screen {
         //click listeners
         buttonPlayer.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = SettingsPlayerScreen()
+                (Gdx.app.applicationListener as Game).screen = PlayerSettingsScreen()
             }
         })
 
