@@ -68,7 +68,7 @@ class SettingsControlsScreen : Screen {
         table.setFillParent(true)
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
-        table.add<Label>(title).top().colspan(2).row()
+        table.add(title).top().colspan(2).row()
 
         val contentTable = Table()
         virtualJoystickTitle.setFontScale(GameData.SETTINGS_ITEM_FONT_SCALE)
@@ -77,8 +77,8 @@ class SettingsControlsScreen : Screen {
 
         table.add(contentTable).expand().colspan(2).top().row()
 
-        table.add<TextButton>(buttonSave).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().right()
-        table.add<TextButton>(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().left().row()
+        table.add(buttonSave).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().right()
+        table.add(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().left().row()
 
         stage.addActor(bgImage)
         stage.addActor(table)

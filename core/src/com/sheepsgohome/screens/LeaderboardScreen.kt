@@ -56,14 +56,14 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
         table.setFillParent(true)
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
-        table.add<Label>(title).top().row()
+        table.add(title).top().row()
 
         val scrollPane = ScrollPane(contentTable)
         scrollPane.scrollTo(0f, 0f, 0f, 0f, false, false)
 
         table.add(scrollPane).size(CAMERA_WIDTH * 2, 256f).expand().top().row()
 
-        table.add<TextButton>(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().center().padBottom(2f).row()
+        table.add(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().center().padBottom(2f).row()
 
         stage.addActor(bgImage)
         stage.addActor(table)

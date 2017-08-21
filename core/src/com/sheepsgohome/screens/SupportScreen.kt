@@ -90,7 +90,7 @@ class SupportScreen : Screen {
         table.setFillParent(true)
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
-        table.add<Label>(title).top().colspan(2).row()
+        table.add(title).top().colspan(2).row()
 
         val contentTable = Table()
         contentTable.add<TextButton>(buttonRate).size(BUTTON_WIDTH, BUTTON_WIDTH / 2).row()
@@ -100,7 +100,7 @@ class SupportScreen : Screen {
 
         table.add(contentTable).expand().top().row()
 
-        table.add<TextButton>(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().center().row()
+        table.add(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().center().row()
 
         stage.addActor(bgImage)
         stage.addActor(table)

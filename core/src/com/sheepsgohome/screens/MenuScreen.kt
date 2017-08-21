@@ -6,12 +6,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 
-const val multiplier = 2f
-
 open class MenuScreen : MeadowScreen(Stage(StretchViewport(
         CAMERA_WIDTH * multiplier,
         CAMERA_HEIGHT * multiplier
 ))) {
+
+    companion object {
+        const val multiplier = 2f
+    }
 
     protected val table = Table().apply {
         setFillParent(true)

@@ -16,16 +16,16 @@ import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameMusic.sheepsTheme
 import com.sheepsgohome.shared.GameSkins.skin
-import com.sheepsgohome.ui.SheepButton
+import com.sheepsgohome.ui.BigSheepButton
 
 class MainMenuScreen : MenuScreen() {
 
     private val multiplier = 2f
 
-    private val buttonPlay = SheepButton(loc.get("play"))
-    private val buttonLeaderboard = SheepButton(loc.get("leaderboard"))
-    private val buttonSettings = SheepButton(loc.get("settings"))
-    private val buttonExit = SheepButton(loc.get("exit"))
+    private val buttonPlay = BigSheepButton(loc.get("play"))
+    private val buttonLeaderboard = BigSheepButton(loc.get("leaderboard"))
+    private val buttonSettings = BigSheepButton(loc.get("settings"))
+    private val buttonExit = BigSheepButton(loc.get("exit"))
 
     private val buttonSupport = ImageButton(skin, "support")
     private val musicCheckBox = CheckBox("", skin).apply {
@@ -106,7 +106,7 @@ class MainMenuScreen : MenuScreen() {
 
         val checkBoxSizeScale = 1.65f
 
-        val checkBoxSize = SheepButton.BUTTON_WIDTH / (checkBoxSizeScale * 2)
+        val checkBoxSize = BigSheepButton.BUTTON_WIDTH / (checkBoxSizeScale * 2)
         table.add(musicCheckBox)
                 .left()
                 .bottom()

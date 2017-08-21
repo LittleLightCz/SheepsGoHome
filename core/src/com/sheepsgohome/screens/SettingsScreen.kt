@@ -80,7 +80,7 @@ class SettingsScreen : Screen {
         table.setFillParent(true)
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
-        table.add<Label>(title).top().row()
+        table.add(title).top().row()
 
         val buttonsTable = Table()
 
