@@ -1,8 +1,7 @@
-package com.sheepsgohome
+package com.sheepsgohome.steerable
 
 import com.badlogic.gdx.ai.steer.Steerable
 import com.badlogic.gdx.ai.steer.SteeringAcceleration
-import com.badlogic.gdx.ai.steer.SteeringBehavior
 import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
@@ -20,11 +19,6 @@ open class SteerableBody(val body: Body) : Steerable<Vector2> {
     }
 
     protected var steeringAcceleration = SteeringAcceleration(Vector2())
-
-    fun addSteeringBehaviour(behavior: SteeringBehavior<Vector2>) {
-        behavior.isEnabled = true
-        steeringBehaviour.add(behavior)
-    }
 
     open fun calculateSteeringBehaviour() {
         steeringBehaviour.calculateSteering(steeringAcceleration)
