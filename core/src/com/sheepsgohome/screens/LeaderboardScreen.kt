@@ -1,15 +1,9 @@
 package com.sheepsgohome.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Screen
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.Texture.TextureFilter
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.*
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.dialogs.LeaderboardResultDialog
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
@@ -18,42 +12,27 @@ import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.SmallSheepButton
 
-class LeaderboardScreen : Screen, LeaderBoardCallback {
-
-    companion object {
-        private val BUTTON_SMALL_WIDTH = 50f
-    }
+class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
 
     private val leaderBoard = LeaderBoard.instance
 
-    private val multiplier = 2f
-    private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
-
-    private val table = Table()
-    private val buttonBack = TextButton(loc.get("back"), skin)
+    private val buttonBack = SmallSheepButton(loc.get("back"))
     private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
-    private var messageDialog: MessageDialog? = null
-
-    private val texture = Texture("menu_background.png")
-    private val bgImage = Image(texture)
 
     private val contentTable = Table()
 
-    override fun show() {
-        //click listeners
-        buttonBack.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                switchToMainMenuScreen()
-            }
-        })
+    private var messageDialog: MessageDialog? = null
 
-        //table
-        table.setFillParent(true)
+    init {
+        //click listeners
+        buttonBack.onClick {
+            switchToMainMenuScreen()
+        }
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
         table.add(title).top().row()
@@ -61,18 +40,18 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
         val scrollPane = ScrollPane(contentTable)
         scrollPane.scrollTo(0f, 0f, 0f, 0f, false, false)
 
-        table.add(scrollPane).size(CAMERA_WIDTH * 2, 256f).expand().top().row()
+        table.add(scrollPane)
+                .size(CAMERA_WIDTH * 2, 256f)
+                .expand()
+                .top()
+                .row()
 
-        table.add(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().center().padBottom(2f).row()
-
-        stage.addActor(bgImage)
-        stage.addActor(table)
+        buttonBack.addTo(table)
+                .bottom()
+                .center()
+                .row()
 
         Gdx.input.inputProcessor = stage
-
-        bgImage.width = CAMERA_WIDTH * multiplier
-        bgImage.height = CAMERA_HEIGHT * multiplier
-        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
 
         //update leadeboard first
         if (GameData.PLAYER_NAME == "") {
@@ -85,34 +64,6 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
                     GameData.androidFunctions.countryCode,
                     this)
         }
-    }
-
-    override fun render(delta: Float) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        stage.act()
-        stage.draw()
-    }
-
-    override fun resize(width: Int, height: Int) {
-        stage.viewport.update(width, height, true)
-    }
-
-    override fun pause() {
-
-    }
-
-    override fun resume() {
-
-    }
-
-    override fun hide() {
-        dispose()
-    }
-
-    override fun dispose() {
-        stage.dispose()
-        texture.dispose()
     }
 
     /**
@@ -225,16 +176,12 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
         }
     }
 
-    private fun getTableHeaderLabel(text: String): Label {
-        val l = Label(text, skin, "menuTitle")
-        l.setFontScale(0.25f)
-        return l
+    private fun getTableHeaderLabel(text: String) = Label(text, skin, "menuTitle").apply {
+        setFontScale(0.25f)
     }
 
-    private fun getTableRowLabel(text: String): Label {
-        val l = Label(text, skin)
-        l.setFontScale(0.32f)
-        return l
+    private fun getTableRowLabel(text: String) = Label(text, skin).apply {
+        setFontScale(0.32f)
     }
 
 }
