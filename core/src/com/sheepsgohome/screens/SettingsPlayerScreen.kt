@@ -1,168 +1,110 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Screen
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.Texture.TextureFilter
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.*
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
+import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
-import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.BigSheepButton
+import com.sheepsgohome.ui.SmallSheepButton
 
-class SettingsPlayerScreen : Screen, LeaderBoardCallback {
+class SettingsPlayerScreen : MenuScreen(), LeaderBoardCallback {
 
     private val leaderBoard = LeaderBoard.instance
 
-    private lateinit var stage: Stage
-    private lateinit var table: Table
+    private val buttonRegister = BigSheepButton(loc.get("register"))
 
-    private lateinit var buttonRegister: TextButton
-    private lateinit var buttonSave: TextButton
-    private lateinit var buttonBack: TextButton
+    private val buttonSave = SmallSheepButton(loc.get("save"))
+    private val buttonBack = SmallSheepButton(loc.get("back"))
 
-    private lateinit var playerName: TextField
+    private val playerName = TextField("", skin).apply {
+        maxLength = 16
+        setAlignment(1)
+        text = GameData.PLAYER_NAME
+    }
 
-    private lateinit var title: Label
-    private lateinit var playerNameTitle: Label
+    private val title = Label(loc.get("player"), skin, "menuTitle")
+    private val playerNameTitle = Label(loc.get("player.name"), skin, "default")
 
     private var messageDialog: MessageDialog? = null
 
-    private lateinit var texture: Texture
-    private lateinit var bgImage: Image
-
-    override fun show() {
-        buttonRegister = TextButton(loc.get("register"), skin)
-        buttonSave = TextButton(loc.get("save"), skin)
-        buttonBack = TextButton(loc.get("back"), skin)
-        title = Label(loc.get("player"), skin, "menuTitle")
-        playerNameTitle = Label(loc.get("player.name"), skin, "default")
-
-        playerName = TextField("", skin)
-        playerName.maxLength = 16
-        playerName.setAlignment(1)
-        playerName.text = GameData.PLAYER_NAME
-
-        texture = Texture("menu_background.png")
-        bgImage = Image(texture)
-
-        val multiplier = 2f
-        stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
-
-        table = Table()
-
+    init {
         //click listeners
-        buttonSave.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                GameData.PLAYER_NAME = validatePlayerName()
-                GameData.savePreferences()
-                (Gdx.app.applicationListener as Game).screen = SettingsScreen()
+        buttonSave.onClick {
+            GameData.PLAYER_NAME = validatePlayerName()
+            GameData.savePreferences()
+            switchScreen(SettingsScreen())
+        }
+
+        buttonBack.onClick {
+            switchScreen(SettingsScreen())
+        }
+
+        val callback = this
+        buttonRegister.onClick {
+            val nick = validatePlayerName()
+
+            if (nick == "") {
+                val dialog = OkDialog(loc.get("empty.player.name"))
+                dialog.fixedHeight = 60f
+                dialog.show(stage)
+            } else {
+                leaderBoard.register(
+                        GameData.androidFunctions.deviceId,
+                        nick,
+                        GameData.LEVEL,
+                        GameData.androidFunctions.countryCode,
+                        callback)
             }
-        })
-
-        buttonBack.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = SettingsScreen()
-            }
-        })
-
-
-        val __this = this
-        buttonRegister.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-
-                val nick = validatePlayerName()
-
-                if (nick == "") {
-                    val dialog = OkDialog(loc.get("empty.player.name"))
-                    dialog.fixedHeight = 60f
-                    dialog.show(stage)
-                } else {
-                    leaderBoard.register(
-                            GameData.androidFunctions.deviceId,
-                            nick,
-                            GameData.LEVEL,
-                            GameData.androidFunctions.countryCode,
-                            __this)
-                }
-            }
-        })
-
-
-        //table
-        table.setFillParent(true)
+        }
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
-        table.add(title).top().colspan(2).row()
+        table.add(title)
+                .top()
+                .colspan(2)
+                .row()
 
         val contentTable = Table()
         playerNameTitle.setFontScale(GameData.SETTINGS_ITEM_FONT_SCALE)
-        contentTable.add<Label>(playerNameTitle).expandX().row()
-        contentTable.add<TextField>(playerName).size(170f, BUTTON_SMALL_WIDTH / 2).padTop(5f).padBottom(5f).row()
+        contentTable.add(playerNameTitle)
+                .expandX()
+                .row()
 
-        val BUTTON_REGISTER_WIDTH = BUTTON_WIDTH
-        contentTable.add<TextButton>(buttonRegister).size(BUTTON_REGISTER_WIDTH, BUTTON_REGISTER_WIDTH / 2).row()
+        contentTable.add(playerName)
+                .size(170f, SmallSheepButton.BUTTON_WIDTH / 2).padTop(5f).padBottom(5f).row()
 
+        buttonRegister.addTo(contentTable).row()
 
-        table.add(contentTable).expand().colspan(2).top().row()
+        table.add(contentTable)
+                .expand()
+                .colspan(2)
+                .top()
+                .row()
 
-        table.add(buttonSave).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().right()
-        table.add(buttonBack).size(BUTTON_SMALL_WIDTH, BUTTON_SMALL_WIDTH / 2).bottom().left().row()
+        buttonSave.addTo(table)
+                .bottom()
+                .right()
 
-        stage.addActor(bgImage)
-        stage.addActor(table)
+        buttonBack.addTo(table)
+                .bottom()
+                .left()
+                .row()
 
         Gdx.input.inputProcessor = stage
-
-        bgImage.width = CAMERA_WIDTH * multiplier
-        bgImage.height = CAMERA_HEIGHT * multiplier
-        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear)
     }
 
     private fun validatePlayerName(): String {
         val nick = playerName.text.replace("[^\\w_\\-]".toRegex(), "")
         playerName.text = nick
         return nick
-    }
-
-    override fun render(delta: Float) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        stage.act()
-        stage.draw()
-    }
-
-    override fun resize(width: Int, height: Int) {
-        stage.viewport.update(width, height, true)
-    }
-
-    override fun pause() {
-
-    }
-
-    override fun resume() {
-
-    }
-
-    override fun hide() {
-        dispose()
-    }
-
-    override fun dispose() {
-        stage.dispose()
-        texture.dispose()
     }
 
     /**
@@ -254,11 +196,6 @@ class SettingsPlayerScreen : Screen, LeaderBoardCallback {
     }
 
     override fun leaderboardResult(result: LeaderBoardResult) {
-
     }
 
-    companion object {
-        private val BUTTON_WIDTH = 100f
-        private val BUTTON_SMALL_WIDTH = 50f
-    }
 }
