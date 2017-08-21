@@ -3,7 +3,7 @@ package com.sheepsgohome.gameobjects
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
-import com.sheepsgohome.SteerableHungryWolfBody
+import com.sheepsgohome.steerable.SteerableHungryWolfBody
 
 class HungryWolf(world: World, sheep: Sheep) : Wolf(
         world,

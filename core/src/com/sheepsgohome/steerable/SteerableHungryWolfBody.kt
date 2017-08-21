@@ -1,4 +1,4 @@
-package com.sheepsgohome
+package com.sheepsgohome.steerable
 
 import com.badlogic.gdx.ai.steer.behaviors.FollowPath
 import com.badlogic.gdx.ai.steer.behaviors.Pursue
@@ -6,9 +6,9 @@ import com.badlogic.gdx.ai.steer.utils.paths.LinePath
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Array
+import com.sheepsgohome.SteerableBody
 import com.sheepsgohome.gameobjects.HungryWolf
 import com.sheepsgohome.gameobjects.Sheep
-import com.sheepsgohome.shared.GameData
 
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
@@ -24,8 +24,7 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : Steera
     private val huntDistance = 70f
 
     init {
-        val waypoints = Array<Vector2>()
-        generateWaypoints(waypoints, 5)
+        val waypoints = generateWaypoints(5)
 
         val linePath = LinePath(waypoints)
         steeringFollowPath = FollowPath(this, linePath).apply {
@@ -37,12 +36,13 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : Steera
         maxLinearSpeed = HungryWolf.HUNGRY_WOLF_SPEED
     }
 
-    private fun generateWaypoints(waypoints: Array<Vector2>, count: Int) {
+    private fun generateWaypoints(count: Int): Array<Vector2> {
         var failures = 0
 
+        val waypoints = Array<Vector2>()
         val minimumDistance = 20f
 
-        for (i in 0..count - 1) {
+        for (i in 1..count) {
             if (waypoints.size == 0) {
                 waypoints.add(generateRandomVector())
             } else {
@@ -56,11 +56,14 @@ class SteerableHungryWolfBody(wolfBody: Body, private val sheep: Sheep) : Steera
                 waypoints.add(vec)
             }
         }
+
+        return waypoints
     }
 
     private fun findMinimumDistance(waypoints: Array<Vector2>, vec: Vector2): Float {
         return waypoints.asSequence()
                 .map { it.dst(vec) }
+                .min() ?: Float.MAX_VALUE
     }
 
     private fun generateRandomVector(): Vector2 {
