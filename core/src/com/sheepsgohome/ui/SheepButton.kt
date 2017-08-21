@@ -13,9 +13,6 @@ open class SheepButton(text: String, private val buttonWidth: Float) : TextButto
 
     fun onClick(action: () -> Unit) = addListener(clicked { action() })
 
-    fun addTo(table: Table): Table {
-        table.add(this).size(buttonWidth, buttonWidth / 2)
-        return table
-    }
+    fun addTo(table: Table) = table.add(this).size(buttonWidth, buttonWidth / 2)
 
 }
