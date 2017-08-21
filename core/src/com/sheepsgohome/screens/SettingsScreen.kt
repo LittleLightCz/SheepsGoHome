@@ -65,7 +65,7 @@ class SettingsScreen : Screen {
 
         buttonSound.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = SettingsSoundScreen()
+                (Gdx.app.applicationListener as Game).screen = SoundSettingsScreen()
             }
         })
 

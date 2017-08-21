@@ -11,28 +11,27 @@ import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
 
-class SettingsSoundScreen : MenuScreen() {
+class SoundSettingsScreen : MenuScreen() {
 
-    private val buttonSave = SmallSheepButton(loc.get("save"))
-    private val buttonBack = SmallSheepButton(loc.get("back"))
+    private val saveButton = SmallSheepButton(loc.get("save"))
+    private val backButton = SmallSheepButton(loc.get("back"))
 
     private val title = Label(loc.get("sound"), skin, "menuTitle")
     private val soundEnabledTitle = Label(loc.get("sound.enabled"), skin)
 
     init {
-
         val soundEnabledSelectBox = SelectBox<String>(skin)
         soundEnabledSelectBox.setItems(loc.get("yes"), loc.get("no"))
         soundEnabledSelectBox.selectedIndex = if (SOUND_ENABLED) 0 else 1
 
         //click listeners
-        buttonSave.onClick {
+        saveButton.onClick {
             SOUND_ENABLED = soundEnabledSelectBox.selectedIndex == 0
             GameData.savePreferences()
             switchScreen(SettingsScreen())
         }
 
-        buttonBack.onClick {
+        backButton.onClick {
             switchScreen(SettingsScreen())
         }
 
@@ -62,11 +61,11 @@ class SettingsSoundScreen : MenuScreen() {
                 .top()
                 .row()
 
-        buttonSave.addTo(table)
+        saveButton.addTo(table)
                 .bottom()
                 .right()
 
-        buttonBack.addTo(table)
+        backButton.addTo(table)
                 .bottom()
                 .left()
                 .row()
