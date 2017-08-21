@@ -1,6 +1,7 @@
 package com.sheepsgohome
 
 import com.badlogic.gdx.Game
+import com.sheepsgohome.screens.SplashScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameMusic
 import com.sheepsgohome.shared.GameScreens
@@ -14,7 +15,7 @@ class SheepsGoHomeMain : Game() {
         GameMusic.load()
         GameSounds.load()
 
-        setScreen(GameScreens.splashScreen)
+        setScreen(SplashScreen())
     }
 
 }

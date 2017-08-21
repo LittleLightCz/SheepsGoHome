@@ -1,7 +1,5 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
@@ -12,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
@@ -22,65 +19,75 @@ import com.sheepsgohome.shared.GameSkins.skin
 class SplashScreen : Screen {
 
     private val SHEEP_SPLASH_SIZE = 0.18f
-    private val splashImage: Image
 
+    private val camera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
     private val stage = Stage()
-    private val texture = Texture("menu_background.png")
+
     private val title = Label(loc.get("sheeps.go.home"), skin, "menuTitle")
 
-    private val camera: OrthographicCamera
-    private val sheep: Texture
-    private val sheepImage: Image
+    private val texture = Texture("menu_background.png").apply {
+        setFilter(Linear, Linear)
+    }
+
+    private val splashImage = Image(texture)
+
+    private val sheepTexture = Texture("sheep_success.png").apply {
+        setFilter(Linear, Linear)
+    }
+
+    private val sheepImage = Image(sheepTexture)
 
     init {
-        texture.setFilter(Linear, Linear)
-        splashImage = Image(texture)
+        with(splashImage) {
+            setPosition(-CAMERA_WIDTH / 2, -CAMERA_HEIGHT / 2)
+            zIndex = 10
+            setSize(CAMERA_WIDTH, CAMERA_HEIGHT)
+            addAction(Actions.sequence(
+                    Actions.alpha(0f),
+                    Actions.fadeIn(2.5f),
+                    Actions.delay(2.5f),
+                    Actions.fadeOut(1.4f)
+            ))
+        }
 
-        sheep = Texture("sheep_success.png")
-        sheep.setFilter(Linear, Linear)
-        sheepImage = Image(sheep)
+        with(sheepImage) {
+            setPosition(50f, -130f)
+            zIndex = 100
+            setSize(width * SHEEP_SPLASH_SIZE, height * SHEEP_SPLASH_SIZE)
+            addAction(Actions.sequence(
+                    Actions.delay(2.5f),
+                    Actions.moveTo(-20f, y, 0.5f),
+                    Actions.delay(2f),
+                    Actions.fadeOut(1f),
+                    Actions.run { GameScreens.switchScreen(GameScreens.mainMenuScreen) }
+            ))
+        }
 
-        camera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
-    }
-
-    override fun show() {
-        splashImage.setPosition(-GameData.CAMERA_WIDTH / 2, -GameData.CAMERA_HEIGHT / 2)
-        splashImage.zIndex = 10
-        splashImage.setSize(GameData.CAMERA_WIDTH, GameData.CAMERA_HEIGHT)
-        splashImage.addAction(Actions.sequence(
-                Actions.alpha(0f),
-                Actions.fadeIn(2.5f),
-                Actions.delay(2.5f),
-                Actions.fadeOut(1.4f)
-        ))
-
-
-        sheepImage.setPosition(50f, -130f)
-        sheepImage.zIndex = 100
-        sheepImage.setSize(sheepImage.width * SHEEP_SPLASH_SIZE, sheepImage.height * SHEEP_SPLASH_SIZE)
-        sheepImage.addAction(Actions.sequence(
-                Actions.delay(2.5f),
-                Actions.moveTo(-20f, sheepImage.y, 0.5f),
-                Actions.delay(2f),
-                Actions.fadeOut(1f),
-                Actions.run { (Gdx.app.applicationListener as Game).screen = GameScreens.mainMenuScreen }
-        ))
 
         val multiplier = 1f
-        val fontScale = (CAMERA_WIDTH * multiplier - 20) / title.prefWidth
-        title.setFontScale(fontScale)
-        title.setPosition((CAMERA_WIDTH - title.prefWidth) / 2f - CAMERA_WIDTH / 2f, 60f)
-        title.addAction(Actions.sequence(
-                Actions.delay(2.5f),
-                Actions.moveTo(title.x, 20f, 0.5f)
-        ))
 
-        stage.addActor(splashImage)
-        stage.addActor(sheepImage)
-        stage.addActor(title)
+        with(title) {
+            val fontScale = (CAMERA_WIDTH * multiplier - 20) / title.prefWidth
+
+            setFontScale(fontScale)
+            setPosition((CAMERA_WIDTH - prefWidth) / 2f - CAMERA_WIDTH / 2f, 60f)
+            addAction(Actions.sequence(
+                    Actions.delay(2.5f),
+                    Actions.moveTo(x, 20f, 0.5f)
+            ))
+        }
+
+        with(stage) {
+            addActor(splashImage)
+            addActor(sheepImage)
+            addActor(title)
+        }
 
         stage.viewport.camera = camera
+
     }
+
+    override fun show() {}
 
     override fun render(delta: Float) {
         gl.glClearColor(0f, 0f, 0f, 1f)
@@ -90,14 +97,11 @@ class SplashScreen : Screen {
         stage.draw()
     }
 
-    override fun resize(width: Int, height: Int) {
-    }
+    override fun resize(width: Int, height: Int) {}
 
-    override fun pause() {
-    }
+    override fun pause() {}
 
-    override fun resume() {
-    }
+    override fun resume() {}
 
     override fun hide() {
         dispose()
@@ -105,7 +109,7 @@ class SplashScreen : Screen {
 
     override fun dispose() {
         texture.dispose()
-        sheep.dispose()
+        sheepTexture.dispose()
         stage.dispose()
     }
 }
