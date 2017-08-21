@@ -20,6 +20,7 @@ open class MenuScreen : MeadowScreen(Stage(StretchViewport(
     init {
         backgroundImage.width = CAMERA_WIDTH * multiplier
         backgroundImage.height = CAMERA_HEIGHT * multiplier
+        backgroundImage.setPosition(0f, 0f)
 
         stage.addActor(table)
     }
