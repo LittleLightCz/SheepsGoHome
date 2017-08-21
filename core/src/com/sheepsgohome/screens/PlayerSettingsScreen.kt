@@ -16,7 +16,7 @@ import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.SmallSheepButton
 
-class SettingsPlayerScreen : MenuScreen(), LeaderBoardCallback {
+class PlayerSettingsScreen : MenuScreen(), LeaderBoardCallback {
 
     private val leaderBoard = LeaderBoard.instance
 
