@@ -64,7 +64,6 @@ class SplashScreen : MeadowScreen() {
         }
 
         with(stage) {
-            addActor(backgroundImage)
             addActor(sheepImage)
             addActor(titleLabel)
         }
@@ -73,6 +72,7 @@ class SplashScreen : MeadowScreen() {
     }
 
     override fun dispose() {
+        super.dispose()
         sheepTexture.dispose()
     }
 }
