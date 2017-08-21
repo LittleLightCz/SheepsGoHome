@@ -11,7 +11,7 @@ import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
 
-class SettingsControlsScreen : MenuScreen() {
+class ControlsSettingsScreen : MenuScreen() {
 
     private val buttonSave = SmallSheepButton(loc.get("save"))
     private val buttonBack = SmallSheepButton(loc.get("back"))
