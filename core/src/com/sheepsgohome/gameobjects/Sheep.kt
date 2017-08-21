@@ -17,6 +17,7 @@ import com.sheepsgohome.shared.GameData
 class Sheep(world: World) : Disposable {
 
     private val SIZE = 6f
+    private val SHEEP_SPEED = 20f
 
     private val bodyDef = BodyDef().apply {
         type = DynamicBody
@@ -59,7 +60,7 @@ class Sheep(world: World) : Disposable {
     }
 
     fun updateVelocity(x: Float, y: Float) {
-        steerableBody.body.setLinearVelocity(x, y)
+        steerableBody.body.setLinearVelocity(x * SHEEP_SPEED, y * SHEEP_SPEED)
         updateAngle(GameTools.vectorAngleRadians(x, y))
     }
 
@@ -91,7 +92,6 @@ class Sheep(world: World) : Disposable {
             setTransform(0f, -GameData.CAMERA_HEIGHT / 2f + 2, (Math.PI / 2f).toFloat())
         }
     }
-
 
 
 }

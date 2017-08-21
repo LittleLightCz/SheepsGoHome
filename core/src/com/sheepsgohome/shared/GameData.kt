@@ -32,7 +32,7 @@ object GameData {
 
 
     //----------------PREFERENCES----------------------
-    var SHEEP_SPEED = 20f
+
 
     var HUNGRY_WOLF_SPEED = 10f
 

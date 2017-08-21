@@ -26,7 +26,6 @@ import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
-import com.sheepsgohome.shared.GameData.SHEEP_SPEED
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_LEFT
@@ -130,7 +129,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         prepareGameObjects()
 
-        StartWolves()
+        kickOffWildWolves()
     }
 
     private fun prepareGameObjects() {
@@ -231,8 +230,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         home.positionTopCenter()
 
         //wolves positioning
-
-
         val wolfBodies = wolves.map { it.body }
         BodyPositioner().alignInCenteredGrid(
                 wolfBodies,
@@ -241,34 +238,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
                 verticalOffset = (CAMERA_HEIGHT / 2) - Home.HOME_SIZE - 5
         )
 
-
-//
-//        var x = start_offset + -CAMERA_WIDTH / 2
-//        var y = CAMERA_HEIGHT / 2 - Home.HOME_SIZE - start_offset
-//
-//
-//        val angle = (Math.PI * 3f / 2f).toFloat()
-//
-//        val WILD_WOLF_SIZE = WildWolf.WILD_WOLF_SIZE
-//
-//        for ((i, wolf) in wolves.withIndex()) {
-//            wolf.body.setTransform(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
-//
-//            if (i != 0 && i % max_wolves_in_a_row == max_wolves_in_a_row - 1) {
-//                y -= WILD_WOLF_SIZE + gap
-//            }
-//        }
-//
-//        //center last row
-//        val wolves_count = wolves.size
-//        val w_width = wolves_count % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE)
-//
-//        x += (CAMERA_WIDTH - w_width) / 2
-//        x -= start_offset / 2
-//
-//        for ((i, wolf) in wolves.withIndex()) {
-//            wolf.body.setTransform(x + i % max_wolves_in_a_row * (gap + WILD_WOLF_SIZE), y, angle)
-//        }
     }
 
     override fun pause() {}
@@ -322,9 +291,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     //Touchpad touch
     private fun handleTouch() {
         val vec = Vector2(touchpad.knobPercentX, touchpad.knobPercentY).nor()
-        vec.x *= SHEEP_SPEED
-        vec.y *= SHEEP_SPEED
-
         sheep.updateVelocity(vec)
     }
 
@@ -343,13 +309,13 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         val divider = Math.max(Math.abs(targetx), Math.abs(targety))
 
-        targetx = targetx / divider * SHEEP_SPEED
-        targety = targety / divider * SHEEP_SPEED
+        targetx /= divider
+        targety /= divider
 
         sheep.updateVelocity(targetx, targety)
     }
 
-    private fun StartWolves() {
+    private fun kickOffWildWolves() {
         wolves.filterIsInstance<WildWolf>().forEach { it.setRandomMovement() }
     }
 
