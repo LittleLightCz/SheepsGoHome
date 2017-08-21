@@ -14,11 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
 class SettingsScreen : Screen {
@@ -72,7 +72,7 @@ class SettingsScreen : Screen {
 
         buttonBack.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = GameScreens.mainMenuScreen
+                switchToMainMenuScreen()
             }
         })
 

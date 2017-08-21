@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.World
-import com.sheepsgohome.steerable.SteerableBody
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
+import com.sheepsgohome.steerable.SteerableBody
 
 class Home(world: World) {
 

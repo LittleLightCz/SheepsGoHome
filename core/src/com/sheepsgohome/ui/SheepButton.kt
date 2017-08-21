@@ -2,7 +2,7 @@ package com.sheepsgohome.ui
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.sheepsgohome.gdx.clicked
+import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.shared.GameSkins.skin
 
 class SheepButton(text: String): TextButton(text, skin) {

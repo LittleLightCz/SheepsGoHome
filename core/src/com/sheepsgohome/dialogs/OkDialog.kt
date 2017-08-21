@@ -1,12 +1,9 @@
 package com.sheepsgohome.dialogs
 
-import com.badlogic.gdx.Screen
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
 
@@ -22,14 +19,12 @@ class OkDialog(message: String) : AbstractFixedSizeDialog() {
         setWrap(true)
     }
 
-    var redirectScreen: Screen? = null
+    var onConfirm: (() -> Unit)? = null
 
     init {
-        buttonOk.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                hide()
-                GameScreens.switchScreen(redirectScreen)
-            }
+        buttonOk.addListener(clicked {
+            hide()
+            onConfirm?.invoke()
         })
 
         contentTable.add(messageLabel)
@@ -45,5 +40,7 @@ class OkDialog(message: String) : AbstractFixedSizeDialog() {
                 .padBottom(5f)
                 .row()
     }
+
+
 
 }

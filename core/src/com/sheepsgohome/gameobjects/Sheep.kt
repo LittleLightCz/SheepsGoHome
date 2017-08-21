@@ -10,9 +10,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Disposable
+import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameTools
 import com.sheepsgohome.steerable.SteerableBody
-import com.sheepsgohome.shared.GameData
 
 class Sheep(world: World) : Disposable {
 

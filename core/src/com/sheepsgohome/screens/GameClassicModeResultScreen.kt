@@ -15,7 +15,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.google.common.collect.Iterables
 import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.dialogs.NewBadgeDialog
-import com.sheepsgohome.gdx.clicked
+import com.sheepsgohome.gdx.listeners.clicked
+import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
+import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
@@ -23,7 +25,6 @@ import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.SOUND_VOLUME
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.shared.GameSounds.soundNewBadge
 import com.sheepsgohome.shared.GameSounds.soundSheepSuccess
@@ -43,7 +44,7 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
     private var buttonNext: TextButton? = null
 
     private val buttonQuit = TextButton(loc.get("quit"), skin).apply {
-        addListener(clicked { GameScreens.switchScreen(GameScreens.mainMenuScreen) })
+        addListener(clicked { switchToMainMenuScreen() })
     }
 
     private val title: Label
@@ -76,12 +77,12 @@ class GameClassicModeResultScreen(private val gameResult: GameResult) : Screen {
         when(gameResult) {
             SHEEP_SUCCEEDED -> {
                 buttonNext = TextButton(loc.get("next.level"), skin).apply {
-                    addListener(clicked { GameScreens.switchToGameplayClassicModeScreen() })
+                    addListener(clicked { switchToGameplayClassicModeScreen() })
                 }
             }
             else -> {
                 buttonRetry = TextButton(loc.get("retry"), skin).apply {
-                    addListener(clicked { GameScreens.switchToGameplayClassicModeScreen() })
+                    addListener(clicked { switchToGameplayClassicModeScreen() })
                 }
             }
         }

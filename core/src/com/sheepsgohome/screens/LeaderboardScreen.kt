@@ -1,6 +1,5 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
@@ -14,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.dialogs.LeaderboardResultDialog
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
+import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
@@ -21,7 +21,6 @@ import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
 class LeaderboardScreen : Screen, LeaderBoardCallback {
@@ -49,7 +48,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
         //click listeners
         buttonBack.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = GameScreens.mainMenuScreen
+                switchToMainMenuScreen()
             }
         })
 
@@ -126,7 +125,7 @@ class LeaderboardScreen : Screen, LeaderBoardCallback {
     private fun showFailureOkDialog(message: String, dialogHeight: Float) {
         OkDialog(message).apply {
             fixedHeight = dialogHeight
-            redirectScreen = GameScreens.mainMenuScreen
+            onConfirm = { switchToMainMenuScreen() }
         }.show(stage)
     }
 

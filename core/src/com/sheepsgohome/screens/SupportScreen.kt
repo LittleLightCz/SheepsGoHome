@@ -1,6 +1,5 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
@@ -14,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
 class SupportScreen : Screen {
@@ -58,7 +57,7 @@ class SupportScreen : Screen {
         //click listeners
         buttonBack.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = GameScreens.mainMenuScreen
+                switchToMainMenuScreen()
             }
         })
 

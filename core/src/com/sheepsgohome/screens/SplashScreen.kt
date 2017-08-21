@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
 class SplashScreen : Screen {
@@ -59,7 +59,7 @@ class SplashScreen : Screen {
                     Actions.moveTo(-20f, y, 0.5f),
                     Actions.delay(2f),
                     Actions.fadeOut(1f),
-                    Actions.run { GameScreens.switchScreen(GameScreens.mainMenuScreen) }
+                    Actions.run { switchToMainMenuScreen() }
             ))
         }
 

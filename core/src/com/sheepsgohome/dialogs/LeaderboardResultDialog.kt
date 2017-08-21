@@ -2,10 +2,10 @@ package com.sheepsgohome.dialogs
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.sheepsgohome.gdx.clicked
+import com.sheepsgohome.gdx.listeners.clicked
+import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.screens.SettingsPlayerScreen
 import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 
 class LeaderboardResultDialog(rank: Int) : AbstractFixedSizeDialog() {
@@ -33,7 +33,7 @@ class LeaderboardResultDialog(rank: Int) : AbstractFixedSizeDialog() {
         buttonOk.style.font.setScale(0.5f)
         buttonOk.addListener(clicked {
             hide()
-            GameScreens.switchScreen(screen)
+            switchScreen(screen)
         })
 
         contentTable.add(buttonOk)

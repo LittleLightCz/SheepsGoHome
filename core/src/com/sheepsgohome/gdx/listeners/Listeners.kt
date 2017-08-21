@@ -1,4 +1,4 @@
-package com.sheepsgohome.gdx
+package com.sheepsgohome.gdx.listeners
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener

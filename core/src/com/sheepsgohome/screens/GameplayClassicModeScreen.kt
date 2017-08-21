@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.dataholders.WolvesData
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
+import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.positioning.BodyPositioner
 import com.sheepsgohome.screens.GameResult.*
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
@@ -33,7 +34,6 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_NONE
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_RIGHT
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
-import com.sheepsgohome.shared.GameScreens.switchScreen
 import com.sheepsgohome.shared.GameSkins.skin
 import java.util.*
 

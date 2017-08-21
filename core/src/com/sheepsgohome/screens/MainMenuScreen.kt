@@ -1,19 +1,18 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.sheepsgohome.gdx.clicked
+import com.sheepsgohome.gdx.listeners.clicked
+import com.sheepsgohome.gdx.screens.switchScreen
+import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
@@ -21,7 +20,6 @@ import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameMusic.sheepsTheme
-import com.sheepsgohome.shared.GameScreens
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SheepButton
 
@@ -79,7 +77,7 @@ class MainMenuScreen : Screen {
         })
 
         buttonSupport.addListener(clicked {
-            GameScreens.switchScreen(SupportScreen())
+            switchScreen(SupportScreen())
         })
 
         //click listeners
@@ -88,25 +86,18 @@ class MainMenuScreen : Screen {
                 sheepsTheme.pause()
             }
 
-            GameScreens.switchToGameplayClassicModeScreen()
+            switchToGameplayClassicModeScreen()
         }
 
         buttonLeaderboard.onClick {
-            GameScreens.switchScreen(LeaderboardScreen())
+            switchScreen(LeaderboardScreen())
         }
 
-        buttonSettings.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                (Gdx.app.applicationListener as Game).screen = SettingsScreen()
-            }
-        })
+        buttonSettings.onClick {
+            switchScreen(SettingsScreen())
+        }
 
-        buttonExit.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                Gdx.app.exit()
-            }
-        })
-
+        buttonExit.onClick { Gdx.app.exit() }
 
         //table
         table.setFillParent(true)
@@ -119,9 +110,9 @@ class MainMenuScreen : Screen {
 
         val buttonsTable = Table().apply {
             buttonPlay.addTo(this).row()
-            add(buttonLeaderboard).size(BUTTON_WIDTH, BUTTON_WIDTH / 2).row()
-            add(buttonSettings).size(BUTTON_WIDTH, BUTTON_WIDTH / 2).row()
-            add(buttonExit).size(BUTTON_WIDTH, BUTTON_WIDTH / 2).row()
+            buttonLeaderboard.addTo(this).row()
+            buttonSettings.addTo(this).row()
+            buttonExit.addTo(this).row()
         }
 
         table.add(buttonsTable).expandY().colspan(2).row()
