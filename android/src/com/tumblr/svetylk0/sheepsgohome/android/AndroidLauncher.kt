@@ -8,7 +8,7 @@ import com.google.android.gms.games.Games
 import com.sheepsgohome.SheepsGoHomeMain
 import com.sheepsgohome.shared.GameData
 import com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge.AndroidBridge
-import com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge.LeaderboardBridge
+import com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge.GoogleLeaderboardBridge
 
 class AndroidLauncher : AndroidApplication() {
 
@@ -21,7 +21,7 @@ class AndroidLauncher : AndroidApplication() {
                 .build()
 
         GameData.android = AndroidBridge(this)
-        GameData.leaderboard = LeaderboardBridge(googleClient)
+        GameData.leaderboard = GoogleLeaderboardBridge(googleClient)
 
         initialize(SheepsGoHomeMain(), config)
     }
