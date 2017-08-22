@@ -53,14 +53,11 @@ class LeaderBoard {
 
                 if (result != null) {
 
-                    if (result.error == "") {
-                        callback.leaderboardResult(result)
-                    } else if (result.error == RESPONSE_DB_CONNECTION_ERROR) {
-                        callback.connectionToDatabaseFailed()
-                    } else if (result.error == RESPONSE_UNREGISTERED_USER) {
-                        callback.unregisteredUser()
-                    } else {
-                        callback.failure()
+                    when(result.error) {
+                        "" -> callback.leaderboardResult(result)
+                        RESPONSE_DB_CONNECTION_ERROR -> callback.connectionToDatabaseFailed()
+                        RESPONSE_UNREGISTERED_USER -> callback.unregisteredUser()
+                        else -> callback.failure()
                     }
 
 
@@ -122,21 +119,14 @@ class LeaderBoard {
                 val json = Json()
                 val response = json.fromJson(String::class.java, status)
 
-                if (response == RESPONSE_DB_CONNECTION_ERROR) {
-                    callback.connectionToDatabaseFailed()
-                } else if (response == RESPONSE_INVALID_DATA) {
-                    callback.invalidData()
-                } else if (response == RESPONSE_NICK_ALREADY_IN_USE) {
-                    callback.nickAlreadyInUse()
-                } else if (response == RESPONSE_SUCCESS) {
-                    callback.success()
-                } else if (response == RESPONSE_FAILURE) {
-                    callback.failure()
-                } else {
-                    callback.failure()
+                when (response) {
+                    RESPONSE_DB_CONNECTION_ERROR -> callback.connectionToDatabaseFailed()
+                    RESPONSE_INVALID_DATA -> callback.invalidData()
+                    RESPONSE_NICK_ALREADY_IN_USE -> callback.nickAlreadyInUse()
+                    RESPONSE_SUCCESS -> callback.success()
+                    RESPONSE_FAILURE -> callback.failure()
+                    else -> callback.failure()
                 }
-
-
             }
 
             override fun failed(t: Throwable) {

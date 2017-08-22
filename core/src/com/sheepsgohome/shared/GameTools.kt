@@ -11,10 +11,6 @@ object GameTools {
     private val randomFloat: Float
         get() = random.nextFloat() * 2f - 1f
 
-    fun setRandomMovement(b: Body, speed: Float) {
-        b.setLinearVelocity(randomFloat * speed, randomFloat * speed)
-    }
-
     fun calculateAngle(v: Vector2) = calculateAngle(v.x, v.y)
 
 

@@ -1,5 +1,6 @@
 package com.sheepsgohome.ui
 
+import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.sheepsgohome.gdx.listeners.clicked
@@ -11,7 +12,7 @@ open class SheepButton(text: String, private val buttonWidth: Float) : TextButto
         style.font.setScale(0.5f)
     }
 
-    fun addTo(table: Table) = table.add(this).size(buttonWidth, buttonWidth / 2)
+    fun addTo(table: Table): Cell<SheepButton> = table.add(this).size(buttonWidth, buttonWidth / 2)
 }
 
 fun TextButton.onClick(action: () -> Unit) = addListener(clicked { action() })

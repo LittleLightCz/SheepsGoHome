@@ -140,7 +140,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
             NEXT_LEVEL -> nextLevel()
         }
 
-        fpsLogger.log();
+//        fpsLogger.log();
     }
 
     private fun renderGameScene() {

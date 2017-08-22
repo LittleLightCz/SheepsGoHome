@@ -14,7 +14,7 @@ class LeaderboardResultDialog(rank: Int) : AbstractFixedSizeDialog() {
 
     private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
     private val titleLabel: Label = Label(loc.get("your.position.is"), skin)
-    private val rankLabel: Label = Label("${rank}.", skin, "menuTitle")
+    private val rankLabel: Label = Label("$rank.", skin, "menuTitle")
 
     private var screen: PlayerSettingsScreen? = null
 
