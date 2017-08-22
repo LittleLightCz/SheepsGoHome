@@ -18,7 +18,7 @@ object GameData {
     }
 
     //----------------CONSTANTS----------------------
-    val VERSION_STRING = "1.0.2"
+    val VERSION_STRING = "1.0.3"
     val codeX = "oiaewj023897rvoiuwanvoiune0v9128n09r2898v7q3342089"
 
     val CAMERA_HEIGHT = 160f
