@@ -95,7 +95,11 @@ class MainMenuScreen : MenuScreen() {
 
         val buttonsTable = Table().apply {
             buttonPlay.addTo(this).row()
-            buttonLeaderboard.addTo(this).row()
+
+            GameData.leaderboard?.let {
+                buttonLeaderboard.addTo(this).row()
+            }
+
             buttonSettings.addTo(this).row()
             buttonExit.addTo(this).row()
         }

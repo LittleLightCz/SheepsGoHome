@@ -55,16 +55,16 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
         Gdx.input.inputProcessor = stage
 
         //update leadeboard first
-        if (GameData.PLAYER_NAME == "") {
-            unregisteredUser()
-        } else {
-            leaderBoard.register(
-                    GameData.androidFunctions.deviceId,
-                    GameData.PLAYER_NAME,
-                    GameData.LEVEL,
-                    GameData.androidFunctions.countryCode,
-                    this)
-        }
+//        if (GameData.PLAYER_NAME == "") {
+//            unregisteredUser()
+//        } else {
+//            leaderBoard.register(
+//                    GameData.androidFunctions.deviceId,
+//                    GameData.PLAYER_NAME,
+//                    GameData.LEVEL,
+//                    GameData.androidFunctions.countryCode,
+//                    this)
+//        }
     }
 
     /**
@@ -110,7 +110,7 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
 
         //fetch leaderboard
         if (!leaderBoard.isTerminated) {
-            leaderBoard.fetchLeaderboard(GameData.androidFunctions.deviceId, this)
+//            leaderBoard.fetchLeaderboard(GameData.androidFunctions.deviceId, this)
         }
     }
 

@@ -53,18 +53,18 @@ class PlayerSettingsScreen : MenuScreen(), LeaderBoardCallback {
         buttonRegister.onClick {
             val nick = validatePlayerName()
 
-            if (nick == "") {
-                val dialog = OkDialog(loc.get("empty.player.name"))
-                dialog.fixedHeight = 60f
-                dialog.show(stage)
-            } else {
-                leaderBoard.register(
-                        GameData.androidFunctions.deviceId,
-                        nick,
-                        GameData.LEVEL,
-                        GameData.androidFunctions.countryCode,
-                        callback)
-            }
+//            if (nick == "") {
+//                val dialog = OkDialog(loc.get("empty.player.name"))
+//                dialog.fixedHeight = 60f
+//                dialog.show(stage)
+//            } else {
+//                leaderBoard.register(
+//                        GameData.androidFunctions.deviceId,
+//                        nick,
+//                        GameData.LEVEL,
+//                        GameData.androidFunctions.countryCode,
+//                        callback)
+//            }
         }
 
         title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
