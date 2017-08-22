@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.android.Android
-import com.sheepsgohome.leaderboard.GoogleLeaderboard
+import com.sheepsgohome.google.GoogleLeaderboard
 import java.util.*
 
 

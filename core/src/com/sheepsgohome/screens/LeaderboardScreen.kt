@@ -1,5 +1,6 @@
 package com.sheepsgohome.screens
 
+import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
@@ -8,6 +9,7 @@ import com.sheepsgohome.dialogs.LeaderboardResultDialog
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
+import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
@@ -18,9 +20,9 @@ import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
-class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
+class LeaderboardScreen : MenuScreen(), LeaderBoardCallback, GoogleConnectionCallback {
 
-    private val leaderBoard = LeaderBoard.instance
+//    private val leaderBoard = LeaderBoard.instance
 
     private val buttonBack = SmallSheepButton(loc.get("back"))
     private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
@@ -54,6 +56,17 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
 
         Gdx.input.inputProcessor = stage
 
+        GameData.leaderboard?.let { leaderboard ->
+            leaderboard.addConnectionCallback(this)
+
+            if (!leaderboard.isConnected) {
+                leaderboard.connect()
+            }
+        }
+
+
+
+
         //update leadeboard first
 //        if (GameData.PLAYER_NAME == "") {
 //            unregisteredUser()
@@ -66,6 +79,16 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
 //                    this)
 //        }
     }
+
+
+    override fun onConnected() {
+
+    }
+
+    override fun onConnectionFailure() {
+
+    }
+
 
     /**
      * LeaderBoard callback
@@ -84,7 +107,7 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
     override fun connecting() {
         messageDialog = MessageDialog(loc.get("connecting")).apply {
             fixedHeight = 60f
-            addCancelButtonWithAction { leaderBoard.isTerminated = true }
+//            addCancelButtonWithAction { leaderBoard.isTerminated = true }
         }
 
         messageDialog?.show(stage)
@@ -109,9 +132,9 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
         hideMessageDialog()
 
         //fetch leaderboard
-        if (!leaderBoard.isTerminated) {
+//        if (!leaderBoard.isTerminated) {
 //            leaderBoard.fetchLeaderboard(GameData.androidFunctions.deviceId, this)
-        }
+//        }
     }
 
     override fun failure() {
