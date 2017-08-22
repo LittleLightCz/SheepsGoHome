@@ -334,7 +334,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
-    private fun gameOver(result: GameResult) = switchScreen(GameClassicModeResultScreen(result))
+    private fun gameOver(result: GameResult) = switchScreen(ClassicModeResultScreen(result))
 
     private fun nextLevel() = gameOver(SHEEP_SUCCEEDED)
 

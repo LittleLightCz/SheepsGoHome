@@ -25,7 +25,7 @@ import com.sheepsgohome.shared.GameSounds.soundSheepSuccess
 import com.sheepsgohome.shared.GameSounds.soundWolfFailure
 import com.sheepsgohome.ui.onClick
 
-class GameClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
+class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
 
     private val BADGES_COUNT = 12
     private val BUTTON_WIDTH = 80f
