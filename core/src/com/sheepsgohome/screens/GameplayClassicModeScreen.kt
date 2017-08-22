@@ -7,8 +7,6 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
@@ -73,6 +71,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         ))
     }
 
+    private val grass = Grass()
+
     private val home = Home(world)
     private val sheep = Sheep(world)
     private val walls = listOf(
@@ -84,9 +84,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private val wolves: List<Wolf>
 
-    private lateinit var background_texture: Texture
 
-    private lateinit var background: Sprite
 
     init {
         Box2D.init()
@@ -127,20 +125,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         Gdx.input.inputProcessor = stage
 
-        prepareGameObjects()
-
         kickOffWildWolves()
     }
-
-    private fun prepareGameObjects() {
-        background_texture = Texture("grass-background.jpg")
-        background_texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
-
-        background = Sprite(background_texture)
-        background.setPosition(-CAMERA_WIDTH, -CAMERA_HEIGHT)
-        background.setSize(CAMERA_WIDTH * 2, CAMERA_HEIGHT * 2)
-    }
-
 
     override fun render(delta: Float) {
         gl.glClearColor(0.9f, 0.9f, 0.9f, 1f)
@@ -154,8 +140,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
             NEXT_LEVEL -> nextLevel()
         }
 
-        //fps debug
-        //        fpsLogger.log();
+        fpsLogger.log();
     }
 
     private fun renderGameScene() {
@@ -181,7 +166,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         batch.projectionMatrix = camera.combined
         batch.begin()
 
-        background.draw(batch)
+        grass.draw(batch)
 
         sheep.draw(batch)
 
@@ -258,7 +243,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
     }
 
     override fun dispose() {
-        background_texture.dispose()
+        grass.dispose()
         home.dispose()
         sheep.dispose()
         wolves.forEach { it.dispose() }
