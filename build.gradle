@@ -32,6 +32,7 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://maven.google.com" }
     }
 }
 
@@ -73,6 +74,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         compile "com.badlogicgames.gdx:gdx-ai:$gdxAIVersion"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        compile 'com.google.android.gms:play-services-games:11.2.0'
     }
 }
 
