@@ -9,6 +9,7 @@ import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.SmallSheepButton
+import com.sheepsgohome.ui.onClick
 
 class SupportScreen : MenuScreen() {
 

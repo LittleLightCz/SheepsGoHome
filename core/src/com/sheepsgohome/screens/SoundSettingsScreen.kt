@@ -10,6 +10,7 @@ import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
+import com.sheepsgohome.ui.onClick
 
 class SoundSettingsScreen : MenuScreen() {
 

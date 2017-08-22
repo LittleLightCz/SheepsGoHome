@@ -10,6 +10,7 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
+import com.sheepsgohome.ui.onClick
 
 class ControlsSettingsScreen : MenuScreen() {
 

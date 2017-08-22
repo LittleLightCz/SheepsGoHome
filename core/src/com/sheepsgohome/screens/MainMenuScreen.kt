@@ -17,6 +17,7 @@ import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameMusic.sheepsTheme
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.BigSheepButton
+import com.sheepsgohome.ui.onClick
 
 class MainMenuScreen : MenuScreen() {
 
