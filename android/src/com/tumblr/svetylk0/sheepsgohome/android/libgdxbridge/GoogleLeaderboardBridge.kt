@@ -80,6 +80,7 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
         //Submit score first
         Games.Leaderboards.submitScore(client, CLASSIC_MODE_LEADERBOARD_ID, GameData.LEVEL.toLong(), "")
 
+        //load my own score/leaderboard rank
         Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,
                 CLASSIC_MODE_LEADERBOARD_ID,
                 LeaderboardVariant.TIME_SPAN_ALL_TIME,
