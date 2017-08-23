@@ -23,7 +23,7 @@
 
 -dontoptimize
 -dontshrink
-
+-dontobfuscate
 
 
 #-keep class com.sheepsgohome.leaderboard.** { *; }
@@ -31,8 +31,8 @@
 #-keep class com.sheepsgohome.leaderboard.LeaderBoardResult { *; }
 #-keep class com.sheepsgohome.leaderboard.LeaderBoardRow { *; }
 
--keep class com.** { *; }
--dontwarn com.**
+-keep class ** { *; }
+#-dontwarn com.**
 
 #-dontwarn android.support.**
 #-dontwarn com.badlogic.gdx.backends.android.AndroidFragmentApplication
