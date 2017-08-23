@@ -26,6 +26,6 @@ class AndroidLauncher : AndroidApplication() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        leaderboardBridge.onActivityResult(requestCode, resultCode, data)
+        leaderboardBridge.onActivityResult(requestCode, resultCode)
     }
 }

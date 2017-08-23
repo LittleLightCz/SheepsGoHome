@@ -53,12 +53,12 @@ class LeaderBoard {
 
                 if (result != null) {
 
-                    when(result.error) {
-                        "" -> callback.leaderboardResult(result)
-                        RESPONSE_DB_CONNECTION_ERROR -> callback.connectionToDatabaseFailed()
-                        RESPONSE_UNREGISTERED_USER -> callback.unregisteredUser()
-                        else -> callback.failure()
-                    }
+//                    when(result.error) {
+//                        "" -> callback.leaderboardResult(result)
+//                        RESPONSE_DB_CONNECTION_ERROR -> callback.connectionToDatabaseFailed()
+//                        RESPONSE_UNREGISTERED_USER -> callback.unregisteredUser()
+//                        else -> callback.failure()
+//                    }
 
 
                 } else {

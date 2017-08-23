@@ -1,13 +1,18 @@
 package com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
+import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.games.Games
+import com.google.android.gms.games.leaderboard.LeaderboardVariant
+import com.google.android.gms.games.leaderboard.Leaderboards.LoadScoresResult
 import com.sheepsgohome.google.GoogleLeaderboard
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
+import com.sheepsgohome.leaderboard.LeaderBoardResult
+import com.sheepsgohome.leaderboard.LeaderBoardRow
+import com.sheepsgohome.shared.GameData
 
 class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, ConnectionCallbacks {
 
@@ -15,7 +20,10 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
         val REQUEST_RESOLVE_CONNECTION_ISSUE = 0
     }
 
-    private lateinit var callback: GoogleConnectionCallback
+    private val CLASSIC_MODE_LEADERBOARD_ID = "CgkIzpjQtpcDEAIQAQ"
+
+    private var callback: GoogleConnectionCallback? = null
+    private var pendingResult: PendingResult<LoadScoresResult>? = null
 
     private val client = GoogleApiClient.Builder(activity)
             .addConnectionCallbacks(this)
@@ -23,7 +31,7 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
                 if (result.hasResolution()) {
                     result.startResolutionForResult(activity, REQUEST_RESOLVE_CONNECTION_ISSUE)
                 } else {
-                    callback.onConnectionFailure()
+                    callback?.onConnectionFailure()
                 }
             }
             .addApi(Games.API)
@@ -37,12 +45,15 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
         client.connect()
     }
 
+    override fun cancelPendingResult() {
+        pendingResult?.cancel()
+    }
 
     override fun registerConnectionCallback(callback: GoogleConnectionCallback) {
         this.callback = callback
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    fun onActivityResult(requestCode: Int, resultCode: Int) {
         when(requestCode) {
             REQUEST_RESOLVE_CONNECTION_ISSUE -> {
                 when(resultCode) {
@@ -57,10 +68,45 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
     }
 
     override fun onConnected(bundle: Bundle?) {
-        callback.onConnected()
+        callback?.onConnected()
     }
 
     override fun onConnectionSuspended(code: Int) {
-        callback.onConnectionFailure()
+        callback?.onConnectionFailure()
     }
+
+    override fun fetchLeaderboardData(onResultAction: (LeaderBoardResult) -> Unit) {
+
+        //Submit score first
+        Games.Leaderboards.submitScore(client, CLASSIC_MODE_LEADERBOARD_ID, GameData.LEVEL.toLong(), "")
+
+        Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,
+                CLASSIC_MODE_LEADERBOARD_ID,
+                LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                LeaderboardVariant.COLLECTION_PUBLIC
+        ).setResultCallback { myResult ->
+            //then fetch the leaderboard page
+            pendingResult = Games.Leaderboards.loadPlayerCenteredScores(
+                    client,
+                    CLASSIC_MODE_LEADERBOARD_ID,
+                    LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                    LeaderboardVariant.COLLECTION_PUBLIC,
+                    25,
+                    true
+            ).apply {
+                setResultCallback { it ->
+                    val scores = it.scores.map {
+                        score -> LeaderBoardRow(score.rank, score.scoreHolderDisplayName, score.rawScore)
+                    }
+
+                    with(myResult.score) {
+                        onResultAction(LeaderBoardResult(rank.toInt(), rawScore.toInt(), scores))
+                    }
+
+                }
+            }
+        }
+
+    }
+
 }

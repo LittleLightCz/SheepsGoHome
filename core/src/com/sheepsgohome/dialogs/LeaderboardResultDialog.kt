@@ -8,13 +8,13 @@ import com.sheepsgohome.screens.PlayerSettingsScreen
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 
-class LeaderboardResultDialog(rank: Int) : AbstractFixedSizeDialog() {
+class LeaderboardResultDialog(position: Int) : AbstractFixedSizeDialog() {
 
     private val BUTTON_WIDTH = 50f
 
     private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
     private val titleLabel: Label = Label(loc.get("your.position.is"), skin)
-    private val rankLabel: Label = Label("$rank.", skin, "menuTitle")
+    private val rankLabel: Label = Label("$position.", skin, "menuTitle")
 
     private var screen: PlayerSettingsScreen? = null
 
