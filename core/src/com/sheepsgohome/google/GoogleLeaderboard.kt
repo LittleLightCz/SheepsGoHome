@@ -8,5 +8,5 @@ interface GoogleLeaderboard {
 
     fun connect()
 
-    fun addConnectionCallback(callback: GoogleConnectionCallback)
+    fun registerConnectionCallback(callback: GoogleConnectionCallback)
 }

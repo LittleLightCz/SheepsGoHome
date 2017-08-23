@@ -1,6 +1,5 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
@@ -10,7 +9,6 @@ import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
-import com.sheepsgohome.leaderboard.LeaderBoard
 import com.sheepsgohome.leaderboard.LeaderBoardCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
@@ -57,7 +55,7 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback, GoogleConnectionCal
         Gdx.input.inputProcessor = stage
 
         GameData.leaderboard?.let { leaderboard ->
-            leaderboard.addConnectionCallback(this)
+            leaderboard.registerConnectionCallback(this)
 
             if (!leaderboard.isConnected) {
                 leaderboard.connect()
