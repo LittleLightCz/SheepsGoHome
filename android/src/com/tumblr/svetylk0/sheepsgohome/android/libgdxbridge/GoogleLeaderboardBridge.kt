@@ -7,6 +7,7 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
+import com.google.android.gms.games.leaderboard.Leaderboards
 import com.google.android.gms.games.leaderboard.Leaderboards.LoadScoresResult
 import com.sheepsgohome.google.GoogleLeaderboard
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
@@ -61,7 +62,7 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
                         //reconnect
                         client.connect()
                     }
-                    else -> onConnectionSuspended(resultCode)
+                    else ->  onConnectionSuspended(resultCode)
                 }
             }
         }
@@ -85,7 +86,7 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
                 CLASSIC_MODE_LEADERBOARD_ID,
                 LeaderboardVariant.TIME_SPAN_ALL_TIME,
                 LeaderboardVariant.COLLECTION_PUBLIC
-        ).setResultCallback { myResult ->
+        ).setResultCallback { myGoogleResult: Leaderboards.LoadPlayerScoreResult? ->
             //then fetch the leaderboard page
             pendingResult = Games.Leaderboards.loadPlayerCenteredScores(
                     client,
@@ -95,15 +96,16 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
                     25,
                     true
             ).apply {
-                setResultCallback { it ->
-                    val scores = it.scores.map {
+                setResultCallback { scoresResult ->
+                    val scores = scoresResult.scores.map {
                         score -> LeaderBoardRow(score.rank, score.scoreHolderDisplayName, score.rawScore)
                     }
 
-                    with(myResult.score) {
-                        onResultAction(LeaderBoardResult(rank.toInt(), rawScore.toInt(), scores))
+                    val myResult = myGoogleResult?.score?.let {
+                        LeaderBoardRow(it.rank, it.scoreHolderDisplayName, it.rawScore)
                     }
 
+                    onResultAction(LeaderBoardResult(myResult, scores))
                 }
             }
         }

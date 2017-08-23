@@ -121,14 +121,18 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
             contentTable.add(emptyLabel).size(50f, 1f).row()
 
             //restore Level if it is higher
-            if (result.myLevel > GameData.LEVEL) {
-                GameData.LEVEL = result.myLevel
-                GameData.savePreferences()
-            }
+            result.myResult?.let {
+                with(it) {
+                    if (level > GameData.LEVEL) {
+                        GameData.LEVEL = level.toInt()
+                        GameData.savePreferences()
+                    }
 
-            LeaderboardResultDialog(result.myRank).apply {
-                fixedHeight = 70f
-            }.show(stage)
+                    LeaderboardResultDialog(rank.toInt()).apply {
+                        fixedHeight = 70f
+                    }.show(stage)
+                }
+            }
 
         }
     }

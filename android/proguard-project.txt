@@ -27,14 +27,14 @@
 
 
 #-keep class com.sheepsgohome.leaderboard.** { *; }
--keep class com.sheepsgohome.leaderboard.LeaderBoardCallback { *; }
--keep class com.sheepsgohome.leaderboard.LeaderBoardResult { *; }
--keep class com.sheepsgohome.leaderboard.LeaderBoardRow { *; }
+#-keep class com.sheepsgohome.leaderboard.LeaderBoardCallback { *; }
+#-keep class com.sheepsgohome.leaderboard.LeaderBoardResult { *; }
+#-keep class com.sheepsgohome.leaderboard.LeaderBoardRow { *; }
 
--keep class com.badlogic.** { *; }
--dontwarn com.badlogic.**
+-keep class com.** { *; }
+-dontwarn com.**
 
--dontwarn android.support.**
+#-dontwarn android.support.**
 #-dontwarn com.badlogic.gdx.backends.android.AndroidFragmentApplication
 #-dontwarn com.badlogic.gdx.utils.GdxBuild
 #-dontwarn com.badlogic.gdx.physics.box2d.utils.Box2DBuild

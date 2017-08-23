@@ -1,7 +1,6 @@
 package com.sheepsgohome.leaderboard
 
 class LeaderBoardResult (
-        var myRank: Int,
-        var myLevel: Int,
+        var myResult: LeaderBoardRow?,
         var leaderboardRows: List<LeaderBoardRow>
 )
