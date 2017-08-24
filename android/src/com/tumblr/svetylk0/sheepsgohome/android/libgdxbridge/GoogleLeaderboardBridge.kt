@@ -7,7 +7,7 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
-import com.google.android.gms.games.leaderboard.Leaderboards
+import com.google.android.gms.games.leaderboard.Leaderboards.LoadPlayerScoreResult
 import com.google.android.gms.games.leaderboard.Leaderboards.LoadScoresResult
 import com.sheepsgohome.google.GoogleLeaderboard
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
@@ -79,33 +79,38 @@ class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, Conne
     override fun fetchLeaderboardData(onResultAction: (LeaderBoardResult) -> Unit) {
 
         //Submit score first
-        Games.Leaderboards.submitScore(client, CLASSIC_MODE_LEADERBOARD_ID, GameData.LEVEL.toLong(), "")
-
-        //load my own score/leaderboard rank
-        Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,
+        Games.Leaderboards.submitScoreImmediate(
+                client,
                 CLASSIC_MODE_LEADERBOARD_ID,
-                LeaderboardVariant.TIME_SPAN_ALL_TIME,
-                LeaderboardVariant.COLLECTION_PUBLIC
-        ).setResultCallback { myGoogleResult: Leaderboards.LoadPlayerScoreResult? ->
-            //then fetch the leaderboard page
-            pendingResult = Games.Leaderboards.loadPlayerCenteredScores(
-                    client,
+                GameData.LEVEL.toLong(),
+                ""
+        ).setResultCallback {
+            //load my own score/leaderboard rank
+            Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,
                     CLASSIC_MODE_LEADERBOARD_ID,
                     LeaderboardVariant.TIME_SPAN_ALL_TIME,
-                    LeaderboardVariant.COLLECTION_PUBLIC,
-                    25,
-                    true
-            ).apply {
-                setResultCallback { scoresResult ->
-                    val scores = scoresResult.scores.map {
-                        score -> LeaderBoardRow(score.rank, score.scoreHolderDisplayName, score.rawScore)
-                    }
+                    LeaderboardVariant.COLLECTION_PUBLIC
+            ).setResultCallback { myGoogleResult: LoadPlayerScoreResult? ->
+                //then fetch the leaderboard page
+                pendingResult = Games.Leaderboards.loadPlayerCenteredScores(
+                        client,
+                        CLASSIC_MODE_LEADERBOARD_ID,
+                        LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                        LeaderboardVariant.COLLECTION_PUBLIC,
+                        25,
+                        true
+                ).apply {
+                    setResultCallback { scoresResult ->
+                        val scores = scoresResult.scores.map {
+                            score -> LeaderBoardRow(score.rank, score.scoreHolderDisplayName, score.rawScore)
+                        }
 
-                    val myResult = myGoogleResult?.score?.let {
-                        LeaderBoardRow(it.rank, it.scoreHolderDisplayName, it.rawScore)
-                    }
+                        val myResult = myGoogleResult?.score?.let {
+                            LeaderBoardRow(it.rank, it.scoreHolderDisplayName, it.rawScore)
+                        }
 
-                    onResultAction(LeaderBoardResult(myResult, scores))
+                        onResultAction(LeaderBoardResult(myResult, scores))
+                    }
                 }
             }
         }
