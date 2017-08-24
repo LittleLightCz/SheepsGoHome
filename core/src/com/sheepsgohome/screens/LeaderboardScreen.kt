@@ -20,7 +20,7 @@ import com.sheepsgohome.ui.onClick
 
 class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
-//    private val leaderBoard = LeaderBoard.instance
+    private val MAX_PLAYER_NAME_LENGTH = 16
 
     private val buttonBack = SmallSheepButton(loc.get("back"))
     private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
@@ -111,7 +111,7 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
             for (row in result.leaderboardRows) {
                 contentTable.add(getTableRowLabel(row.rank.toString()))
-                contentTable.add(getTableRowLabel(row.nick))
+                contentTable.add(getTableRowLabel(row.nick.take(MAX_PLAYER_NAME_LENGTH)))
                 contentTable.add(getTableRowLabel(row.level.toString())).row()
             }
 

@@ -1,10 +1,10 @@
 package com.sheepsgohome.dialogs
 
+import com.badlogic.gdx.Screen
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.screens.switchScreen
-import com.sheepsgohome.screens.PlayerSettingsScreen
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 
@@ -16,7 +16,7 @@ class LeaderboardResultDialog(position: Int) : AbstractFixedSizeDialog() {
     private val titleLabel: Label = Label(loc.get("your.position.is"), skin)
     private val rankLabel: Label = Label("$position.", skin, "menuTitle")
 
-    private var screen: PlayerSettingsScreen? = null
+    private var screen: Screen? = null
 
     init {
         titleLabel.setFontScale(0.40f)
