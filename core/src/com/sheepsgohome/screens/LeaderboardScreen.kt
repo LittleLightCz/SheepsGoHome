@@ -58,6 +58,12 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
             if (!leaderboard.isConnected) {
                 leaderboard.registerConnectionCallback(this)
                 leaderboard.connect()
+
+                messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
+                    fixedHeight = 50f
+                }
+
+                messageDialog?.show(stage)
             } else {
                 onConnected()
             }
@@ -66,8 +72,10 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
     }
 
     override fun onConnected() {
-        messageDialog = MessageDialog(loc.get("connecting")).apply {
-            fixedHeight = 60f
+        hideMessageDialog()
+
+        messageDialog = MessageDialog(loc.get("downloading.data")).apply {
+            fixedHeight = 55f
             addCancelButtonWithAction { leaderboard?.cancelPendingResult() }
         }
 
