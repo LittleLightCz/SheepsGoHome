@@ -15,7 +15,7 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.leaderboard.LeaderBoardRow
 import com.sheepsgohome.shared.GameData
 
-class GoogleLeaderboardBridge(val activity: Activity) : GoogleLeaderboard, ConnectionCallbacks {
+class GoogleLeaderboardBridge(activity: Activity) : GoogleLeaderboard, ConnectionCallbacks {
 
     companion object {
         val REQUEST_RESOLVE_CONNECTION_ISSUE = 0
