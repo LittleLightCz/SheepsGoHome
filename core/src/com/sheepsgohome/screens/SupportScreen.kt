@@ -29,7 +29,7 @@ class SupportScreen : MenuScreen() {
         }
 
         buttonRate.onClick {
-            GameData.androidFunctions.launchRateAppAction()
+            GameData.android?.launchRateAppAction()
         }
 
         buttonShareFB.onClick {

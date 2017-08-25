@@ -1,7 +1,6 @@
 package com.sheepsgohome.leaderboard
 
-class LeaderBoardResult {
-    var error: String? = null
-    var mypos: LeaderBoardRow? = null
-    var leaderboard = emptyList<LeaderBoardRow>()
-}
+class LeaderBoardResult (
+        var myResult: LeaderBoardRow?,
+        var leaderboardRows: List<LeaderBoardRow>
+)

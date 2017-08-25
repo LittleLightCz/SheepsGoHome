@@ -8,19 +8,19 @@ import com.sheepsgohome.dialogs.LeaderboardResultDialog
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
-import com.sheepsgohome.leaderboard.LeaderBoard
-import com.sheepsgohome.leaderboard.LeaderBoardCallback
+import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
+import com.sheepsgohome.shared.GameData.leaderboard
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
-class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
+class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
-    private val leaderBoard = LeaderBoard.instance
+    private val MAX_PLAYER_NAME_LENGTH = 16
 
     private val buttonBack = SmallSheepButton(loc.get("back"))
     private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
@@ -54,18 +54,43 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
 
         Gdx.input.inputProcessor = stage
 
-        //update leadeboard first
-        if (GameData.PLAYER_NAME == "") {
-            unregisteredUser()
-        } else {
-            leaderBoard.register(
-                    GameData.androidFunctions.deviceId,
-                    GameData.PLAYER_NAME,
-                    GameData.LEVEL,
-                    GameData.androidFunctions.countryCode,
-                    this)
+        GameData.leaderboard?.let { leaderboard ->
+            if (!leaderboard.isConnected) {
+                leaderboard.registerConnectionCallback(this)
+                leaderboard.connect()
+
+                messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
+                    fixedHeight = 50f
+                }
+
+                messageDialog?.show(stage)
+            } else {
+                onConnected()
+            }
+        }
+
+    }
+
+    override fun onConnected() {
+        hideMessageDialog()
+
+        messageDialog = MessageDialog(loc.get("downloading.data")).apply {
+            fixedHeight = 55f
+            addCancelButtonWithAction { leaderboard?.cancelPendingResult() }
+        }
+
+        messageDialog?.show(stage)
+
+        leaderboard?.fetchLeaderboardData { result ->
+            showLeaderboardResult(result)
         }
     }
+
+    override fun onConnectionFailure() {
+        hideMessageDialog()
+        showFailureOkDialog(loc.get("connection.failed"), 60f)
+    }
+
 
     /**
      * LeaderBoard callback
@@ -81,65 +106,8 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
         }.show(stage)
     }
 
-    override fun connecting() {
-        messageDialog = MessageDialog(loc.get("connecting")).apply {
-            fixedHeight = 60f
-            addCancelButtonWithAction { leaderBoard.isTerminated = true }
-        }
 
-        messageDialog?.show(stage)
-    }
-
-    override fun connectionToDatabaseFailed() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("connection.to.database.failed"), 60f)
-    }
-
-    override fun invalidData() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("invalid.data"), 80f)
-    }
-
-    override fun nickAlreadyInUse() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("player.name.already.in.use"), 90f)
-    }
-
-    override fun success() {
-        hideMessageDialog()
-
-        //fetch leaderboard
-        if (!leaderBoard.isTerminated) {
-            leaderBoard.fetchLeaderboard(GameData.androidFunctions.deviceId, this)
-        }
-    }
-
-    override fun failure() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("unknown.failure"), 60f)
-    }
-
-    override fun failedToInitializeMD5() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("md5.init.failed"), 95f)
-    }
-
-    override fun connectionFailed() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("connection.failed"), 60f)
-    }
-
-    override fun connectionCanceled() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("connection.canceled"), 85f)
-    }
-
-    override fun unregisteredUser() {
-        hideMessageDialog()
-        showFailureOkDialog(loc.get("unregistered.player"), 80f)
-    }
-
-    override fun leaderboardResult(result: LeaderBoardResult) {
+    private fun showLeaderboardResult(result: LeaderBoardResult) {
         Gdx.app.postRunnable {
             hideMessageDialog()
 
@@ -149,9 +117,9 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
             contentTable.add(getTableHeaderLabel(loc.get("player"))).height(headingHeight)
             contentTable.add(getTableHeaderLabel(loc.get("level.heading"))).height(headingHeight).row()
 
-            for (row in result.leaderboard) {
+            for (row in result.leaderboardRows) {
                 contentTable.add(getTableRowLabel(row.rank.toString()))
-                contentTable.add(getTableRowLabel(row.nick))
+                contentTable.add(getTableRowLabel(row.nick.take(MAX_PLAYER_NAME_LENGTH)))
                 contentTable.add(getTableRowLabel(row.level.toString())).row()
             }
 
@@ -161,17 +129,17 @@ class LeaderboardScreen : MenuScreen(), LeaderBoardCallback {
             contentTable.add(emptyLabel).size(50f, 1f).row()
 
             //restore Level if it is higher
-            result.mypos?.level?.let {
-                if (it > GameData.LEVEL) {
-                    GameData.LEVEL = it
-                    GameData.savePreferences()
-                }
-            }
+            result.myResult?.let {
+                with(it) {
+                    if (level > GameData.LEVEL) {
+                        GameData.LEVEL = level.toInt()
+                        GameData.savePreferences()
+                    }
 
-            result.mypos?.rank?.let {
-                LeaderboardResultDialog(it).apply {
-                    fixedHeight = 70f
-                }.show(stage)
+                    LeaderboardResultDialog(rank.toInt()).apply {
+                        fixedHeight = 70f
+                    }.show(stage)
+                }
             }
 
         }

@@ -4,7 +4,8 @@ import com.badlogic.gdx.Application.ApplicationType.Desktop
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
-import com.sheepsgohome.interfaces.AndroidFunctions
+import com.sheepsgohome.android.Android
+import com.sheepsgohome.google.GoogleLeaderboard
 import java.util.*
 
 
@@ -17,8 +18,12 @@ object GameData {
         I18NBundle.createBundle(baseFileHandle, locale)
     }
 
+    //----------------ANDROID BRIDGE-----------------
+    var android: Android? = null
+    var leaderboard: GoogleLeaderboard? = null
+
     //----------------CONSTANTS----------------------
-    val VERSION_STRING = "1.0.2"
+    val VERSION_STRING = "1.0.3"
     val codeX = "oiaewj023897rvoiuwanvoiune0v9128n09r2898v7q3342089"
 
     val CAMERA_HEIGHT = 160f
@@ -27,15 +32,7 @@ object GameData {
     val SETTINGS_TITLE_FONT_SCALE = 0.35f
     val SETTINGS_ITEM_FONT_SCALE = 0.5f
 
-
-
-
-
     //----------------PREFERENCES----------------------
-
-
-
-
     var VIRTUAL_JOYSTICK = 0
     var VIRTUAL_JOYSTICK_NONE = 0
     var VIRTUAL_JOYSTICK_LEFT = 1
@@ -48,8 +45,6 @@ object GameData {
     //----------------GAME-DATA----------------------
     var LEVEL = 1
     var PLAYER_NAME = ""
-
-    lateinit var androidFunctions: AndroidFunctions
 
     fun loadPreferences() {
         with(gamePreferences) {

@@ -14,7 +14,6 @@ import com.sheepsgohome.ui.onClick
 
 class SettingsScreen : MenuScreen() {
 
-    private val buttonPlayer = BigSheepButton(loc.get("player"))
     private val buttonControls = BigSheepButton(loc.get("controls"))
     private val buttonSound = BigSheepButton(loc.get("sound"))
 
@@ -23,9 +22,6 @@ class SettingsScreen : MenuScreen() {
     private val title = Label(loc.get("settings"), skin, "menuTitle")
 
     init {
-        buttonPlayer.onClick {
-            switchScreen(PlayerSettingsScreen())
-        }
 
         buttonControls.onClick {
             switchScreen(ControlsSettingsScreen())
@@ -46,7 +42,6 @@ class SettingsScreen : MenuScreen() {
 
         val buttonsTable = Table()
 
-        buttonPlayer.addTo(buttonsTable).row()
         buttonControls.addTo(buttonsTable).row()
         buttonSound.addTo(buttonsTable).row()
 
