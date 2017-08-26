@@ -12,9 +12,9 @@ import com.google.common.collect.Iterables
 import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.dialogs.NewBadgeDialog
 import com.sheepsgohome.enums.GameResult
+import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
-import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED

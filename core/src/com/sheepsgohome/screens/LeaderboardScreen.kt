@@ -15,6 +15,7 @@ import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.leaderboard
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
@@ -23,7 +24,7 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
     private val MAX_PLAYER_NAME_LENGTH = 16
 
     private val buttonBack = SmallSheepButton(loc.get("back"))
-    private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
+    private val title = ScreenTitle(loc.get("leaderboard"))
 
     private val contentTable = Table()
 
@@ -35,7 +36,6 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
             switchToMainMenuScreen()
         }
 
-        title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
         table.add(title).top().row()
 
         val scrollPane = ScrollPane(contentTable)

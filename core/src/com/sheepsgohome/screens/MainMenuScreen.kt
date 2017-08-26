@@ -9,6 +9,7 @@ import com.sheepsgohome.gdx.listeners.changed
 import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
+import com.sheepsgohome.screens.multiplayer.MultiplayerRoomsScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
@@ -24,6 +25,7 @@ class MainMenuScreen : MenuScreen() {
     private val multiplier = 2f
 
     private val buttonPlay = BigSheepButton(loc.get("play"))
+    private val buttonMultiplayer = BigSheepButton(loc.get("multiplayer"))
     private val buttonLeaderboard = BigSheepButton(loc.get("leaderboard"))
     private val buttonSettings = BigSheepButton(loc.get("settings"))
     private val buttonExit = BigSheepButton(loc.get("exit"))
@@ -59,13 +61,16 @@ class MainMenuScreen : MenuScreen() {
             switchScreen(SupportScreen())
         })
 
-        //click listeners
         buttonPlay.onClick {
             if (sheepsTheme.isPlaying) {
                 sheepsTheme.pause()
             }
 
             switchToGameplayClassicModeScreen()
+        }
+
+        buttonMultiplayer.onClick {
+            switchScreen(MultiplayerRoomsScreen())
         }
 
         buttonLeaderboard.onClick {
@@ -82,12 +87,10 @@ class MainMenuScreen : MenuScreen() {
         titleLabel.setFontScale(fontScale)
         table.add(titleLabel)
                 .colspan(2)
-                .height(25f)
-                .padTop(5f)
+                .height(20f)
                 .row()
 
         table.add(versionLabel)
-                .expandX()
                 .colspan(2)
                 .top()
                 .center()
@@ -95,6 +98,7 @@ class MainMenuScreen : MenuScreen() {
 
         val buttonsTable = Table().apply {
             buttonPlay.addTo(this).row()
+            buttonMultiplayer.addTo(this).row()
 
             GameData.leaderboard?.let {
                 buttonLeaderboard.addTo(this).row()
@@ -106,6 +110,7 @@ class MainMenuScreen : MenuScreen() {
 
         table.add(buttonsTable)
                 .expandY()
+                .expandX()
                 .colspan(2)
                 .row()
 
@@ -127,7 +132,6 @@ class MainMenuScreen : MenuScreen() {
                 .padRight(1f)
                 .padBottom(2f)
                 .row()
-
 
         Gdx.input.inputProcessor = stage
 

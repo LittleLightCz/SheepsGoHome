@@ -29,7 +29,6 @@ object GameData {
     val CAMERA_HEIGHT = 160f
     val CAMERA_WIDTH = 90f
 
-    val SETTINGS_TITLE_FONT_SCALE = 0.35f
     val SETTINGS_ITEM_FONT_SCALE = 0.5f
 
     //----------------PREFERENCES----------------------

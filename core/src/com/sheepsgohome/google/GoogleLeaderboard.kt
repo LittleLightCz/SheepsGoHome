@@ -2,7 +2,6 @@ package com.sheepsgohome.google
 
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
-import com.sheepsgohome.leaderboard.LeaderBoardRow
 
 interface GoogleLeaderboard {
 
