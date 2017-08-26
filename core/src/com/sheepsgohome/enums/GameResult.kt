@@ -1,4 +1,4 @@
-package com.sheepsgohome.screens
+package com.sheepsgohome.enums
 
 enum class GameResult {
     SHEEP_EATEN_BY_WILD_WOLF,
