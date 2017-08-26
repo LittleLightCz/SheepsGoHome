@@ -29,6 +29,8 @@ import com.sheepsgohome.ui.onClick
 class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
 
     private val BADGES_COUNT = 12
+    private val BADGES_PER_ROW = 6
+
     private val BUTTON_WIDTH = 80f
 
     private var buttonRetry: TextButton? = null
@@ -158,7 +160,7 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
         val displayedBadges = getDisplayedBadges(level)
 
         if (displayedBadges.isNotEmpty()) {
-            Iterables.partition(displayedBadges, 5)
+            Iterables.partition(displayedBadges, BADGES_PER_ROW)
                 .forEach { row ->
                     row.forEach { badge ->
                         tab.add(badge.image)
