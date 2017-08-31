@@ -8,7 +8,7 @@ import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 
-class NewBadgeDialog(badgeInstance: Badge) : AbstractFixedSizeDialog() {
+class NewBadgeDialog(badgeInstance: Badge, isNew: Boolean = true) : AbstractFixedSizeDialog() {
 
     private val badge = badgeInstance.clone()
 
@@ -28,7 +28,9 @@ class NewBadgeDialog(badgeInstance: Badge) : AbstractFixedSizeDialog() {
     init {
         fixedHeight = 140f
 
-        contentTable.add(titleLabel).row()
+        if (isNew) {
+            contentTable.add(titleLabel).row()
+        }
 
         contentTable.add(badge.image)
                 .size(BADGE_SIZE, BADGE_SIZE)

@@ -15,6 +15,7 @@ import com.sheepsgohome.enums.GameResult
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.enums.GameResult.*
+import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
@@ -55,7 +56,13 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
     private val sheepImage by lazy { Image(sheepTexture) }
     private val wolfImage by lazy { Image(wolfTexture) }
 
-    private val badges = (1..BADGES_COUNT).map { Badge(it) }
+    private val badges = (1..BADGES_COUNT).map {
+        Badge(it).apply {
+            image.addListener(clicked {
+                NewBadgeDialog(this, isNew = false).show(stage)
+            })
+        }
+    }
 
     init {
         when(gameResult) {
