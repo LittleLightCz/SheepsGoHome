@@ -2,6 +2,7 @@ package com.sheepsgohome.badges
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.shared.GameData.loc
 
 class Badge(val badgeNumber: Int) {
