@@ -18,9 +18,13 @@ import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameMusic.sheepsTheme
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.BigSheepButton
+import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
 class MainMenuScreen : MenuScreen() {
+
+    private val checkBoxSizeScale = 1.65f
+    private val checkBoxSize = BigSheepButton.BUTTON_WIDTH / (checkBoxSizeScale * 2)
 
     private val multiplier = 2f
 
@@ -28,7 +32,11 @@ class MainMenuScreen : MenuScreen() {
     private val buttonMultiplayer = BigSheepButton(loc.get("multiplayer"))
     private val buttonLeaderboard = BigSheepButton(loc.get("leaderboard"))
     private val buttonSettings = BigSheepButton(loc.get("settings"))
-    private val buttonExit = BigSheepButton(loc.get("exit"))
+
+    private val buttonExit = SmallSheepButton(loc.get("exit")).apply {
+        buttonWidth += 20
+        buttonHeight = checkBoxSize
+    }
 
     private val buttonSupport = ImageButton(skin, "support")
     private val musicCheckBox = CheckBox("", skin).apply {
@@ -36,9 +44,13 @@ class MainMenuScreen : MenuScreen() {
     }
 
     private val titleLabel = Label(loc.get("sheeps.go.home"), skin, "menuTitle")
-    private val versionLabel = Label(GameData.VERSION_STRING, skin)
+    private val versionLabel = Label(GameData.VERSION_STRING, skin).apply {
+        setFontScale(0.35f)
+    }
 
     init {
+        val tableColspan = 3
+
         musicCheckBox.addListener(changed { _, actor ->
             val cbox = actor as CheckBox?
             if (cbox != null) {
@@ -85,18 +97,19 @@ class MainMenuScreen : MenuScreen() {
 
         val fontScale = (CAMERA_WIDTH * multiplier - 20) / titleLabel.prefWidth
         titleLabel.setFontScale(fontScale)
+
         table.add(titleLabel)
-                .colspan(2)
+                .colspan(tableColspan)
                 .height(20f)
                 .row()
 
         table.add(versionLabel)
-                .colspan(2)
+                .colspan(tableColspan)
                 .top()
                 .center()
                 .row()
 
-        val buttonsTable = Table().apply {
+        val verticalButtonsTable = Table().apply {
             buttonPlay.addTo(this).row()
             buttonMultiplayer.addTo(this).row()
 
@@ -105,18 +118,15 @@ class MainMenuScreen : MenuScreen() {
             }
 
             buttonSettings.addTo(this).row()
-            buttonExit.addTo(this).row()
         }
 
-        table.add(buttonsTable)
+        table.add(verticalButtonsTable)
                 .expandY()
                 .expandX()
-                .colspan(2)
+                .colspan(tableColspan)
                 .row()
 
-        val checkBoxSizeScale = 1.65f
-
-        val checkBoxSize = BigSheepButton.BUTTON_WIDTH / (checkBoxSizeScale * 2)
+        // bottom buttons
         table.add(musicCheckBox)
                 .left()
                 .bottom()
@@ -124,7 +134,9 @@ class MainMenuScreen : MenuScreen() {
                 .padLeft(2f)
                 .padBottom(2f)
 
-        versionLabel.setFontScale(0.35f)
+        buttonExit.addTo(table)
+                .padBottom(2f)
+
         table.add(buttonSupport)
                 .size(checkBoxSize, checkBoxSize)
                 .bottom()
