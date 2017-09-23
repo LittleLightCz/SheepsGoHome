@@ -37,10 +37,9 @@ class MainMenuScreen : MenuScreen() {
     private val versionLabel = Label(GameData.VERSION_STRING, skin)
 
     init {
-        musicCheckBox.addListener(changed { _, actor ->
-            val cbox = actor as CheckBox?
-            if (cbox != null) {
-                if (cbox.isChecked) {
+        musicCheckBox.addListener(changed { _, checkBox ->
+            if (checkBox is CheckBox) {
+                if (checkBox.isChecked) {
                     MUSIC_ENABLED = true
                     if (!sheepsTheme.isPlaying) {
                         sheepsTheme.play()

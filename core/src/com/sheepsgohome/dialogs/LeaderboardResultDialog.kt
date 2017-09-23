@@ -2,23 +2,23 @@ package com.sheepsgohome.dialogs
 
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.SmallSheepButton
 
-class LeaderboardResultDialog(position: Int) : AbstractFixedSizeDialog() {
+class LeaderboardResultDialog(rank: Long) : AbstractFixedSizeDialog() {
 
-    private val BUTTON_WIDTH = 50f
-
-    private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
-    private val titleLabel: Label = Label(loc.get("your.position.is"), skin)
-    private val rankLabel: Label = Label("$position.", skin, "menuTitle")
+    private val buttonOk = SmallSheepButton(loc.get("ok"))
+    private val titleLabel = Label(loc.get("your.position.is"), skin)
+    private val rankLabel = Label("$rank.", skin, "menuTitle")
 
     private var screen: Screen? = null
 
     init {
+        fixedHeight = 70f
+
         titleLabel.setFontScale(0.40f)
         contentTable.add(titleLabel)
                 .center()
@@ -36,10 +36,10 @@ class LeaderboardResultDialog(position: Int) : AbstractFixedSizeDialog() {
             switchScreen(screen)
         })
 
-        contentTable.add(buttonOk)
-                .size(BUTTON_WIDTH, BUTTON_WIDTH / 2)
+        buttonOk.addTo(contentTable)
                 .bottom()
                 .padBottom(10f)
                 .row()
+
     }
 }
