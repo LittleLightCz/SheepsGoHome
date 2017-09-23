@@ -1,6 +1,7 @@
 package com.sheepsgohome.dialogs
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.utils.Align
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
@@ -34,6 +35,8 @@ class LeaderboardResultDialog(rank: Long) : AbstractFixedSizeDialog() {
 
             fixedHeight = 100f
         } else {
+            titleLabel.setAlignment(Align.center)
+
             contentTable.add(rankLabel)
                     .center()
                     .row()
