@@ -1,45 +1,49 @@
 package com.sheepsgohome.dialogs
 
-import com.badlogic.gdx.Screen
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.sheepsgohome.gdx.listeners.clicked
-import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
+import com.sheepsgohome.ui.onClick
 
 class LeaderboardResultDialog(rank: Long) : AbstractFixedSizeDialog() {
 
-    private val buttonOk = SmallSheepButton(loc.get("ok"))
-    private val titleLabel = Label(loc.get("your.position.is"), skin)
-    private val rankLabel = Label("$rank.", skin, "menuTitle")
+    private val buttonOk = SmallSheepButton(loc.get("ok")).apply {
+        style.font.setScale(0.5f)
+        onClick { hide() }
+    }
 
-    private var screen: Screen? = null
+    private val rankLabel = Label("$rank.", skin, "menuTitle").apply {
+        setFontScale(0.5f)
+    }
+
+    private val titleLabel = Label(loc.get("your.position.is"), skin).apply {
+        setFontScale(0.40f)
+    }
 
     init {
-        fixedHeight = 70f
 
-        titleLabel.setFontScale(0.40f)
         contentTable.add(titleLabel)
-                .center()
+                .width(130f)
                 .padTop(10f)
                 .row()
 
-        rankLabel.setFontScale(0.5f)
-        contentTable.add(rankLabel)
-                .center()
-                .row()
+        if (rank == -1L) {
+            titleLabel.setText(loc.get("your.rank.is.not.public"))
+            titleLabel.setWrap(true)
 
-        buttonOk.style.font.setScale(0.5f)
-        buttonOk.addListener(clicked {
-            hide()
-            switchScreen(screen)
-        })
+            fixedHeight = 100f
+        } else {
+            contentTable.add(rankLabel)
+                    .center()
+                    .row()
+
+            fixedHeight = 70f
+        }
 
         buttonOk.addTo(contentTable)
                 .bottom()
                 .padBottom(10f)
                 .row()
-
     }
 }
