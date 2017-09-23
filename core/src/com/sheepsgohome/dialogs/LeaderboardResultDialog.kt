@@ -1,43 +1,50 @@
 package com.sheepsgohome.dialogs
 
-import com.badlogic.gdx.Screen
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.sheepsgohome.gdx.listeners.clicked
-import com.sheepsgohome.gdx.screens.switchScreen
+import com.badlogic.gdx.scenes.scene2d.utils.Align
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.SmallSheepButton
+import com.sheepsgohome.ui.onClick
 
-class LeaderboardResultDialog(position: Int) : AbstractFixedSizeDialog() {
+class LeaderboardResultDialog(rank: Long) : AbstractFixedSizeDialog() {
 
-    private val BUTTON_WIDTH = 50f
+    private val buttonOk = SmallSheepButton(loc.get("ok")).apply {
+        style.font.setScale(0.5f)
+        onClick { hide() }
+    }
 
-    private val buttonOk: TextButton = TextButton(loc.get("ok"), skin)
-    private val titleLabel: Label = Label(loc.get("your.position.is"), skin)
-    private val rankLabel: Label = Label("$position.", skin, "menuTitle")
+    private val rankLabel = Label("$rank.", skin, "menuTitle").apply {
+        setFontScale(0.5f)
+    }
 
-    private var screen: Screen? = null
+    private val titleLabel = Label(loc.get("your.position.is"), skin).apply {
+        setFontScale(0.40f)
+    }
 
     init {
-        titleLabel.setFontScale(0.40f)
+
         contentTable.add(titleLabel)
-                .center()
+                .width(130f)
                 .padTop(10f)
                 .row()
 
-        rankLabel.setFontScale(0.5f)
-        contentTable.add(rankLabel)
-                .center()
-                .row()
+        if (rank == -1L) {
+            titleLabel.setText(loc.get("your.rank.is.not.public"))
+            titleLabel.setWrap(true)
 
-        buttonOk.style.font.setScale(0.5f)
-        buttonOk.addListener(clicked {
-            hide()
-            switchScreen(screen)
-        })
+            fixedHeight = 100f
+        } else {
+            titleLabel.setAlignment(Align.center)
 
-        contentTable.add(buttonOk)
-                .size(BUTTON_WIDTH, BUTTON_WIDTH / 2)
+            contentTable.add(rankLabel)
+                    .center()
+                    .row()
+
+            fixedHeight = 70f
+        }
+
+        buttonOk.addTo(contentTable)
                 .bottom()
                 .padBottom(10f)
                 .row()

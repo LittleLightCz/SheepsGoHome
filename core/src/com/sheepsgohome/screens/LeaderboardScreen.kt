@@ -136,9 +136,7 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
                         GameData.savePreferences()
                     }
 
-                    LeaderboardResultDialog(rank.toInt()).apply {
-                        fixedHeight = 70f
-                    }.show(stage)
+                    LeaderboardResultDialog(rank).show(stage)
                 }
             }
 
