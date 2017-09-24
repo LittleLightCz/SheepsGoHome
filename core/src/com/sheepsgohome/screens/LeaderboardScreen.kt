@@ -54,21 +54,19 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
         Gdx.input.inputProcessor = stage
 
-        GameData.leaderboard?.let { leaderboard ->
-            if (!leaderboard.isConnected) {
-                leaderboard.registerConnectionCallback(this)
-                leaderboard.connect()
-
-                messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
-                    fixedHeight = 50f
-                }
-
-                messageDialog?.show(stage)
-            } else {
-                onConnected()
-            }
+        GameData.leaderboard?.let {
+            it.registerConnectionCallback(this)
+            it.connect()
         }
 
+    }
+
+    override fun onConnecting() {
+        messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
+            fixedHeight = 50f
+        }
+
+        messageDialog?.show(stage)
     }
 
     override fun onConnected() {
@@ -151,4 +149,10 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
         setFontScale(0.32f)
     }
 
+    override fun hide() {
+        super.hide()
+        GameData.leaderboard?.let {
+            it.unregisterConnectionCallback(this)
+        }
+    }
 }

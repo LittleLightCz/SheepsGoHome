@@ -5,13 +5,12 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 
 interface GoogleLeaderboard {
 
-    val isConnected: Boolean
-
     fun connect()
 
     fun cancelPendingResult()
 
     fun registerConnectionCallback(callback: GoogleConnectionCallback)
+    fun unregisterConnectionCallback(callback: GoogleConnectionCallback)
 
     fun fetchLeaderboardData(onResultAction: (LeaderBoardResult) -> Unit)
 }

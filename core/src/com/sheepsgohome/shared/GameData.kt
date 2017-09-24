@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.android.Android
 import com.sheepsgohome.google.GoogleLeaderboard
+import com.sheepsgohome.google.GoogleMultiplayer
 import java.util.*
 
 
@@ -21,6 +22,7 @@ object GameData {
     //----------------ANDROID BRIDGE-----------------
     var android: Android? = null
     var leaderboard: GoogleLeaderboard? = null
+    var multiplayer: GoogleMultiplayer? = null
 
     //----------------CONSTANTS----------------------
     val VERSION_STRING = "1.0.3"
