@@ -11,7 +11,7 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.leaderboard.LeaderBoardRow
 import com.sheepsgohome.shared.GameData
 
-class GoogleLeaderboardBridge : GoogleLeaderboard, GoogleConnectionCallback {
+class GoogleLeaderboardBridge : GoogleLeaderboard {
 
     companion object {
         val REQUEST_RESOLVE_CONNECTION_ISSUE = 0
@@ -21,41 +21,26 @@ class GoogleLeaderboardBridge : GoogleLeaderboard, GoogleConnectionCallback {
 
     private var pendingResult: PendingResult<LoadScoresResult>? = null
 
+    private var callback: GoogleConnectionCallback? = null
+
+    override fun connect() {
+        GoogleClient.connect {
+            callback?.onConnecting()
+        }
+    }
+
     override fun cancelPendingResult() {
         pendingResult?.cancel()
     }
 
-    private var callback: GoogleConnectionCallback? = null
-
-    override fun connect() {
-        if (!GoogleClient.isConnected) {
-            GoogleClient.connect()
-            onConnecting()
-        } else {
-            onConnected()
-        }
-    }
-
     override fun registerConnectionCallback(callback: GoogleConnectionCallback) {
         this.callback = callback
-        GoogleClient.addCallback(this)
+        GoogleClient.addCallback(callback)
     }
 
     override fun unregisterConnectionCallback(callback: GoogleConnectionCallback) {
         this.callback = null
         GoogleClient.removeCallback(callback)
-    }
-
-    override fun onConnecting() {
-        callback?.onConnecting()
-    }
-
-    override fun onConnected() {
-        callback?.onConnected()
-    }
-
-    override fun onConnectionFailure() {
-        callback?.onConnectionFailure()
     }
 
     override fun fetchLeaderboardData(onResultAction: (LeaderBoardResult) -> Unit) {

@@ -32,8 +32,13 @@ object GoogleClient : GoogleApiClient.ConnectionCallbacks {
     val isConnected: Boolean
         get() = client.isConnected
 
-    fun connect() {
-        client.connect()
+    fun connect(onConnecting: () -> Unit) {
+        if (!isConnected) {
+            client.connect()
+            onConnecting()
+        } else {
+            onConnected(null)
+        }
     }
 
     override fun onConnected(bundle: Bundle?) {

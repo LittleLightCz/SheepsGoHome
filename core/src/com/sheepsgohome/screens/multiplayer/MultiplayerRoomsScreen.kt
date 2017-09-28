@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.multiplayer.MultiplayerRoom
 import com.sheepsgohome.screens.MenuScreen
+import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameSkins
@@ -43,7 +44,7 @@ class MultiplayerRoomsScreen : MenuScreen() {
         }
 
         createButton.onClick {
-            //todo
+            GameData.multiplayer?.createRoom()
         }
 
         refreshButton.onClick {
