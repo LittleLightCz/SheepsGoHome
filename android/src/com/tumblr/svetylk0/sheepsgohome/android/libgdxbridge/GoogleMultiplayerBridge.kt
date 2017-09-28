@@ -1,34 +1,29 @@
 package com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge
 
 import android.app.Activity
-import android.os.Bundle
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.realtime.*
 import com.sheepsgohome.google.GoogleMultiplayer
 
 
-class GoogleMultiplayerBridge : GoogleMultiplayer, GoogleApiClient.ConnectionCallbacks, RoomUpdateListener, RealTimeMessageReceivedListener, RoomStatusUpdateListener {
-
-
+class GoogleMultiplayerBridge(val activity: Activity) : GoogleMultiplayer, RoomUpdateListener, RealTimeMessageReceivedListener, RoomStatusUpdateListener {
+    override fun connect() {
+        GoogleClient.connect {
+            //TODO connecting?
+        }
+    }
 
     override fun createRoom() {
+
+        val criteria = RoomConfig.createAutoMatchCriteria(1, 7, 0)
+
         val builder = RoomConfig.builder(this)
-        builder.setMessageReceivedListener(this)
-        builder.setRoomStatusUpdateListener(this)
+                .setMessageReceivedListener(this)
+                .setRoomStatusUpdateListener(this)
+                .setAutoMatchCriteria(criteria)
 
         val roomConfig = builder.build()
         Games.RealTimeMultiplayer.create(GoogleClient.get(), roomConfig)
-    }
-
-    /**
-     * Google client callbacks
-     */
-
-    override fun onConnected(p0: Bundle?) {
-    }
-
-    override fun onConnectionSuspended(p0: Int) {
     }
 
     /**
@@ -41,7 +36,9 @@ class GoogleMultiplayerBridge : GoogleMultiplayer, GoogleApiClient.ConnectionCal
     override fun onLeftRoom(p0: Int, p1: String?) {
     }
 
-    override fun onRoomCreated(p0: Int, p1: Room?) {
+    override fun onRoomCreated(status: Int, room: Room?) {
+        val intent = Games.RealTimeMultiplayer.getWaitingRoomIntent(GoogleClient.get(), room, 1)
+        activity.startActivityForResult(intent, 0)
     }
 
     override fun onRoomConnected(p0: Int, p1: Room?) {

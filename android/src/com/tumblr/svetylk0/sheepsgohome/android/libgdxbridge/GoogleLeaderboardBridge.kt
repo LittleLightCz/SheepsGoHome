@@ -13,10 +13,6 @@ import com.sheepsgohome.shared.GameData
 
 class GoogleLeaderboardBridge : GoogleLeaderboard {
 
-    companion object {
-        val REQUEST_RESOLVE_CONNECTION_ISSUE = 0
-    }
-
     private val CLASSIC_MODE_LEADERBOARD_ID = "CgkIzpjQtpcDEAIQAQ"
 
     private var pendingResult: PendingResult<LoadScoresResult>? = null

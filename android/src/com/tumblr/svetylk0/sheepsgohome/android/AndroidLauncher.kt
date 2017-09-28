@@ -25,12 +25,18 @@ class AndroidLauncher : AndroidApplication() {
 
         GameData.android = AndroidBridge(this)
         GameData.leaderboard = leaderboardBridge
-        GameData.multiplayer = GoogleMultiplayerBridge()
+        GameData.multiplayer = GoogleMultiplayerBridge(this)
 
         initialize(SheepsGoHomeMain(), config)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        GoogleClient.onActivityResult(requestCode, resultCode)
+        when(requestCode) {
+            LEADERBOARD_RESOLVE_CONNECTION_ISSUE -> GoogleClient.onActivityResult(requestCode, resultCode)
+        }
+    }
+
+    companion object {
+        val LEADERBOARD_RESOLVE_CONNECTION_ISSUE = 0
     }
 }

@@ -102,6 +102,8 @@ class MultiplayerRoomsScreen : MenuScreen() {
 
 //        table.debug()
 
+        GameData.multiplayer?.connect()
+
         refreshRoomsData()
 
         //todo remove
