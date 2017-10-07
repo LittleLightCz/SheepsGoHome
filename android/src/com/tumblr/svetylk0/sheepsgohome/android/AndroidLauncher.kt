@@ -33,7 +33,8 @@ class AndroidLauncher : AndroidApplication() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(requestCode) {
-            RESOLVE_CONNECTION_ISSUE -> GoogleClient.onActivityResult(requestCode, resultCode)
+            RESOLVE_CONNECTION_ISSUE -> GoogleClient.resolveConnectionIssue(resultCode)
+            ActivityResult.MULTIPLAYER_WAITING_ROOM_INTENT -> GameData.multiplayer?.waitingRoomResult(resultCode)
         }
     }
 

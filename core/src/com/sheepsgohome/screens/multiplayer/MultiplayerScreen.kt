@@ -28,13 +28,19 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
     private var messageDialog: MessageDialog? = null
 
     init {
+        createButton.onClick {
+            messageDialog = MessageDialog(loc.get("creating.multiplayer.game")).apply {
+                fixedHeight = 50f
+            }
+
+            messageDialog?.show(stage)
+
+            GameData.multiplayer?.create()
+        }
+
         backButton.onClick {
             GameData.multiplayer?.unregisterConnectionCallback(this)
             switchToMainMenuScreen()
-        }
-
-        createButton.onClick {
-            GameData.multiplayer?.create()
         }
 
         searchButton.onClick {
@@ -87,6 +93,10 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
     override fun onConnectionFailure() {
         hideMessageDialog()
         showFailureOkDialog(loc.get("connection.failed"), 60f)
+    }
+
+    override fun onOperationAborted() {
+        hideMessageDialog()
     }
 
     private fun hideMessageDialog() {

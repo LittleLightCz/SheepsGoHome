@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.games.Games
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.tumblr.svetylk0.sheepsgohome.android.ActivityResult
-import com.tumblr.svetylk0.sheepsgohome.android.AndroidLauncher
 
 object GoogleClient : GoogleApiClient.ConnectionCallbacks {
 
@@ -59,19 +58,14 @@ object GoogleClient : GoogleApiClient.ConnectionCallbacks {
         callbacks = callbacks.filterNot { it === callback }.toMutableList()
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int) {
-        when (requestCode) {
-            ActivityResult.RESOLVE_CONNECTION_ISSUE -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        //reconnect
-                        client.connect()
-                    }
-                    else -> onConnectionSuspended(resultCode)
-                }
+    fun resolveConnectionIssue(resultCode: Int) {
+        when (resultCode) {
+            Activity.RESULT_OK -> {
+                //reconnect
+                client.connect()
             }
+            else -> onConnectionSuspended(resultCode)
         }
     }
-
 
 }

@@ -5,6 +5,7 @@ import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.realtime.*
 import com.sheepsgohome.google.GoogleMultiplayer
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
+import com.tumblr.svetylk0.sheepsgohome.android.ActivityResult
 
 
 class GoogleMultiplayerBridge(val activity: Activity) : GoogleMultiplayer, RoomUpdateListener, RealTimeMessageReceivedListener, RoomStatusUpdateListener {
@@ -25,6 +26,10 @@ class GoogleMultiplayerBridge(val activity: Activity) : GoogleMultiplayer, RoomU
     override fun unregisterConnectionCallback(callback: GoogleConnectionCallback) {
         this.callback = null
         GoogleClient.removeCallback(callback)
+    }
+
+    override fun waitingRoomResult(resultCode: Int) {
+        callback?.onOperationAborted()
     }
 
     override fun create() {
@@ -55,7 +60,7 @@ class GoogleMultiplayerBridge(val activity: Activity) : GoogleMultiplayer, RoomU
 
     override fun onRoomCreated(status: Int, room: Room?) {
         val intent = Games.RealTimeMultiplayer.getWaitingRoomIntent(GoogleClient.get(), room, 1)
-        activity.startActivityForResult(intent, 0)
+        activity.startActivityForResult(intent, ActivityResult.MULTIPLAYER_WAITING_ROOM_INTENT)
     }
 
     override fun onRoomConnected(p0: Int, p1: Room?) {
