@@ -4,17 +4,30 @@ import android.app.Activity
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.realtime.*
 import com.sheepsgohome.google.GoogleMultiplayer
+import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 
 
 class GoogleMultiplayerBridge(val activity: Activity) : GoogleMultiplayer, RoomUpdateListener, RealTimeMessageReceivedListener, RoomStatusUpdateListener {
+
+    private var callback: GoogleConnectionCallback? = null
+
     override fun connect() {
         GoogleClient.connect {
-            //TODO connecting?
+            callback?.onConnecting()
         }
     }
 
-    override fun createRoom() {
+    override fun registerConnectionCallback(callback: GoogleConnectionCallback) {
+        this.callback = callback
+        GoogleClient.addCallback(callback)
+    }
 
+    override fun unregisterConnectionCallback(callback: GoogleConnectionCallback) {
+        this.callback = null
+        GoogleClient.removeCallback(callback)
+    }
+
+    override fun create() {
         val criteria = RoomConfig.createAutoMatchCriteria(1, 7, 0)
 
         val builder = RoomConfig.builder(this)
@@ -24,6 +37,10 @@ class GoogleMultiplayerBridge(val activity: Activity) : GoogleMultiplayer, RoomU
 
         val roomConfig = builder.build()
         Games.RealTimeMultiplayer.create(GoogleClient.get(), roomConfig)
+    }
+
+    override fun search() {
+
     }
 
     /**

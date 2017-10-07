@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.sheepsgohome.SheepsGoHomeMain
 import com.sheepsgohome.shared.GameData
+import com.tumblr.svetylk0.sheepsgohome.android.ActivityResult.RESOLVE_CONNECTION_ISSUE
 import com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge.AndroidBridge
 import com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge.GoogleClient
 import com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge.GoogleLeaderboardBridge
@@ -32,11 +33,9 @@ class AndroidLauncher : AndroidApplication() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(requestCode) {
-            LEADERBOARD_RESOLVE_CONNECTION_ISSUE -> GoogleClient.onActivityResult(requestCode, resultCode)
+            RESOLVE_CONNECTION_ISSUE -> GoogleClient.onActivityResult(requestCode, resultCode)
         }
     }
 
-    companion object {
-        val LEADERBOARD_RESOLVE_CONNECTION_ISSUE = 0
-    }
+
 }

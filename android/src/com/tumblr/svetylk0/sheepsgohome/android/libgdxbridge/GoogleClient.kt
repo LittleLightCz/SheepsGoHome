@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.games.Games
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
+import com.tumblr.svetylk0.sheepsgohome.android.ActivityResult
 import com.tumblr.svetylk0.sheepsgohome.android.AndroidLauncher
 
 object GoogleClient : GoogleApiClient.ConnectionCallbacks {
@@ -18,7 +19,7 @@ object GoogleClient : GoogleApiClient.ConnectionCallbacks {
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener { result ->
                     if (result.hasResolution()) {
-                        result.startResolutionForResult(activity, GoogleLeaderboardBridge.REQUEST_RESOLVE_CONNECTION_ISSUE)
+                        result.startResolutionForResult(activity, ActivityResult.RESOLVE_CONNECTION_ISSUE)
                     } else {
                         callbacks.forEach { it.onConnectionFailure() }
                     }
@@ -60,7 +61,7 @@ object GoogleClient : GoogleApiClient.ConnectionCallbacks {
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         when (requestCode) {
-            AndroidLauncher.LEADERBOARD_RESOLVE_CONNECTION_ISSUE -> {
+            ActivityResult.RESOLVE_CONNECTION_ISSUE -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
                         //reconnect

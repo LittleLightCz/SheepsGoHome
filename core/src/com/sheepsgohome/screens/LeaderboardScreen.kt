@@ -89,10 +89,6 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
         showFailureOkDialog(loc.get("connection.failed"), 60f)
     }
 
-
-    /**
-     * LeaderBoard callback
-     */
     private fun hideMessageDialog() {
         messageDialog?.hide()
     }

@@ -9,7 +9,7 @@ import com.sheepsgohome.gdx.listeners.changed
 import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
-import com.sheepsgohome.screens.multiplayer.MultiplayerRoomsScreen
+import com.sheepsgohome.screens.multiplayer.MultiplayerScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
@@ -81,7 +81,7 @@ class MainMenuScreen : MenuScreen() {
         }
 
         buttonMultiplayer.onClick {
-            switchScreen(MultiplayerRoomsScreen())
+            switchScreen(MultiplayerScreen())
         }
 
         buttonLeaderboard.onClick {
