@@ -1,7 +1,6 @@
 package com.sheepsgohome.positioning
 
 import com.badlogic.gdx.physics.box2d.Body
-import com.google.common.collect.Iterables
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 
 class BodyPositioner {
@@ -15,7 +14,7 @@ class BodyPositioner {
 
         var row = 0
 
-        Iterables.partition(bodies, maxBodiesInRow).forEach { bodiesRow ->
+        bodies.chunked(maxBodiesInRow).forEach { bodiesRow ->
             var column = 1
             val rowWidth = bodiesRow.size * columnSize
             val centeredOffset = (CAMERA_WIDTH / 2) + (columnSize / 2) - (CAMERA_WIDTH - rowWidth) / 2

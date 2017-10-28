@@ -8,14 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.google.common.collect.Iterables
 import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.dialogs.NewBadgeDialog
 import com.sheepsgohome.enums.GameResult
 import com.sheepsgohome.enums.GameResult.*
+import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
-import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
@@ -167,7 +166,7 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
         val displayedBadges = getDisplayedBadges(level)
 
         if (displayedBadges.isNotEmpty()) {
-            Iterables.partition(displayedBadges, BADGES_PER_ROW)
+            displayedBadges.chunked(BADGES_PER_ROW)
                 .forEach { row ->
                     row.forEach { badge ->
                         tab.add(badge.image)
