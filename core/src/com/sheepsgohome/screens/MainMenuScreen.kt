@@ -13,7 +13,7 @@ import com.sheepsgohome.screens.multiplayer.MultiplayerScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameMusic.sheepsTheme
 import com.sheepsgohome.shared.GameSkins.skin
@@ -28,12 +28,12 @@ class MainMenuScreen : MenuScreen() {
 
     private val multiplier = 2f
 
-    private val buttonPlay = BigSheepButton(loc.get("play"))
-    private val buttonMultiplayer = BigSheepButton(loc.get("multiplayer"))
-    private val buttonLeaderboard = BigSheepButton(loc.get("leaderboard"))
-    private val buttonSettings = BigSheepButton(loc.get("settings"))
+    private val buttonPlay = BigSheepButton(Loc.play)
+    private val buttonMultiplayer = BigSheepButton(Loc.multiplayer)
+    private val buttonLeaderboard = BigSheepButton(Loc.leaderboard)
+    private val buttonSettings = BigSheepButton(Loc.settings)
 
-    private val buttonExit = SmallSheepButton(loc.get("exit")).apply {
+    private val buttonExit = SmallSheepButton(Loc.exit).apply {
         buttonWidth += 20
         buttonHeight = checkBoxSize
     }
@@ -43,7 +43,7 @@ class MainMenuScreen : MenuScreen() {
         isChecked = MUSIC_ENABLED
     }
 
-    private val titleLabel = Label(loc.get("sheeps.go.home"), skin, "menuTitle")
+    private val titleLabel = Label(Loc.sheepsGoHome, skin, "menuTitle")
     private val versionLabel = Label(GameData.VERSION_STRING, skin).apply {
         setFontScale(0.35f)
     }

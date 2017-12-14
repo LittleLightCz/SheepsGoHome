@@ -13,12 +13,6 @@ import java.util.*
 object GameData {
     private val gamePreferences: Preferences by lazy { Gdx.app.getPreferences("gamePreferences") }
 
-    val loc: I18NBundle by lazy {
-        val baseFileHandle = Gdx.files.internal("loc/Language")
-        val locale = Locale.getDefault()
-        I18NBundle.createBundle(baseFileHandle, locale)
-    }
-
     //----------------ANDROID BRIDGE-----------------
     var android: Android? = null
     var leaderboard: GoogleLeaderboard? = null

@@ -19,7 +19,7 @@ import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.SOUND_VOLUME
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.shared.GameSounds.soundNewBadge
 import com.sheepsgohome.shared.GameSounds.soundSheepSuccess
@@ -36,7 +36,7 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
     private var buttonRetry: TextButton? = null
     private var buttonNext: TextButton? = null
 
-    private val buttonQuit = TextButton(loc.get("quit"), skin).apply {
+    private val buttonQuit = TextButton(Loc.quit, skin).apply {
         onClick { switchToMainMenuScreen() }
     }
 
@@ -66,20 +66,20 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
     init {
         when(gameResult) {
             SHEEP_SUCCEEDED -> {
-                buttonNext = TextButton(loc.get("next.level"), skin).apply {
+                buttonNext = TextButton(Loc.nextLevel, skin).apply {
                     onClick { switchToGameplayClassicModeScreen() }
                 }
             }
             else -> {
-                buttonRetry = TextButton(loc.get("retry"), skin).apply {
+                buttonRetry = TextButton(Loc.retry, skin).apply {
                     onClick { switchToGameplayClassicModeScreen() }
                 }
             }
         }
 
         title = when (gameResult) {
-            SHEEP_SUCCEEDED -> Label(loc.get("home.sweet.home"), skin, "menuTitle")
-            else -> Label(loc.get("sheep.has.been.caught"), skin, "menuTitle")
+            SHEEP_SUCCEEDED -> Label(Loc.homeSweetHome, skin, "menuTitle")
+            else -> Label(Loc.sheepHasBeenCaught, skin, "menuTitle")
         }
 
         val fontScale = (CAMERA_WIDTH * multiplier - 20) / title.prefWidth

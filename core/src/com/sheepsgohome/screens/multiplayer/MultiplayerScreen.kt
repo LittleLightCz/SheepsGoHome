@@ -6,9 +6,9 @@ import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.screens.MenuScreen
 import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
@@ -18,18 +18,18 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
 
     private val SCREEN_TITLE_ROW_HEIGHT = 20f
 
-    private val backButton = SmallSheepButton(loc.get("back"))
+    private val backButton = SmallSheepButton(Loc.back)
 
-    private val createButton = BigSheepButton(loc.get("create"))
-    private val searchButton = BigSheepButton(loc.get("search"))
+    private val createButton = BigSheepButton(Loc.create)
+    private val searchButton = BigSheepButton(Loc.search)
 
-    private val title = ScreenTitle(loc.get("multiplayer"))
+    private val title = ScreenTitle(Loc.multiplayer)
 
     private var messageDialog: MessageDialog? = null
 
     init {
         createButton.onClick {
-            messageDialog = MessageDialog(loc.get("creating.multiplayer.game")).apply {
+            messageDialog = MessageDialog(Loc.creatingMultiplayerGame).apply {
                 fixedHeight = 50f
             }
 
@@ -38,13 +38,19 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
             GameData.multiplayer?.create()
         }
 
+        searchButton.onClick {
+            messageDialog = MessageDialog(Loc.searchingForMultiplayerGames).apply {
+                fixedHeight = 50f
+            }
+
+            messageDialog?.show(stage)
+
+            GameData.multiplayer?.search()
+        }
+
         backButton.onClick {
             GameData.multiplayer?.unregisterConnectionCallback(this)
             switchToMainMenuScreen()
-        }
-
-        searchButton.onClick {
-
         }
 
         table.add(title)
@@ -83,7 +89,7 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
     }
 
     override fun onConnecting() {
-        messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
+        messageDialog = MessageDialog(Loc.connectingToGoogle).apply {
             fixedHeight = 50f
         }
 
@@ -92,7 +98,7 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
 
     override fun onConnectionFailure() {
         hideMessageDialog()
-        showFailureOkDialog(loc.get("connection.failed"), 60f)
+        showFailureOkDialog(Loc.connectionFailed, 60f)
     }
 
     override fun onOperationAborted() {

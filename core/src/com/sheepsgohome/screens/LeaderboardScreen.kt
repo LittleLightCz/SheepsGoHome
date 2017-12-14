@@ -13,7 +13,7 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.leaderboard
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
@@ -23,8 +23,8 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
     private val MAX_PLAYER_NAME_LENGTH = 16
 
-    private val buttonBack = SmallSheepButton(loc.get("back"))
-    private val title = ScreenTitle(loc.get("leaderboard"))
+    private val buttonBack = SmallSheepButton(Loc.back)
+    private val title = ScreenTitle(Loc.leaderboard)
 
     private val contentTable = Table()
 
@@ -62,7 +62,7 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
     }
 
     override fun onConnecting() {
-        messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
+        messageDialog = MessageDialog(Loc.connectingToGoogle).apply {
             fixedHeight = 50f
         }
 
@@ -72,7 +72,7 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
     override fun onConnected() {
         hideMessageDialog()
 
-        messageDialog = MessageDialog(loc.get("downloading.data")).apply {
+        messageDialog = MessageDialog(Loc.downloadingData).apply {
             fixedHeight = 55f
             addCancelButtonWithAction { leaderboard?.cancelPendingResult() }
         }
@@ -86,7 +86,7 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
     override fun onConnectionFailure() {
         hideMessageDialog()
-        showFailureOkDialog(loc.get("connection.failed"), 60f)
+        showFailureOkDialog(Loc.connectionFailed, 60f)
     }
 
     override fun onOperationAborted() {
@@ -112,8 +112,8 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
             val headingHeight = 20f
 
             contentTable.add(getTableHeaderLabel("#")).height(headingHeight)
-            contentTable.add(getTableHeaderLabel(loc.get("player"))).height(headingHeight)
-            contentTable.add(getTableHeaderLabel(loc.get("level.heading"))).height(headingHeight).row()
+            contentTable.add(getTableHeaderLabel(Loc.player)).height(headingHeight)
+            contentTable.add(getTableHeaderLabel(Loc.levelHeading)).height(headingHeight).row()
 
             for (row in result.leaderboardRows) {
                 contentTable.add(getTableRowLabel(row.rank.toString()))
