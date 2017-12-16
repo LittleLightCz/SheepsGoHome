@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 
 class MessageDialog(message: String) : AbstractFixedSizeDialog() {
@@ -15,7 +15,7 @@ class MessageDialog(message: String) : AbstractFixedSizeDialog() {
         setWrap(true)
     }
 
-    private val buttonCancel = TextButton(loc.get("cancel"), skin).apply {
+    private val buttonCancel = TextButton(Loc.cancel, skin).apply {
         style.font.setScale(0.5f)
     }
 

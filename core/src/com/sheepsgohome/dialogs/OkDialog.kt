@@ -3,7 +3,7 @@ package com.sheepsgohome.dialogs
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.sheepsgohome.gdx.listeners.clicked
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 
 
@@ -11,7 +11,7 @@ class OkDialog(message: String) : AbstractFixedSizeDialog() {
 
     private val BUTTON_WIDTH = 50f
 
-    private val buttonOk: TextButton = TextButton(loc.get("ok"), skin).apply {
+    private val buttonOk: TextButton = TextButton(Loc.ok, skin).apply {
         style.font.setScale(0.5f)
     }
 

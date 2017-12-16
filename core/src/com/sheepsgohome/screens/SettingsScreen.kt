@@ -1,25 +1,23 @@
 package com.sheepsgohome.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
-import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.ui.BigSheepButton
+import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
 class SettingsScreen : MenuScreen() {
 
-    private val buttonControls = BigSheepButton(loc.get("controls"))
-    private val buttonSound = BigSheepButton(loc.get("sound"))
+    private val buttonControls = BigSheepButton(Loc.controls)
+    private val buttonSound = BigSheepButton(Loc.sound)
 
-    private val buttonBack = SmallSheepButton(loc.get("back"))
+    private val buttonBack = SmallSheepButton(Loc.back)
 
-    private val title = Label(loc.get("settings"), skin, "menuTitle")
+    private val title = ScreenTitle(Loc.settings)
 
     init {
 
@@ -35,7 +33,6 @@ class SettingsScreen : MenuScreen() {
             switchToMainMenuScreen()
         }
 
-        title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
         table.add(title)
                 .top()
                 .row()

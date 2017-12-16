@@ -6,21 +6,17 @@ import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.android.Android
 import com.sheepsgohome.google.GoogleLeaderboard
+import com.sheepsgohome.google.GoogleMultiplayer
 import java.util.*
 
 
 object GameData {
     private val gamePreferences: Preferences by lazy { Gdx.app.getPreferences("gamePreferences") }
 
-    val loc: I18NBundle by lazy {
-        val baseFileHandle = Gdx.files.internal("loc/Language")
-        val locale = Locale.getDefault()
-        I18NBundle.createBundle(baseFileHandle, locale)
-    }
-
     //----------------ANDROID BRIDGE-----------------
     var android: Android? = null
     var leaderboard: GoogleLeaderboard? = null
+    var multiplayer: GoogleMultiplayer? = null
 
     //----------------CONSTANTS----------------------
     val VERSION_STRING = "1.0.3"
@@ -29,7 +25,6 @@ object GameData {
     val CAMERA_HEIGHT = 160f
     val CAMERA_WIDTH = 90f
 
-    val SETTINGS_TITLE_FONT_SCALE = 0.35f
     val SETTINGS_ITEM_FONT_SCALE = 0.5f
 
     //----------------PREFERENCES----------------------

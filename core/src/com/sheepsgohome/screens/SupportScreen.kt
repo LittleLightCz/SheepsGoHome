@@ -1,26 +1,25 @@
 package com.sheepsgohome.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameData.loc
-import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.ui.BigSheepButton
+import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
 class SupportScreen : MenuScreen() {
 
-    private val buttonRate = BigSheepButton(loc.get("rate"))
-    private val buttonShareFB = BigSheepButton(loc.get("share.FB"))
-    private val buttonShareGPlus = BigSheepButton(loc.get("share.GPlus"))
-    private val buttonTweet = BigSheepButton(loc.get("tweet"))
+    private val buttonRate = BigSheepButton(Loc.rate)
+    private val buttonShareFB = BigSheepButton(Loc.shareOnFacebook)
+    private val buttonShareGPlus = BigSheepButton(Loc.shareOnGoolePlus)
+    private val buttonTweet = BigSheepButton(Loc.tweet)
 
-    private val buttonBack = SmallSheepButton(loc.get("back"))
+    private val buttonBack = SmallSheepButton(Loc.back)
 
-    private val title = Label(loc.get("how.to.support"), skin, "menuTitle")
+    private val title = ScreenTitle(Loc.howToSupport)
 
     init {
 
@@ -44,7 +43,6 @@ class SupportScreen : MenuScreen() {
             Gdx.net.openURI("https://twitter.com/share?url=http://play.google.com/store/apps/details?id=com.tumblr.svetylk0.sheepsgohome.android")
         }
 
-        title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
         table.add(title)
                 .top()
                 .colspan(2)

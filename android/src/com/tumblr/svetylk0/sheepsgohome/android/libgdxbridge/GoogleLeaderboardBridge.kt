@@ -1,9 +1,5 @@
 package com.tumblr.svetylk0.sheepsgohome.android.libgdxbridge
 
-import android.app.Activity
-import android.os.Bundle
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
@@ -15,35 +11,18 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.leaderboard.LeaderBoardRow
 import com.sheepsgohome.shared.GameData
 
-class GoogleLeaderboardBridge(activity: Activity) : GoogleLeaderboard, ConnectionCallbacks {
-
-    companion object {
-        val REQUEST_RESOLVE_CONNECTION_ISSUE = 0
-    }
+class GoogleLeaderboardBridge : GoogleLeaderboard {
 
     private val CLASSIC_MODE_LEADERBOARD_ID = "CgkIzpjQtpcDEAIQAQ"
 
-    private var callback: GoogleConnectionCallback? = null
     private var pendingResult: PendingResult<LoadScoresResult>? = null
 
-    private val client = GoogleApiClient.Builder(activity)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener { result ->
-                if (result.hasResolution()) {
-                    result.startResolutionForResult(activity, REQUEST_RESOLVE_CONNECTION_ISSUE)
-                } else {
-                    callback?.onConnectionFailure()
-                }
-            }
-            .addApi(Games.API)
-            .addScope(Games.SCOPE_GAMES)
-            .build()
-
-    override val isConnected: Boolean
-        get() = client.isConnected
+    private var callback: GoogleConnectionCallback? = null
 
     override fun connect() {
-        client.connect()
+        GoogleClient.connect {
+            callback?.onConnecting()
+        }
     }
 
     override fun cancelPendingResult() {
@@ -52,48 +31,33 @@ class GoogleLeaderboardBridge(activity: Activity) : GoogleLeaderboard, Connectio
 
     override fun registerConnectionCallback(callback: GoogleConnectionCallback) {
         this.callback = callback
+        GoogleClient.addCallback(callback)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int) {
-        when(requestCode) {
-            REQUEST_RESOLVE_CONNECTION_ISSUE -> {
-                when(resultCode) {
-                    Activity.RESULT_OK -> {
-                        //reconnect
-                        client.connect()
-                    }
-                    else ->  onConnectionSuspended(resultCode)
-                }
-            }
-        }
-    }
-
-    override fun onConnected(bundle: Bundle?) {
-        callback?.onConnected()
-    }
-
-    override fun onConnectionSuspended(code: Int) {
-        callback?.onConnectionFailure()
+    override fun unregisterConnectionCallback(callback: GoogleConnectionCallback) {
+        this.callback = null
+        GoogleClient.removeCallback(callback)
     }
 
     override fun fetchLeaderboardData(onResultAction: (LeaderBoardResult) -> Unit) {
 
         //Submit score first
         Games.Leaderboards.submitScoreImmediate(
-                client,
+                GoogleClient.get(),
                 CLASSIC_MODE_LEADERBOARD_ID,
                 GameData.LEVEL.toLong(),
                 ""
         ).setResultCallback {
             //load my own score/leaderboard rank
-            Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,
+            Games.Leaderboards.loadCurrentPlayerLeaderboardScore(
+                    GoogleClient.get(),
                     CLASSIC_MODE_LEADERBOARD_ID,
                     LeaderboardVariant.TIME_SPAN_ALL_TIME,
                     LeaderboardVariant.COLLECTION_PUBLIC
             ).setResultCallback { myGoogleResult: LoadPlayerScoreResult? ->
                 //then fetch the leaderboard page
                 pendingResult = Games.Leaderboards.loadPlayerCenteredScores(
-                        client,
+                        GoogleClient.get(),
                         CLASSIC_MODE_LEADERBOARD_ID,
                         LeaderboardVariant.TIME_SPAN_ALL_TIME,
                         LeaderboardVariant.COLLECTION_PUBLIC,

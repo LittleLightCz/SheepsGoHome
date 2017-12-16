@@ -7,22 +7,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
 class ControlsSettingsScreen : MenuScreen() {
 
-    private val buttonSave = SmallSheepButton(loc.get("save"))
-    private val buttonBack = SmallSheepButton(loc.get("back"))
+    private val buttonSave = SmallSheepButton(Loc.save)
+    private val buttonBack = SmallSheepButton(Loc.back)
 
-    private val title = Label(loc.get("controls"), skin, "menuTitle")
-    private val virtualJoystickTitle = Label(loc.get("virtual.joystick"), skin, "default")
+    private val title = ScreenTitle(Loc.controls)
+    private val virtualJoystickTitle = Label(Loc.virtualJoystick, skin, "default")
 
     init {
         val virtualJoystickSelectBox = SelectBox<String>(skin)
-        virtualJoystickSelectBox.setItems(loc.get("none"), loc.get("left"), loc.get("right"))
+        virtualJoystickSelectBox.setItems(Loc.none, Loc.left, Loc.right)
         virtualJoystickSelectBox.selectedIndex = VIRTUAL_JOYSTICK
 
         //click listeners
@@ -36,7 +37,6 @@ class ControlsSettingsScreen : MenuScreen() {
             switchScreen(SettingsScreen())
         }
 
-        title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
         table.add(title)
                 .top()
                 .colspan(2)

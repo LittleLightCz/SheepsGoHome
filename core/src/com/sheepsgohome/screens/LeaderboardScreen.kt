@@ -13,8 +13,9 @@ import com.sheepsgohome.leaderboard.LeaderBoardResult
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.leaderboard
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
+import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
 import com.sheepsgohome.ui.onClick
 
@@ -22,8 +23,8 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
     private val MAX_PLAYER_NAME_LENGTH = 16
 
-    private val buttonBack = SmallSheepButton(loc.get("back"))
-    private val title = Label(loc.get("leaderboard"), skin, "menuTitle")
+    private val buttonBack = SmallSheepButton(Loc.back)
+    private val title = ScreenTitle(Loc.leaderboard)
 
     private val contentTable = Table()
 
@@ -35,7 +36,6 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
             switchToMainMenuScreen()
         }
 
-        title.setFontScale(GameData.SETTINGS_TITLE_FONT_SCALE)
         table.add(title).top().row()
 
         val scrollPane = ScrollPane(contentTable)
@@ -54,27 +54,25 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
         Gdx.input.inputProcessor = stage
 
-        GameData.leaderboard?.let { leaderboard ->
-            if (!leaderboard.isConnected) {
-                leaderboard.registerConnectionCallback(this)
-                leaderboard.connect()
-
-                messageDialog = MessageDialog(loc.get("connecting.to.google")).apply {
-                    fixedHeight = 50f
-                }
-
-                messageDialog?.show(stage)
-            } else {
-                onConnected()
-            }
+        GameData.leaderboard?.let {
+            it.registerConnectionCallback(this)
+            it.connect()
         }
 
+    }
+
+    override fun onConnecting() {
+        messageDialog = MessageDialog(Loc.connectingToGoogle).apply {
+            fixedHeight = 50f
+        }
+
+        messageDialog?.show(stage)
     }
 
     override fun onConnected() {
         hideMessageDialog()
 
-        messageDialog = MessageDialog(loc.get("downloading.data")).apply {
+        messageDialog = MessageDialog(Loc.downloadingData).apply {
             fixedHeight = 55f
             addCancelButtonWithAction { leaderboard?.cancelPendingResult() }
         }
@@ -88,13 +86,13 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 
     override fun onConnectionFailure() {
         hideMessageDialog()
-        showFailureOkDialog(loc.get("connection.failed"), 60f)
+        showFailureOkDialog(Loc.connectionFailed, 60f)
     }
 
+    override fun onOperationAborted() {
+        hideMessageDialog()
+    }
 
-    /**
-     * LeaderBoard callback
-     */
     private fun hideMessageDialog() {
         messageDialog?.hide()
     }
@@ -114,8 +112,8 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
             val headingHeight = 20f
 
             contentTable.add(getTableHeaderLabel("#")).height(headingHeight)
-            contentTable.add(getTableHeaderLabel(loc.get("player"))).height(headingHeight)
-            contentTable.add(getTableHeaderLabel(loc.get("level.heading"))).height(headingHeight).row()
+            contentTable.add(getTableHeaderLabel(Loc.player)).height(headingHeight)
+            contentTable.add(getTableHeaderLabel(Loc.levelHeading)).height(headingHeight).row()
 
             for (row in result.leaderboardRows) {
                 contentTable.add(getTableRowLabel(row.rank.toString()))
@@ -151,4 +149,10 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
         setFontScale(0.32f)
     }
 
+    override fun hide() {
+        super.hide()
+        GameData.leaderboard?.let {
+            it.unregisterConnectionCallback(this)
+        }
+    }
 }

@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.shared.GameData.loc
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 
 class SplashScreen : MeadowScreen() {
@@ -18,7 +18,7 @@ class SplashScreen : MeadowScreen() {
 
     private val camera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
 
-    private val titleLabel = Label(loc.get("sheeps.go.home"), skin, "menuTitle")
+    private val titleLabel = Label(Loc.sheepsGoHome, skin, "menuTitle")
 
     private val sheepTexture = Texture("sheep_success.png").apply {
         setFilter(Linear, Linear)

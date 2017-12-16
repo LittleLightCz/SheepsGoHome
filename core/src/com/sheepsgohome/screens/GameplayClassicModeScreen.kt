@@ -18,11 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.dataholders.WolvesData
 import com.sheepsgohome.enums.GameResult
+import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.gdx.screens.switchScreen
+import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
-import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
@@ -31,7 +32,6 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_LEFT
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_NONE
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_RIGHT
-import com.sheepsgohome.shared.GameData.loc
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameSkins.skin
 import java.util.*
@@ -64,7 +64,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
 
-    private val levelLabel = Label(loc.format("level", LEVEL), skin, "levelTitle").apply {
+    private val levelLabel = Label(Loc.level(LEVEL), skin, "levelTitle").apply {
         setFontScale((CAMERA_WIDTH * multiplier - 40) / prefWidth)
         addAction(Actions.sequence(
             Actions.alpha(1f),
