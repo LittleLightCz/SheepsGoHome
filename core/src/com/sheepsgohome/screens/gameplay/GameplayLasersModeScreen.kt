@@ -21,6 +21,7 @@ import com.sheepsgohome.enums.GameResult
 import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
+import com.sheepsgohome.gameobjects.Home.Companion.HOME_SIZE
 import com.sheepsgohome.gameobjects.walls.BottomWall
 import com.sheepsgohome.gameobjects.walls.LeftWall
 import com.sheepsgohome.gameobjects.walls.RightWall
@@ -75,12 +76,17 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         ))
     }
 
-    private val grass = Grass()
+    private val grass = Grass().apply {
+        translateY(CAMERA_HEIGHT / 2)
+    }
 
     private val home = Home(world)
     private val sheep = Sheep(world)
+
+    private val topWall = TopWall(world)
+
     private val walls = listOf(
-            TopWall(world),
+            topWall,
             BottomWall(world),
             LeftWall(world),
             RightWall(world)
@@ -149,6 +155,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     private fun renderGameScene() {
         //positioning
         sheep.updateSprite()
+        camera.followVertically(sheep, 0f, CAMERA_HEIGHT)
 
         //input
         if (touchpadEnabled) {
@@ -196,7 +203,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         batch.end()
 
 //        fpsLogger.log()
-        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined)
 
         world.step(graphics.deltaTime, 6, 2)
 
@@ -211,11 +218,15 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         //world boundaries
         walls.forEach { it.setDefaultPosition() }
 
+        //move the top wall up
+        topWall.transform(y = CAMERA_HEIGHT * 1.5f, angle = (Math.PI / 2f).toFloat())
+
         //sheep
         sheep.positionBottomCenter()
 
         //home
         home.positionTopCenter()
+        home.transform(0f, (CAMERA_HEIGHT * 1.5f) - (HOME_SIZE / 2), 0f)
 
         //wolves positioning
         val wolfBodies = wolves.map { it.body }
@@ -347,5 +358,12 @@ class GameplayLasersModeScreen : Screen, ContactListener {
 
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
+}
+
+private fun OrthographicCamera.followVertically(sheep: Sheep, bottomLimit: Float, upperLimit: Float) {
+    if (sheep.yPosition in bottomLimit..upperLimit) {
+        position.y = sheep.yPosition
+        update()
+    }
 }
 

@@ -33,6 +33,9 @@ class Sheep(world: World) : Disposable {
         setOriginCenter()
     }
 
+    val yPosition
+        get() = sprite.y
+
     init {
         val circleShape = CircleShape().apply {
             radius = SIZE / 2

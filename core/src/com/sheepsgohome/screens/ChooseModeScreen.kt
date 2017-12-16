@@ -3,6 +3,7 @@ package com.sheepsgohome.screens
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
+import com.sheepsgohome.gdx.screens.switchToGameplayLasersModeScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.screens.parent.MenuScreen
@@ -31,7 +32,7 @@ class ChooseModeScreen : MenuScreen() {
 
         buttonLasersMode.onClick {
             runGameScreen {
-
+                switchToGameplayLasersModeScreen()
             }
         }
 

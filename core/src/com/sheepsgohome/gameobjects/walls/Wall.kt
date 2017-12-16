@@ -27,6 +27,7 @@ abstract class Wall(world: World) {
         boxShape.dispose()
     }
 
-
     abstract fun setDefaultPosition()
+
+    fun transform(x: Float = 0f, y: Float = 0f, angle: Float = 0f) = body.setTransform(x, y, angle)
 }

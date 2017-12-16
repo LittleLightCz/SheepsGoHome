@@ -67,6 +67,10 @@ class Home(world: World) {
         updateSpritePosition()
     }
 
+    fun transform(x: Float, y: Float, angle: Float) {
+        steerableBody.body.setTransform(x, y, angle)
+        updateSpritePosition()
+    }
 
     fun draw(batch: SpriteBatch) {
         sprite.draw(batch)

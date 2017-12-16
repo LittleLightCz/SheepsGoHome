@@ -18,6 +18,8 @@ class Grass {
         setSize(CAMERA_WIDTH * 2, CAMERA_HEIGHT * 2)
     }
 
+    val translateY = sprite::translateY
+
     fun draw(batch: SpriteBatch) = sprite.draw(batch)
 
     fun dispose() {
