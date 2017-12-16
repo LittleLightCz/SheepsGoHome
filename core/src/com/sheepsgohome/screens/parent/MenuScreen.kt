@@ -1,5 +1,6 @@
 package com.sheepsgohome.screens.parent
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.StretchViewport
@@ -25,6 +26,8 @@ open class MenuScreen : MeadowScreen(Stage(StretchViewport(
         backgroundImage.setPosition(0f, 0f)
 
         stage.addActor(table)
+
+        Gdx.input.inputProcessor = stage
     }
 
     override fun resize(width: Int, height: Int) {

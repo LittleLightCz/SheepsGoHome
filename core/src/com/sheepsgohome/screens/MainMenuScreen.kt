@@ -73,11 +73,7 @@ class MainMenuScreen : MenuScreen() {
         })
 
         buttonPlay.onClick {
-            if (sheepsTheme.isPlaying) {
-                sheepsTheme.pause()
-            }
-
-            switchToGameplayClassicModeScreen()
+           switchScreen(ChooseModeScreen())
         }
 
 //        buttonMultiplayer.onClick {
