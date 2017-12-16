@@ -1,4 +1,4 @@
-package com.sheepsgohome.gameobjects
+package com.sheepsgohome.gameobjects.walls
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body

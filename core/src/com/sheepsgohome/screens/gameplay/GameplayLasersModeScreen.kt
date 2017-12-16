@@ -25,13 +25,12 @@ import com.sheepsgohome.gameobjects.walls.BottomWall
 import com.sheepsgohome.gameobjects.walls.LeftWall
 import com.sheepsgohome.gameobjects.walls.RightWall
 import com.sheepsgohome.gameobjects.walls.TopWall
-import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
-import com.sheepsgohome.screens.ClassicModeResultScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
+import com.sheepsgohome.shared.GameData.LEVEL_LASERS
 import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_LEFT
@@ -39,9 +38,8 @@ import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_NONE
 import com.sheepsgohome.shared.GameData.VIRTUAL_JOYSTICK_RIGHT
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameSkins.skin
-import java.util.*
 
-class GameplayClassicModeScreen : Screen, ContactListener {
+class GameplayLasersModeScreen : Screen, ContactListener {
     private val fpsLogger by lazy { FPSLogger() }
 
     //Box2D Physics
@@ -69,7 +67,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private val stage = Stage(StretchViewport(CAMERA_WIDTH * multiplier, CAMERA_HEIGHT * multiplier))
 
-    private val levelLabel = Label(Loc.level(LEVEL), skin, "levelTitle").apply {
+    private val levelLabel = Label(Loc.level(LEVEL_LASERS), skin, "levelTitle").apply {
         setFontScale((CAMERA_WIDTH * multiplier - 40) / prefWidth)
         addAction(Actions.sequence(
             Actions.alpha(1f),
@@ -90,22 +88,21 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     private val wolves: List<Wolf>
 
-
-
     init {
         Box2D.init()
         world.setContactListener(this)
 
         val data = getWolvesData(LEVEL)
 
+//        wolves = mutableListOf(
+//            List(data.wildWolvesCount) { WildWolf(world) },
+//            List(data.hungryWolvesCount) { HungryWolf(world, sheep) },
+//            List(data.alphaWolvesCount) { AlphaWolf(world, sheep) }
+//        ).flatten()
+//
+//        Collections.shuffle(wolves)
 
-        wolves = mutableListOf(
-            List(data.wildWolvesCount) { WildWolf(world) },
-            List(data.hungryWolvesCount) { HungryWolf(world, sheep) },
-            List(data.alphaWolvesCount) { AlphaWolf(world, sheep) }
-        ).flatten()
-
-        Collections.shuffle(wolves)
+        wolves = emptyList()
     }
 
     override fun show() {
@@ -180,26 +177,26 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         home.draw(batch)
 
         //draw wolves
-        for (wolf in wolves) {
-            when (wolf) {
-                is AlphaWolf -> {
-                    wolf.updateVelocity()
-                    wolf.updateSprite()
-                }
-                is HungryWolf -> {
-                    wolf.calculateSteeringBehaviour()
-                    wolf.updateSprite()
-                }
-                else -> wolf.updateSprite()
-            }
-
-            wolf.draw(batch)
-        }
+//        for (wolf in wolves) {
+//            when (wolf) {
+//                is AlphaWolf -> {
+//                    wolf.updateVelocity()
+//                    wolf.updateSprite()
+//                }
+//                is HungryWolf -> {
+//                    wolf.calculateSteeringBehaviour()
+//                    wolf.updateSprite()
+//                }
+//                else -> wolf.updateSprite()
+//            }
+//
+//            wolf.draw(batch)
+//        }
 
         batch.end()
 
 //        fpsLogger.log()
-//        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
         world.step(graphics.deltaTime, 6, 2)
 
@@ -325,7 +322,9 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
-    private fun gameOver(result: GameResult) = switchScreen(ClassicModeResultScreen(result))
+    private fun gameOver(result: GameResult) {
+        //
+    }
 
     private fun nextLevel() = gameOver(SHEEP_SUCCEEDED)
 

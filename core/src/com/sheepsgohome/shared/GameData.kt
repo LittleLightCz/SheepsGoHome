@@ -18,7 +18,6 @@ object GameData {
 
     //----------------CONSTANTS----------------------
     val VERSION_STRING = "1.0.4"
-    val codeX = "oiaewj023897rvoiuwanvoiune0v9128n09r2898v7q3342089"
 
     val CAMERA_HEIGHT = 160f
     val CAMERA_WIDTH = 90f
@@ -37,17 +36,16 @@ object GameData {
 
     //----------------GAME-DATA----------------------
     var LEVEL = 1
-    var PLAYER_NAME = ""
+    var LEVEL_LASERS = 1
 
     fun loadPreferences() {
         with(gamePreferences) {
             LEVEL = getInteger("LEVEL", 1)
+            LEVEL_LASERS = getInteger("LEVEL_LASERS", 1)
 
             MUSIC_ENABLED = getBoolean("MUSICENABLED", true)
             SOUND_ENABLED = getBoolean("SOUNDENABLED", true)
             SOUND_VOLUME = getFloat("SOUNDVOLUME", 0.5f)
-
-            PLAYER_NAME = getString("PLAYERNAME", "")
 
             val preferredJoystick = when (Gdx.app.type) {
                 Desktop -> VIRTUAL_JOYSTICK_NONE
@@ -61,11 +59,11 @@ object GameData {
     fun savePreferences() {
         with(gamePreferences) {
             putInteger("LEVEL", LEVEL)
+            putInteger("LEVEL_LASERS", LEVEL_LASERS)
             putInteger("VIRTUALJOYSTICK", VIRTUAL_JOYSTICK)
             putBoolean("SOUNDENABLED", SOUND_ENABLED)
             putBoolean("MUSICENABLED", MUSIC_ENABLED)
             putFloat("SOUNDVOLUME", SOUND_VOLUME)
-            putString("PLAYERNAME", PLAYER_NAME)
             flush()
         }
     }

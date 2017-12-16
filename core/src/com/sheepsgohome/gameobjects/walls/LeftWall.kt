@@ -1,4 +1,4 @@
-package com.sheepsgohome.gameobjects
+package com.sheepsgohome.gameobjects.walls
 
 import com.badlogic.gdx.physics.box2d.World
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
