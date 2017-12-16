@@ -10,10 +10,11 @@ import com.sheepsgohome.dialogs.OkDialog
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
+import com.sheepsgohome.localization.Loc
+import com.sheepsgohome.screens.parent.MenuScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.leaderboard
-import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton

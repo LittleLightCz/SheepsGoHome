@@ -9,11 +9,11 @@ import com.sheepsgohome.gdx.listeners.changed
 import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
-import com.sheepsgohome.screens.multiplayer.MultiplayerScreen
+import com.sheepsgohome.localization.Loc
+import com.sheepsgohome.screens.parent.MenuScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.MUSIC_ENABLED
-import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameMusic.ambient
 import com.sheepsgohome.shared.GameMusic.sheepsTheme
 import com.sheepsgohome.shared.GameSkins.skin
@@ -110,7 +110,7 @@ class MainMenuScreen : MenuScreen() {
 
         val verticalButtonsTable = Table().apply {
             buttonPlay.addTo(this).row()
-            buttonMultiplayer.addTo(this).row()
+//            buttonMultiplayer.addTo(this).row()
 
             GameData.leaderboard?.let {
                 buttonLeaderboard.addTo(this).row()

@@ -3,11 +3,9 @@ package com.sheepsgohome.shared
 import com.badlogic.gdx.Application.ApplicationType.Desktop
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
-import com.badlogic.gdx.utils.I18NBundle
 import com.sheepsgohome.android.Android
 import com.sheepsgohome.google.GoogleLeaderboard
 import com.sheepsgohome.google.GoogleMultiplayer
-import java.util.*
 
 
 object GameData {

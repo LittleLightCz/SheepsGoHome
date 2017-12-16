@@ -1,4 +1,4 @@
-package com.sheepsgohome.screens
+package com.sheepsgohome.screens.parent
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen

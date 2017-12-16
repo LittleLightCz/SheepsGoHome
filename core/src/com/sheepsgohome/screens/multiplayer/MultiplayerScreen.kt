@@ -7,7 +7,7 @@ import com.sheepsgohome.dialogs.OkDialog
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.localization.Loc
-import com.sheepsgohome.screens.MenuScreen
+import com.sheepsgohome.screens.parent.MenuScreen
 import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.ScreenTitle

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.localization.Loc
+import com.sheepsgohome.screens.parent.MenuScreen
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton

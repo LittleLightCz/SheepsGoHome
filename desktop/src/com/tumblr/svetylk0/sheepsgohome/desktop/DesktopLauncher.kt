@@ -3,7 +3,6 @@ package com.tumblr.svetylk0.sheepsgohome.desktop
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 import com.sheepsgohome.SheepsGoHomeMain
-import com.sheepsgohome.shared.GameData
 
 object DesktopLauncher {
     @JvmStatic

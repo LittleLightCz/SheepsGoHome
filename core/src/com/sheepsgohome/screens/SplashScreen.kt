@@ -7,9 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
+import com.sheepsgohome.localization.Loc
+import com.sheepsgohome.screens.parent.MeadowScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
-import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 
 class SplashScreen : MeadowScreen() {
