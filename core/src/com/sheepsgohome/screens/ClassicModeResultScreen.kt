@@ -154,8 +154,6 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
             }
         }
 
-        Gdx.input.inputProcessor = stage
-
         if (SOUND_ENABLED) {
             sound.play(SOUND_VOLUME)
         }

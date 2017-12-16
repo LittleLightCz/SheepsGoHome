@@ -72,7 +72,6 @@ class SoundSettingsScreen : MenuScreen() {
                 .left()
                 .row()
 
-        Gdx.input.inputProcessor = stage
     }
 
 }

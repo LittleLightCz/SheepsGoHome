@@ -53,8 +53,6 @@ class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
                 .center()
                 .row()
 
-        Gdx.input.inputProcessor = stage
-
         GameData.leaderboard?.let {
             it.registerConnectionCallback(this)
             it.connect()

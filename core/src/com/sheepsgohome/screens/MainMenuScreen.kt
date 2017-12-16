@@ -140,8 +140,6 @@ class MainMenuScreen : MenuScreen() {
                 .padBottom(2f)
                 .row()
 
-        Gdx.input.inputProcessor = stage
-
         if (ambient.isPlaying) {
             ambient.pause()
         }

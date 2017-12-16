@@ -49,7 +49,6 @@ class SettingsScreen : MenuScreen() {
                 .bottom()
                 .row()
 
-        Gdx.input.inputProcessor = stage
     }
 
 }

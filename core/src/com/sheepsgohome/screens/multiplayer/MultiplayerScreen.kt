@@ -76,8 +76,6 @@ class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
                 .padBottom(2f)
                 .row()
 
-        Gdx.input.inputProcessor = stage
-
         GameData.multiplayer?.let {
             it.registerConnectionCallback(this)
             it.connect()

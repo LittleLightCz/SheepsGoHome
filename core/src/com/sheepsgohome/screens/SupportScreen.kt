@@ -65,6 +65,5 @@ class SupportScreen : MenuScreen() {
                 .center()
                 .row()
 
-        Gdx.input.inputProcessor = stage
     }
 }
