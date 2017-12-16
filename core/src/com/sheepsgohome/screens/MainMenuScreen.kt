@@ -80,9 +80,9 @@ class MainMenuScreen : MenuScreen() {
             switchToGameplayClassicModeScreen()
         }
 
-        buttonMultiplayer.onClick {
-            switchScreen(MultiplayerScreen())
-        }
+//        buttonMultiplayer.onClick {
+//            switchScreen(MultiplayerScreen())
+//        }
 
         buttonLeaderboard.onClick {
             switchScreen(LeaderboardScreen())
