@@ -1,4 +1,4 @@
-package com.sheepsgohome.screens
+package com.sheepsgohome.screens.gameplay
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
@@ -24,6 +24,7 @@ import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
+import com.sheepsgohome.screens.ClassicModeResultScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
