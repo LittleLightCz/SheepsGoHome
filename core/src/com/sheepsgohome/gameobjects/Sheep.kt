@@ -14,9 +14,9 @@ import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.shared.GameTools
 import com.sheepsgohome.steerable.SteerableBody
 
-class Sheep(world: World) : Disposable {
+open class Sheep(world: World) : Disposable {
 
-    private val SIZE = 6f
+    protected val SHEEP_SIZE = 6f
     private val SHEEP_SPEED = 20f
 
     private val bodyDef = BodyDef().apply {
@@ -28,8 +28,8 @@ class Sheep(world: World) : Disposable {
 
     private val texture = Texture("sheep.png")
 
-    private val sprite = Sprite(texture).apply {
-        setSize(SIZE, SIZE)
+    protected val sprite = Sprite(texture).apply {
+        setSize(SHEEP_SIZE, SHEEP_SIZE)
         setOriginCenter()
     }
 
@@ -38,7 +38,7 @@ class Sheep(world: World) : Disposable {
 
     init {
         val circleShape = CircleShape().apply {
-            radius = SIZE / 2
+            radius = SHEEP_SIZE / 2
         }
 
         val fixtureDef = FixtureDef().apply {
@@ -56,7 +56,7 @@ class Sheep(world: World) : Disposable {
 
     fun updateSprite() {
         with(steerableBody.position) {
-            sprite.setPosition(x - SIZE / 2, y - SIZE / 2)
+            sprite.setPosition(x - SHEEP_SIZE / 2, y - SHEEP_SIZE / 2)
         }
 
         sprite.rotation = Math.toDegrees(steerableBody.body.angle.toDouble()).toFloat()

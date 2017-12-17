@@ -29,6 +29,8 @@ import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.gameobjects.Home.Companion.HOME_SIZE
+import com.sheepsgohome.gameobjects.bullets.LaserBeam
+import com.sheepsgohome.gameobjects.bullets.LaserBeamManager
 import com.sheepsgohome.gameobjects.walls.BottomWall
 import com.sheepsgohome.gameobjects.walls.LeftWall
 import com.sheepsgohome.gameobjects.walls.RightWall
@@ -63,8 +65,6 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     private val batch = SpriteBatch()
     private var gameState = RUNNING
 
-    private val laserButton = LaserButton()
-
     private val touchpadEnabled = VIRTUAL_JOYSTICK != VIRTUAL_JOYSTICK_NONE
 
     private val touchpad by lazy { Touchpad(0f, skin).apply {
@@ -93,7 +93,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     }
 
     private val home = Home(world)
-    private val sheep = Sheep(world)
+    private val sheep = SheepWithLaser(world)
 
     private val topWall = TopWall(world)
 
@@ -105,6 +105,12 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     )
 
     private val wolves: List<Wolf>
+
+    private val laserButton = LaserButton().apply {
+        onClick {
+            sheep.shoot()
+        }
+    }
 
     init {
         Box2D.init()
@@ -166,6 +172,8 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     }
 
     private fun renderGameScene() {
+        LaserBeamManager.cleanDisposed()
+
         //positioning
         sheep.updateSprite()
         camera.followVertically(sheep, 0f, CAMERA_HEIGHT)

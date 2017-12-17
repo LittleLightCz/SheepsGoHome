@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.utils.Disposable
 import com.sheepsgohome.gdx.onClick
 
-class LaserButton {
+class LaserButton: Disposable {
 
     private val SIZE = 16f
     private val OFFSET = 7f
@@ -21,7 +22,7 @@ class LaserButton {
 
     fun onClick(action: () -> Unit) = image.onClick { action() }
 
-    fun dispose() = laserButtonTexture.dispose()
+    override fun dispose() = laserButtonTexture.dispose()
 
 }
 
