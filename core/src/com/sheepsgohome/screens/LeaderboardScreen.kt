@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.dialogs.LeaderboardResultDialog
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
+import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.leaderboard.LeaderBoardResult
@@ -18,7 +19,6 @@ import com.sheepsgohome.shared.GameData.leaderboard
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
-import com.sheepsgohome.ui.onClick
 
 class LeaderboardScreen : MenuScreen(), GoogleConnectionCallback {
 

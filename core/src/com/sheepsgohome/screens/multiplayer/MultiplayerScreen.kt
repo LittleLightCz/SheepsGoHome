@@ -1,9 +1,9 @@
 package com.sheepsgohome.screens.multiplayer
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.dialogs.MessageDialog
 import com.sheepsgohome.dialogs.OkDialog
+import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.google.leaderboard.GoogleConnectionCallback
 import com.sheepsgohome.localization.Loc
@@ -12,7 +12,6 @@ import com.sheepsgohome.shared.GameData
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
-import com.sheepsgohome.ui.onClick
 
 class MultiplayerScreen : MenuScreen(), GoogleConnectionCallback {
 

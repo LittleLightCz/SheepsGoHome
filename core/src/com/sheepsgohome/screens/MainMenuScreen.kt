@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.sheepsgohome.gdx.listeners.changed
 import com.sheepsgohome.gdx.listeners.clicked
+import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.gdx.screens.switchScreen
-import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.screens.parent.MenuScreen
 import com.sheepsgohome.shared.GameData
@@ -19,7 +19,6 @@ import com.sheepsgohome.shared.GameMusic.sheepsTheme
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.BigSheepButton
 import com.sheepsgohome.ui.SmallSheepButton
-import com.sheepsgohome.ui.onClick
 
 class MainMenuScreen : MenuScreen() {
 

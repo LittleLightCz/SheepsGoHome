@@ -7,15 +7,22 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.sheepsgohome.controls.LaserButton
+import com.sheepsgohome.controls.addActor
 import com.sheepsgohome.dataholders.WolvesData
 import com.sheepsgohome.enums.GameResult
 import com.sheepsgohome.enums.GameResult.*
@@ -26,8 +33,11 @@ import com.sheepsgohome.gameobjects.walls.BottomWall
 import com.sheepsgohome.gameobjects.walls.LeftWall
 import com.sheepsgohome.gameobjects.walls.RightWall
 import com.sheepsgohome.gameobjects.walls.TopWall
+import com.sheepsgohome.gdx.onClick
+import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
+import com.sheepsgohome.screens.MainMenuScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
@@ -52,6 +62,8 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     private val camera: OrthographicCamera = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
     private val batch = SpriteBatch()
     private var gameState = RUNNING
+
+    private val laserButton = LaserButton()
 
     private val touchpadEnabled = VIRTUAL_JOYSTICK != VIRTUAL_JOYSTICK_NONE
 
@@ -127,6 +139,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         }
 
         stage.addActor(table)
+        stage.addActor(laserButton)
 
         if (touchpadEnabled) {
             stage.addActor(touchpad)
@@ -257,6 +270,8 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     }
 
     override fun dispose() {
+        laserButton.dispose()
+
         grass.dispose()
         home.dispose()
         sheep.dispose()

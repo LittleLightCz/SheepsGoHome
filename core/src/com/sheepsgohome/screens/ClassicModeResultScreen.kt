@@ -1,6 +1,5 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter.Linear
@@ -13,6 +12,7 @@ import com.sheepsgohome.dialogs.NewBadgeDialog
 import com.sheepsgohome.enums.GameResult
 import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.gdx.listeners.clicked
+import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
 import com.sheepsgohome.gdx.screens.switchToMainMenuScreen
 import com.sheepsgohome.localization.Loc
@@ -25,7 +25,6 @@ import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.shared.GameSounds.soundNewBadge
 import com.sheepsgohome.shared.GameSounds.soundSheepSuccess
 import com.sheepsgohome.shared.GameSounds.soundWolfFailure
-import com.sheepsgohome.ui.onClick
 
 class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
 

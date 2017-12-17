@@ -1,9 +1,9 @@
 package com.sheepsgohome.screens
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.screens.parent.MenuScreen
@@ -12,7 +12,6 @@ import com.sheepsgohome.shared.GameData.SOUND_ENABLED
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.ScreenTitle
 import com.sheepsgohome.ui.SmallSheepButton
-import com.sheepsgohome.ui.onClick
 
 class SoundSettingsScreen : MenuScreen() {
 

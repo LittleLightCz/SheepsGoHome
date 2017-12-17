@@ -2,10 +2,10 @@ package com.sheepsgohome.dialogs
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.Align
+import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.shared.GameSkins.skin
 import com.sheepsgohome.ui.SmallSheepButton
-import com.sheepsgohome.ui.onClick
 
 class LeaderboardResultDialog(rank: Long) : AbstractFixedSizeDialog() {
 
