@@ -281,8 +281,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     //Touchpad touch
     private fun handleTouch() {
-        val vec = Vector2(touchpad.knobPercentX, touchpad.knobPercentY).nor()
-        sheep.updateVelocity(vec)
+        val directionVector = Vector2(touchpad.knobPercentX, touchpad.knobPercentY).nor()
+        sheep.updateVelocity(directionVector)
     }
 
     //Finger touch

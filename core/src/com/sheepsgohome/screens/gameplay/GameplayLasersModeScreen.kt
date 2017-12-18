@@ -173,6 +173,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
 
     private fun renderGameScene() {
         LaserBeamManager.cleanDisposed()
+        LaserBeamManager.updateSprites()
 
         //positioning
         sheep.updateSprite()
@@ -198,7 +199,6 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         batch.begin()
 
         grass.draw(batch)
-
         sheep.draw(batch)
 
         //draw home (top center)
@@ -221,10 +221,12 @@ class GameplayLasersModeScreen : Screen, ContactListener {
 //            wolf.draw(batch)
 //        }
 
+        LaserBeamManager.drawLaserBeams(batch)
+
         batch.end()
 
 //        fpsLogger.log()
-        debugRenderer.render(world, camera.combined)
+//        debugRenderer.render(world, camera.combined)
 
         world.step(graphics.deltaTime, 6, 2)
 

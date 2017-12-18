@@ -1,5 +1,6 @@
 package com.sheepsgohome.gameobjects.bullets
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.World
 
 object LaserBeamManager {
@@ -11,6 +12,10 @@ object LaserBeamManager {
         laserBeams += beam
         return beam
     }
+
+    fun updateSprites() = laserBeams.forEach { it.updateSprite() }
+
+    fun drawLaserBeams(batch: SpriteBatch) = laserBeams.forEach { it.draw(batch) }
 
     fun cleanDisposed() = laserBeams.removeAll { it.disposed }
 

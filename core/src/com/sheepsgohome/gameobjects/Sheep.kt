@@ -4,37 +4,26 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Disposable
 import com.sheepsgohome.shared.GameData
-import com.sheepsgohome.shared.GameTools
-import com.sheepsgohome.steerable.SteerableBody
 
-open class Sheep(world: World) : Disposable {
+open class Sheep(world: World) : SteerableGameObject(world), Disposable {
 
     protected val SHEEP_SIZE = 6f
     private val SHEEP_SPEED = 20f
 
-    private val bodyDef = BodyDef().apply {
-        type = DynamicBody
-        position.set(0f, 0f)
-    }
+    private val sheepTexture = Texture("sheep.png")
 
-    val steerableBody = SteerableBody(world.createBody(bodyDef))
-
-    private val texture = Texture("sheep.png")
-
-    protected val sprite = Sprite(texture).apply {
+    protected val sheepSprite = Sprite(sheepTexture).apply {
         setSize(SHEEP_SIZE, SHEEP_SIZE)
         setOriginCenter()
     }
 
     val yPosition
-        get() = sprite.y
+        get() = sheepSprite.y
 
     init {
         val circleShape = CircleShape().apply {
@@ -54,41 +43,15 @@ open class Sheep(world: World) : Disposable {
         circleShape.dispose()
     }
 
-    fun updateSprite() {
-        with(steerableBody.position) {
-            sprite.setPosition(x - SHEEP_SIZE / 2, y - SHEEP_SIZE / 2)
-        }
-
-        sprite.rotation = Math.toDegrees(steerableBody.body.angle.toDouble()).toFloat()
-    }
-
-    fun updateVelocity(x: Float, y: Float) {
-        steerableBody.body.setLinearVelocity(x * SHEEP_SPEED, y * SHEEP_SPEED)
-        updateAngle(GameTools.vectorAngleRadians(x, y))
-    }
-
-    fun updateVelocity(vec: Vector2) = updateVelocity(vec.x, vec.y)
-
-    private fun updateAngle(angleRadians: Float) {
-        with(steerableBody) {
-            body.setTransform(position, angleRadians)
-        }
-    }
-
-    fun nullifyVelocity() {
-        with(steerableBody.body) {
-            setLinearVelocity(0f, 0f)
-            angularVelocity = 0f
-        }
-    }
-
-    fun draw(batch: SpriteBatch) {
-        sprite.draw(batch)
+    open fun draw(batch: SpriteBatch) {
+        sheepSprite.draw(batch)
     }
 
     override fun dispose() {
-        texture.dispose()
+        sheepTexture.dispose()
     }
+
+    open fun updateSprite() = updateSprite(sheepSprite, SHEEP_SIZE)
 
     fun positionBottomCenter() {
         with(steerableBody.body) {
@@ -96,5 +59,8 @@ open class Sheep(world: World) : Disposable {
         }
     }
 
+    fun updateVelocity(direction: Vector2) = updateVelocity(direction, SHEEP_SPEED)
+
+    fun updateVelocity(directionX: Float, directionY: Float) = updateVelocity(directionX, directionY, SHEEP_SPEED)
 
 }
