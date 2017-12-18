@@ -24,14 +24,18 @@ open class SteerableGameObject(world: World) {
         sprite.rotation = Math.toDegrees(steerableBody.body.angle.toDouble()).toFloat()
     }
 
-    fun updateVelocity(directionX: Float, directionY: Float, speedMultiplier: Float) {
+    fun updateBodyVelocity(directionX: Float, directionY: Float, speedMultiplier: Float) {
         steerableBody.body.setLinearVelocity(directionX * speedMultiplier, directionY * speedMultiplier)
-        updateAngle(GameTools.vectorAngleRadians(directionX, directionY))
+        updateBodyAngle(GameTools.vectorAngleRadians(directionX, directionY))
     }
 
-    fun updateVelocity(direction: Vector2, speedMultiplier: Float) = updateVelocity(direction.x, direction.y, speedMultiplier)
+    fun updateBodyVelocity(direction: Vector2, speedMultiplier: Float) = updateBodyVelocity(direction.x, direction.y, speedMultiplier)
 
-    private fun updateAngle(angleRadians: Float) {
+    fun updateBodyAngle(velocity: Vector2) = updateBodyAngle(velocity.x, velocity.y)
+
+    fun updateBodyAngle(directionX: Float, directionY: Float) = updateBodyAngle(GameTools.vectorAngleRadians(directionX, directionY))
+
+    fun updateBodyAngle(angleRadians: Float) {
         with(steerableBody) {
             body.setTransform(position, angleRadians)
         }

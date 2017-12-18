@@ -29,14 +29,5 @@ object GameTools {
 
     fun vectorAngleRadians(x: Float, y: Float) = Math.toRadians(calculateAngle(x, y).toDouble()).toFloat()
 
-
-    fun updateSpriteAccordingToBody(sprite: Sprite, spriteSize: Float, steerableBody: SteerableBody) {
-        with(steerableBody.position) {
-            sprite.setPosition(x - spriteSize / 2, y - spriteSize / 2)
-        }
-
-        sprite.rotation = Math.toDegrees(steerableBody.body.angle.toDouble()).toFloat()
-    }
-
 }
 

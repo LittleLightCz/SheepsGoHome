@@ -59,8 +59,8 @@ open class Sheep(world: World) : SteerableGameObject(world), Disposable {
         }
     }
 
-    fun updateVelocity(direction: Vector2) = updateVelocity(direction, SHEEP_SPEED)
+    fun updateVelocity(direction: Vector2) = updateBodyVelocity(direction, SHEEP_SPEED)
 
-    fun updateVelocity(directionX: Float, directionY: Float) = updateVelocity(directionX, directionY, SHEEP_SPEED)
+    fun updateVelocity(directionX: Float, directionY: Float) = updateBodyVelocity(directionX, directionY, SHEEP_SPEED)
 
 }

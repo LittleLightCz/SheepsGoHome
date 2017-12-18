@@ -348,6 +348,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         val objB = bodyB.userData
 
         when (objA) {
+            is LaserBeam -> objA.handleCollision()
             is WildWolf -> objA.setRandomMovement()
             is Sheep -> when (objB) {
                 is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF

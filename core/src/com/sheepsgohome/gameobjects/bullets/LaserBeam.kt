@@ -4,28 +4,22 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Disposable
-import com.sheepsgohome.shared.GameTools
-import com.sheepsgohome.steerable.SteerableBody
+import com.sheepsgohome.gameobjects.SteerableGameObject
 
-class LaserBeam(val world: World): Disposable {
+class LaserBeam(val world: World): SteerableGameObject(world), Disposable {
 
     private val LASER_BEAM_SIZE = 3f
     private val LASER_BEAM_SPEED = 40f
+    private val MAX_ALLOWED_COLLISIONS = 3
 
-    var collisionCount = 0
-    var disposed = false
+    private var collisionsCount = 0
 
-    private val bodyDef = BodyDef().apply {
-        type = BodyDef.BodyType.DynamicBody
-        position.set(0f, 0f)
-    }
-
-    val steerableBody = SteerableBody(world.createBody(bodyDef))
+    var shouldBeDisposed = false
+        private set
 
     private val texture = Texture("sheepLaserBeam.png")
 
@@ -36,7 +30,7 @@ class LaserBeam(val world: World): Disposable {
 
     init {
         val circleShape = CircleShape().apply {
-            radius = LASER_BEAM_SIZE / 2
+            radius = (LASER_BEAM_SIZE - 1) / 2
         }
 
         val fixtureDef = FixtureDef().apply {
@@ -52,8 +46,20 @@ class LaserBeam(val world: World): Disposable {
         circleShape.dispose()
     }
 
+    fun handleCollision() {
+        collisionsCount++
+
+        if (collisionsCount > MAX_ALLOWED_COLLISIONS) {
+            shouldBeDisposed = true
+        }
+    }
+
     fun updateSprite() {
-        GameTools.updateSpriteAccordingToBody(sprite, LASER_BEAM_SIZE, steerableBody)
+        updateSprite(sprite, LASER_BEAM_SIZE)
+    }
+
+    fun updateAngle() {
+        updateBodyAngle(steerableBody.body.linearVelocity)
     }
 
     fun draw(batch: SpriteBatch) {
@@ -63,7 +69,6 @@ class LaserBeam(val world: World): Disposable {
     override fun dispose() {
         texture.dispose()
         world.destroyBody(steerableBody.body)
-        disposed = true
     }
 
     fun setPosition(x: Float, y: Float) {

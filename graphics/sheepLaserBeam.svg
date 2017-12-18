@@ -72,7 +72,7 @@
        x2="31.428572"
        y2="1034.3265"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0292306,0,0,1.0292306,-1052.2499,-1020.4302)" />
+       gradientTransform="matrix(1.0292306,0,0,1.0292306,0.11223112,-32.068069)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -114,10 +114,9 @@
        id="rect4144"
        width="59.929058"
        height="25.150497"
-       x="-1050.3267"
-       y="19.424751"
+       x="2.035471"
+       y="1007.7869"
        rx="8.6454992"
-       ry="12.378761"
-       transform="matrix(0,-1,1,0,0,0)" />
+       ry="12.378761" />
   </g>
 </svg>

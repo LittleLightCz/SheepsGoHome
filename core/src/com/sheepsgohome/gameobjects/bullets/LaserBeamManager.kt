@@ -13,10 +13,19 @@ object LaserBeamManager {
         return beam
     }
 
-    fun updateSprites() = laserBeams.forEach { it.updateSprite() }
+    fun updateSprites() = laserBeams.forEach {
+        it.updateAngle()
+        it.updateSprite()
+    }
 
     fun drawLaserBeams(batch: SpriteBatch) = laserBeams.forEach { it.draw(batch) }
 
-    fun cleanDisposed() = laserBeams.removeAll { it.disposed }
+    fun cleanDisposed(){
+        laserBeams.asSequence()
+                .filter { it.shouldBeDisposed }
+                .forEach { it.dispose() }
+
+        laserBeams.removeAll { it.shouldBeDisposed }
+    }
 
 }
