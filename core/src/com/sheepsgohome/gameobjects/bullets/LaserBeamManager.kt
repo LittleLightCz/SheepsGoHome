@@ -28,4 +28,6 @@ object LaserBeamManager {
         laserBeams.removeAll { it.shouldBeDisposed }
     }
 
+    fun cleanup() = laserBeams.clear()
+
 }

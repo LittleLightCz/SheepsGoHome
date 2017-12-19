@@ -267,6 +267,7 @@ class GameplayLasersModeScreen : Screen, ContactListener {
     }
 
     override fun dispose() {
+        LaserBeamManager.cleanup()
         laserButton.dispose()
 
         grass.dispose()
@@ -330,26 +331,6 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         wolves.filterIsInstance<WildWolf>().forEach { it.setRandomMovement() }
     }
 
-    private fun handleContact(bodyA: Body, bodyB: Body) {
-        val objA = bodyA.userData
-        val objB = bodyB.userData
-
-        when (objA) {
-            is LaserBeam -> objA.handleCollision()
-            is WildWolf -> objA.setRandomMovement()
-            is SheepWithLaser -> when (objB) {
-                is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF
-                is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
-                is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
-                is Home -> gameState = NEXT_LEVEL
-                is LaserBeam -> {
-                    objA.hitByLaserBeam()
-                    if (objA.lives < 1) gameState = GAME_OVER_BY_LASER_BURN
-                }
-            }
-        }
-    }
-
     private fun handleGameOver() {
         switchScreen(LasersModeResultScreen(gameState))
     }
@@ -373,6 +354,25 @@ class GameplayLasersModeScreen : Screen, ContactListener {
 
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
+    private fun handleContact(bodyA: Body, bodyB: Body) {
+        val objA = bodyA.userData
+        val objB = bodyB.userData
+
+        when (objA) {
+            is LaserBeam -> objA.handleCollision()
+            is WildWolf -> objA.setRandomMovement()
+            is SheepWithLaser -> when (objB) {
+                is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF
+                is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
+                is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
+                is Home -> gameState = NEXT_LEVEL
+                is LaserBeam -> {
+                    objA.hitByLaserBeam()
+                    if (objA.lives < 1) gameState = GAME_OVER_BY_LASER_BURN
+                }
+            }
+        }
+    }
 }
 
 private fun OrthographicCamera.followVertically(sheep: Sheep, bottomLimit: Float, upperLimit: Float) {
