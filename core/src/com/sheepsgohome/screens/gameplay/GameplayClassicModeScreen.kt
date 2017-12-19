@@ -17,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.dataholders.WolvesData
-import com.sheepsgohome.enums.GameResult
-import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.gameobjects.walls.BottomWall
@@ -140,13 +138,8 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
         when (gameState) {
             RUNNING -> renderGameScene()
-            GAME_OVER_BY_WILD_WOLF -> gameOver(SHEEP_EATEN_BY_WILD_WOLF)
-            GAME_OVER_BY_HUNGRY_WOLF -> gameOver(SHEEP_EATEN_BY_HUNGRY_WOLF)
-            GAME_OVER_BY_ALPHA_WOLF -> gameOver(SHEEP_EATEN_BY_ALPHA_WOLF)
-            NEXT_LEVEL -> nextLevel()
+            else -> handleGameOver()
         }
-
-//        fpsLogger.log();
     }
 
     private fun renderGameScene() {
@@ -325,9 +318,7 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         }
     }
 
-    private fun gameOver(result: GameResult) = switchScreen(ClassicModeResultScreen(result))
-
-    private fun nextLevel() = gameOver(SHEEP_SUCCEEDED)
+    private fun handleGameOver() = switchScreen(ClassicModeResultScreen(gameState))
 
     /**
      * Contact handling

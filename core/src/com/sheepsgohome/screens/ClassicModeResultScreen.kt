@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.sheepsgohome.badges.Badge
 import com.sheepsgohome.dialogs.NewBadgeDialog
-import com.sheepsgohome.enums.GameResult
-import com.sheepsgohome.enums.GameResult.*
+import com.sheepsgohome.enums.GameState
+import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gdx.listeners.clicked
 import com.sheepsgohome.gdx.onClick
 import com.sheepsgohome.gdx.screens.switchToGameplayClassicModeScreen
@@ -26,7 +26,7 @@ import com.sheepsgohome.shared.GameSounds.soundNewBadge
 import com.sheepsgohome.shared.GameSounds.soundSheepSuccess
 import com.sheepsgohome.shared.GameSounds.soundWolfFailure
 
-class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
+class ClassicModeResultScreen(gameState: GameState) : MenuScreen() {
 
     private val BADGES_COUNT = 12
     private val BADGES_PER_ROW = 6
@@ -46,9 +46,9 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
         setFilter(Linear, Linear)
     }
 
-    private val wolfTexture = when (gameResult) {
-        SHEEP_EATEN_BY_ALPHA_WOLF -> Texture("wolf_alpha_fail.png")
-        SHEEP_EATEN_BY_HUNGRY_WOLF -> Texture("wolf_hungry_fail.png")
+    private val wolfTexture = when (gameState) {
+        GAME_OVER_BY_ALPHA_WOLF -> Texture("wolf_alpha_fail.png")
+        GAME_OVER_BY_HUNGRY_WOLF -> Texture("wolf_hungry_fail.png")
         else -> Texture("wolf_fail.png")
     }.apply { setFilter(Linear, Linear) }
 
@@ -64,8 +64,8 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
     }
 
     init {
-        when(gameResult) {
-            SHEEP_SUCCEEDED -> {
+        when(gameState) {
+            NEXT_LEVEL -> {
                 buttonNext = TextButton(Loc.nextLevel, skin).apply {
                     onClick { switchToGameplayClassicModeScreen() }
                 }
@@ -77,8 +77,8 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
             }
         }
 
-        title = when (gameResult) {
-            SHEEP_SUCCEEDED -> Label(Loc.homeSweetHome, skin, "menuTitle")
+        title = when (gameState) {
+            NEXT_LEVEL -> Label(Loc.homeSweetHome, skin, "menuTitle")
             else -> Label(Loc.sheepHasBeenCaught, skin, "menuTitle")
         }
 
@@ -97,8 +97,8 @@ class ClassicModeResultScreen(gameResult: GameResult) : MenuScreen() {
 
         val sound: Sound
 
-        when(gameResult) {
-            SHEEP_SUCCEEDED -> {
+        when(gameState) {
+            NEXT_LEVEL -> {
                 //has earned new badge?
                 badgeNumber = getEarnedBadgeNumber(GameData.LEVEL)
                 if (badgeNumber > 0) {

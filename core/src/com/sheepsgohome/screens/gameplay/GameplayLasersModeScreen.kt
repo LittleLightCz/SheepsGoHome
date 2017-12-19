@@ -7,25 +7,18 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.sheepsgohome.controls.LaserButton
 import com.sheepsgohome.controls.addActor
 import com.sheepsgohome.dataholders.WolvesData
-import com.sheepsgohome.enums.GameResult
-import com.sheepsgohome.enums.GameResult.*
 import com.sheepsgohome.enums.GameState.*
 import com.sheepsgohome.gameobjects.*
 import com.sheepsgohome.gameobjects.Home.Companion.HOME_SIZE
@@ -35,11 +28,8 @@ import com.sheepsgohome.gameobjects.walls.BottomWall
 import com.sheepsgohome.gameobjects.walls.LeftWall
 import com.sheepsgohome.gameobjects.walls.RightWall
 import com.sheepsgohome.gameobjects.walls.TopWall
-import com.sheepsgohome.gdx.onClick
-import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
-import com.sheepsgohome.screens.MainMenuScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
@@ -162,13 +152,8 @@ class GameplayLasersModeScreen : Screen, ContactListener {
 
         when (gameState) {
             RUNNING -> renderGameScene()
-            GAME_OVER_BY_WILD_WOLF -> gameOver(SHEEP_EATEN_BY_WILD_WOLF)
-            GAME_OVER_BY_HUNGRY_WOLF -> gameOver(SHEEP_EATEN_BY_HUNGRY_WOLF)
-            GAME_OVER_BY_ALPHA_WOLF -> gameOver(SHEEP_EATEN_BY_ALPHA_WOLF)
-            NEXT_LEVEL -> nextLevel()
+            else -> handleGameOver()
         }
-
-//        fpsLogger.log();
     }
 
     private fun renderGameScene() {
@@ -350,20 +335,19 @@ class GameplayLasersModeScreen : Screen, ContactListener {
         when (objA) {
             is LaserBeam -> objA.handleCollision()
             is WildWolf -> objA.setRandomMovement()
-            is Sheep -> when (objB) {
+            is SheepWithLaser -> when (objB) {
                 is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF
                 is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
                 is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
                 is Home -> gameState = NEXT_LEVEL
+                is LaserBeam -> objA.hitByLaserBeam()
             }
         }
     }
 
-    private fun gameOver(result: GameResult) {
+    private fun handleGameOver() {
         //
     }
-
-    private fun nextLevel() = gameOver(SHEEP_SUCCEEDED)
 
     /**
      * Contact handling

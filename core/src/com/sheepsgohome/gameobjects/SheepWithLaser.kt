@@ -14,6 +14,9 @@ class SheepWithLaser(val world: World): Sheep(world) {
     private val angleOffset = Math.toRadians(-90.0).toFloat()
     private val distanceFromSheepCoef = SHEEP_SIZE * 0.7f
 
+    var lives = 3
+        private set
+
     val laserTextute = Texture("sheepLaser.png")
 
     val laserSprite = Sprite(laserTextute).apply {
@@ -35,6 +38,14 @@ class SheepWithLaser(val world: World): Sheep(world) {
 
             laserBeam.shootInDirection(direction)
         }
+    }
+
+    fun hitByLaserBeam() {
+        lives--
+
+        val newAlpha = lives / 3f
+        sheepSprite.setAlpha(newAlpha)
+        laserSprite.setAlpha(newAlpha)
     }
 
     override fun draw(batch: SpriteBatch) {
