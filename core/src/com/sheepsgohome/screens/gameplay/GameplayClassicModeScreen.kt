@@ -26,7 +26,7 @@ import com.sheepsgohome.gameobjects.walls.TopWall
 import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
-import com.sheepsgohome.screens.ClassicModeResultScreen
+import com.sheepsgohome.screens.gameresult.ClassicModeResultScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
@@ -303,21 +303,6 @@ class GameplayClassicModeScreen : Screen, ContactListener {
         wolves.filterIsInstance<WildWolf>().forEach { it.setRandomMovement() }
     }
 
-    private fun handleContact(bodyA: Body, bodyB: Body) {
-        val objA = bodyA.userData
-        val objB = bodyB.userData
-
-        when (objA) {
-            is WildWolf -> objA.setRandomMovement()
-            is Sheep -> when (objB) {
-                is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF
-                is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
-                is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
-                is Home -> gameState = NEXT_LEVEL
-            }
-        }
-    }
-
     private fun handleGameOver() = switchScreen(ClassicModeResultScreen(gameState))
 
     /**
@@ -339,5 +324,19 @@ class GameplayClassicModeScreen : Screen, ContactListener {
 
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
 
+    private fun handleContact(bodyA: Body, bodyB: Body) {
+        val objA = bodyA.userData
+        val objB = bodyB.userData
+
+        when (objA) {
+            is WildWolf -> objA.setRandomMovement()
+            is Sheep -> when (objB) {
+                is WildWolf -> gameState = GAME_OVER_BY_WILD_WOLF
+                is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
+                is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
+                is Home -> gameState = NEXT_LEVEL
+            }
+        }
+    }
 }
 

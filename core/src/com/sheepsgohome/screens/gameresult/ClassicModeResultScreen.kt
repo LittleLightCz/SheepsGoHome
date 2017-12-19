@@ -1,4 +1,4 @@
-package com.sheepsgohome.screens
+package com.sheepsgohome.screens.gameresult
 
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
@@ -113,7 +113,7 @@ class ClassicModeResultScreen(gameState: GameState) : MenuScreen() {
                     .colspan(2)
                     .row()
 
-                GameData.levelUp()
+                GameData.levelUpClassicMode()
 
                 val mult = 0.30f
 

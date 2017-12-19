@@ -28,8 +28,10 @@ import com.sheepsgohome.gameobjects.walls.BottomWall
 import com.sheepsgohome.gameobjects.walls.LeftWall
 import com.sheepsgohome.gameobjects.walls.RightWall
 import com.sheepsgohome.gameobjects.walls.TopWall
+import com.sheepsgohome.gdx.screens.switchScreen
 import com.sheepsgohome.localization.Loc
 import com.sheepsgohome.positioning.BodyPositioner
+import com.sheepsgohome.screens.gameresult.LasersModeResultScreen
 import com.sheepsgohome.shared.GameData.CAMERA_HEIGHT
 import com.sheepsgohome.shared.GameData.CAMERA_WIDTH
 import com.sheepsgohome.shared.GameData.LEVEL
@@ -340,13 +342,16 @@ class GameplayLasersModeScreen : Screen, ContactListener {
                 is HungryWolf -> gameState = GAME_OVER_BY_HUNGRY_WOLF
                 is AlphaWolf -> gameState = GAME_OVER_BY_ALPHA_WOLF
                 is Home -> gameState = NEXT_LEVEL
-                is LaserBeam -> objA.hitByLaserBeam()
+                is LaserBeam -> {
+                    objA.hitByLaserBeam()
+                    if (objA.lives < 1) gameState = GAME_OVER_BY_LASER_BURN
+                }
             }
         }
     }
 
     private fun handleGameOver() {
-        //
+        switchScreen(LasersModeResultScreen(gameState))
     }
 
     /**

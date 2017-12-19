@@ -74,5 +74,6 @@ object Loc {
     val yes get() = loc.get("yes")
     val yourPositionIs get() = loc.get("your.position.is")
     val yourRankIsNotPublic get() = loc.get("your.rank.is.not.public")
+    val sheepBurnedToAshes get() = loc.get("sheep.burned.to.ashes")
 
 }

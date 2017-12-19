@@ -68,9 +68,15 @@ object GameData {
         }
     }
 
-    fun levelUp() {
+    fun levelUpClassicMode() {
         LEVEL++
-        gamePreferences.putInteger("LEVEL", GameData.LEVEL)
+        gamePreferences.putInteger("LEVEL", LEVEL)
+        gamePreferences.flush()
+    }
+
+    fun levelUpLasersMode() {
+        LEVEL_LASERS++
+        gamePreferences.putInteger("LEVEL_LASERS", LEVEL_LASERS)
         gamePreferences.flush()
     }
 }
